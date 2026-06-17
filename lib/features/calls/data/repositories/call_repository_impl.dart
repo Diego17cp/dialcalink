@@ -71,4 +71,16 @@ class CallRepositoryImpl implements CallRepository {
       );
     }
   }
+
+  @override
+  Future<Result<CallLogEntity?>> findOpenCallByPhoneNumber(String phoneNumber) async {
+    try {
+      final row = await _dao.findOpenCallByPhoneNumber(phoneNumber);
+      return Result.ok(row == null ? null : CallLogMapper.toEntity(row));
+    } catch (e) {
+      return Result.failure(
+        DatabaseFailure('Error buscando llamada abierta para el número $phoneNumber', cause: e),
+      );
+    }
+  }
 }

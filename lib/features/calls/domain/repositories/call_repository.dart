@@ -8,4 +8,5 @@ abstract class CallRepository {
   Future<Result<void>> upsertCall(CallLogEntity callLog);
   Future<Result<void>> markCallEnded(String callId, DateTime endedAt);
   Future<Result<CallLogEntity>> findById(String id);
+  Future<Result<CallLogEntity?>> findOpenCallByPhoneNumber(String phoneNumber);
 }

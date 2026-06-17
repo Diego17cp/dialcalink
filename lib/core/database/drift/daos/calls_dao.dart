@@ -51,4 +51,19 @@ class CallsDao extends DatabaseAccessor<AppDatabase> with _$CallsDaoMixin {
     final query = select(callLogs)..where((t) => t.id.equals(id));
     return query.getSingleOrNull();
   }
+
+  Future<CallLog?> findOpenCallByPhoneNumber(String phoneNumber) {
+    final query = select(callLogs)
+      ..where(
+        (t) => t.phoneNumber.equals(phoneNumber) & t.endedAt.isNull(),
+      )
+      ..orderBy([
+        (t) => OrderingTerm(
+              expression: t.startedAt,
+              mode: OrderingMode.desc,
+            ),
+      ])
+      ..limit(1);
+    return query.getSingleOrNull();
+  }
 }
