@@ -31,6 +31,23 @@ class DevicesDao extends DatabaseAccessor<AppDatabase> with _$DevicesDaoMixin {
     return into(devices).insert(entry);
   }
 
+  Future<void> upsertLocalDevice({
+    required String id,
+    required String name,
+    required DeviceRole role,
+  }) {
+    return into(devices).insertOnConflictUpdate(
+      DevicesCompanion(
+        id: Value(id),
+        deviceName: Value(name),
+        role: Value(role),
+        pairingStatus: const Value(DevicePairingStatus.linked),
+        createdAt: Value(DateTime.now()),
+        lastSeenAt: Value(DateTime.now()),
+      )
+    );
+  }
+
   Future<void> updatePairingStatus(
     String deviceId,
     DevicePairingStatus newStatus,
