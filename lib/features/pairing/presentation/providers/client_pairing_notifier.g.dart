@@ -7,7 +7,7 @@ part of 'client_pairing_notifier.dart';
 // **************************************************************************
 
 String _$clientPairingNotifierHash() =>
-    r'72a044082206ab9698e8211003b1237606d32d5c';
+    r'c74266414be91356abce19639db738212cec58c1';
 
 /// See also [ClientPairingNotifier].
 @ProviderFor(ClientPairingNotifier)

@@ -1,4 +1,5 @@
 import 'package:notidialca/core/failures/pairing_failure.dart';
+import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
 import 'package:notidialca/features/pairing/presentation/providers/client_pairing_state.dart';
 import 'package:notidialca/features/pairing/presentation/providers/pairing_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,8 +17,21 @@ class ClientPairingNotifier extends _$ClientPairingNotifier {
       return;
     }
 
-    final decodeUseCase = ref.read(decodeScannedPairingPayloadUseCaseProvider);
-    final attempt = decodeUseCase.call(rawValue);
+    final PairingAttempt? attempt;
+
+    try {
+      final decodeUseCase = await ref.read(decodeScannedPairingPayloadUseCaseProvider.future);
+      attempt = decodeUseCase.call(rawValue);
+    } catch (e) {
+      state = state.copyWith(
+        phase: ClientPairingPhase.failed,
+        failure: PairingConnectionFailure(
+          'No se pudo iniciar la verificacion: ${e.toString()}',
+        ),
+      );
+      return;
+    }
+
     if (attempt == null) {
       state = state.copyWith(phase: ClientPairingPhase.invalidQr);
       return;
@@ -27,7 +41,7 @@ class ClientPairingNotifier extends _$ClientPairingNotifier {
       attempt: attempt,
       failure: null,
     );
-    final confirmUseCase = ref.read(confirmPairingUseCaseProvider);
+    final confirmUseCase = await ref.read(confirmPairingUseCaseProvider.future);
     final result = await confirmUseCase.call(attempt);
 
     result.when(
