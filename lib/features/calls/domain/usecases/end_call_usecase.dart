@@ -23,7 +23,6 @@ class EndCallUseCase {
   final Uuid _uuid = const Uuid();
 
   Future<Result<CallLogEntity>> call({
-    required String callId,
     required DateTime endedAt,
     required String phoneNumber,
     required String sourceDeviceId,
