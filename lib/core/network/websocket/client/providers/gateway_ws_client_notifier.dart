@@ -6,6 +6,7 @@ import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
 import 'package:notidialca/features/calls/presentation/providers/call_providers.dart';
 import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
 import 'package:notidialca/features/sms/presentation/providers/sms_providers.dart';
+import 'package:notidialca/core/notifications/providers/notification_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_ws_client_notifier.g.dart';
@@ -72,7 +73,19 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
       isRead: false,
       contactName: payload.contactName,
     );
-    await useCase.call(entity);
+    final result = await useCase.call(entity);
+    result.when(
+      ok: (_) {
+        final notificationService = ref.read(notificationServiceProvider);
+        notificationService.showSmsNotification(
+          smsId: payload.id,
+          displayName: payload.contactName ?? payload.phoneNumber,
+          content: payload.content,
+          payload: payload.phoneNumber,
+        );
+      },
+      failure: (_) {},
+    );
   }
 
   Future<void> _applyCallIncoming(WsCallIncomingPayload payload) async {
@@ -86,7 +99,19 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
       startedAt: payload.startedAt,
       endedAt: null,
     );
-    await useCase.call(entity);
+    final result = await useCase.call(entity);
+
+    result.when(
+      ok: (_) {
+        final notificationService = ref.read(notificationServiceProvider);
+        notificationService.showCallNotification(
+          callId: payload.id,
+          displayName: payload.contactName ?? payload.phoneNumber,
+          phoneNumber: payload.phoneNumber,
+        );
+      },
+      failure: (_) {},
+    );
   }
 
   Future<void> _applyCallEnded(WsCallEndedPayload payload) async {
