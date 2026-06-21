@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notidialca/core/database/drift/app_database_provider.dart';
 import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
+import 'package:notidialca/core/platform/contacts/providers/contact_resolver_provider.dart';
 import 'package:notidialca/core/platform/gateway/providers/gateway_native_bridge_provider.dart';
 import 'package:notidialca/features/calls/presentation/providers/call_providers.dart';
 import 'package:notidialca/features/gateway/domain/gateway_service.dart';
@@ -17,6 +18,7 @@ Future<GatewayService> gatewayService(Ref ref) async {
     nativeBridge: ref.watch(gatewayNativeBridgeProvider),
     database: ref.watch(appDatabaseProvider),
     identityService: identityService,
+    contactResolverService: ref.watch(contactResolverServiceProvider),
     receiveSmsUseCase: ref.watch(receiveSmsUseCaseProvider),
     registerIncomingCallUseCase: ref.watch(registerIncomingCallUseCaseProvider),
     endCallUseCase: ref.watch(endCallUseCaseProvider),

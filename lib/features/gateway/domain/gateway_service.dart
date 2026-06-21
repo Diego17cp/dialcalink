@@ -8,6 +8,7 @@ import 'package:notidialca/core/failures/result.dart';
 import 'package:notidialca/core/identity/device_identity_service.dart';
 import 'package:notidialca/core/network/websocket/messages/payloads/ws_payloads.dart';
 import 'package:notidialca/core/network/websocket/server/gateway_ws_server.dart';
+import 'package:notidialca/core/platform/contacts/contact_resolver_service.dart';
 import 'package:notidialca/core/platform/gateway/native/gateway_native_bridge.dart';
 import 'package:notidialca/core/platform/gateway/native/gateway_native_event.dart';
 import 'package:notidialca/features/calls/domain/repositories/call_repository.dart';
@@ -24,6 +25,7 @@ class GatewayService {
     required this.nativeBridge,
     required this.database,
     required this.identityService,
+    required this.contactResolverService,
     required this.receiveSmsUseCase,
     required this.registerIncomingCallUseCase,
     required this.endCallUseCase,
@@ -37,6 +39,7 @@ class GatewayService {
   final GatewayNativeBridge nativeBridge;
   final AppDatabase database;
   final DeviceIdentityService identityService;
+  final ContactResolverService contactResolverService;
 
   final ReceiveSmsUseCase receiveSmsUseCase;
   final RegisterIncomingCallUseCase registerIncomingCallUseCase;
@@ -132,11 +135,12 @@ class GatewayService {
     GatewayNativeSmsReceived event,
     String sourceDeviceId,
   ) async {
+    final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
     final result = await receiveSmsUseCase.call(
       phoneNumber: event.phoneNumber,
       content: event.content,
       sourceDeviceId: sourceDeviceId,
-      contactName: null,
+      contactName: contactName,
       receivedAt: event.receivedAt,
     );
 
@@ -149,7 +153,7 @@ class GatewayService {
             content: event.content,
             receivedAt: event.receivedAt,
             sourceDeviceId: sourceDeviceId,
-            contactName: null,
+            contactName: contactName,
           ),
         );
       },
@@ -167,11 +171,14 @@ class GatewayService {
     String sourceDeviceId,
   ) async {
     _lastRingingPhoneNumber = event.phoneNumber;
+
+    final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
+
     final result = await registerIncomingCallUseCase.call(
       phoneNumber: event.phoneNumber,
       callType: CallType.incoming,
       sourceDeviceId: sourceDeviceId,
-      contactName: null,
+      contactName: contactName,
       startedAt: event.startedAt,
     );
     result.when(
@@ -182,7 +189,7 @@ class GatewayService {
             phoneNumber: event.phoneNumber,
             startedAt: event.startedAt,
             sourceDeviceId: sourceDeviceId,
-            contactName: null,
+            contactName: contactName,
           ),
         );
       },
