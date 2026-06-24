@@ -33,6 +33,7 @@ class GatewayForegroundService : Service() {
 
     private var flutterEngine: FlutterEngine? = null
     private var eventSink: EventChannel.EventSink? = null
+    private var uiBridgeEventSink: EventChannel.EventSink? = null
 
     private val smsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -97,6 +98,13 @@ class GatewayForegroundService : Service() {
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i(TAG, "onStartCommand")
+        if (intent?.action == "SET_PAIRING_TOKEN") {
+            val token = intent.getStringExtra("token") ?: ""
+            uiBridgeEventSink?.success(mapOf(
+                "type" to "pairing_token_updated",
+                "token" to token
+            ))
+        }
         return START_STICKY
     }
     override fun onDestroy() {
@@ -176,7 +184,43 @@ class GatewayForegroundService : Service() {
                     else -> result.notImplemented()
                 }
             }
+        
+        MethodChannel(engine.dartExecutor.binaryMessenger,
+            GatewayUiBridgeChannel.METHOD_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "setPairingToken" -> {
+                        val token = call.argument<String>("token")
+                        uiBridgeEventSink?.success(mapOf(
+                            "type" to "pairing_token_updated",
+                            "token" to (token ?: "")
+                        ))
+                        result.success(null)
+                    }
+                    "emitConnectionUpdate" -> {
+                        val isConnected = call.argument<Boolean>("isConnected") ?: false
+                        val clientDeviceId = call.argument<String>("clientDeviceId")
+                        uiBridgeEventSink?.success(mapOf(
+                            "type" to "client_connection_changed",
+                            "isConnected" to isConnected,
+                            "clientDeviceId" to clientDeviceId
+                        ))
+                        result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+             }
 
+        EventChannel(engine.dartExecutor.binaryMessenger,
+            GatewayUiBridgeChannel.EVENT_CHANNEL)
+            .setStreamHandler(object : EventChannel.StreamHandler {
+                override fun onListen(arguments: Any?, sink: EventChannel.EventSink?) {
+                    uiBridgeEventSink = sink
+                }
+                override fun onCancel(arguments: Any?) {
+                    uiBridgeEventSink = null
+                }
+            })  
         flutterEngine = engine
     }
     private fun registerReceivers() {
@@ -193,7 +237,7 @@ class GatewayForegroundService : Service() {
         try {
             unregisterReceiver(phoneStateReceiver)
         } catch (e: IllegalArgumentException) {
-            Log.w(TAG, "phoneStateReceiver already unregistered")")
+            Log.w(TAG, "phoneStateReceiver already unregistered")
         }
     }
     private fun emitEvent(data: Map<String, Any?>) {

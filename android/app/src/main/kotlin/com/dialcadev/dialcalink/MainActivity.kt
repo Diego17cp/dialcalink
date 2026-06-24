@@ -37,6 +37,22 @@ class MainActivity : FlutterActivity() {
                 }
             }
         }
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            GatewayUiBridgeChannel.METHOD_CHANNEL
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "setPairingToken" -> {
+                    val token = call.argument<String>("token") ?: ""
+                    val serviceIntent = Intent(this, GatewayForegroundService::class.java)
+                    serviceIntent.action = "SET_PAIRING_TOKEN"
+                    serviceIntent.putExtra("token", token)
+                    startService(serviceIntent)
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
     }
 
     private fun startGatewayService() {
