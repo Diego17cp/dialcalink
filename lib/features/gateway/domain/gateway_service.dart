@@ -11,6 +11,7 @@ import 'package:notidialca/core/network/websocket/server/gateway_ws_server.dart'
 import 'package:notidialca/core/platform/contacts/contact_resolver_service.dart';
 import 'package:notidialca/core/platform/gateway/native/gateway_native_bridge.dart';
 import 'package:notidialca/core/platform/gateway/native/gateway_native_event.dart';
+import 'package:notidialca/core/platform/gateway/native/gateway_ui_bridge.dart';
 import 'package:notidialca/features/calls/domain/repositories/call_repository.dart';
 import 'package:notidialca/features/calls/domain/usecases/end_call_usecase.dart';
 import 'package:notidialca/features/calls/domain/usecases/register_incoming_call_usecase.dart';
@@ -33,6 +34,7 @@ class GatewayService {
     required this.smsRepository,
     required this.callRepository,
     required this.syncRepository,
+    required this.uiBridge,
     Logger? logger,
   }) : _logger = logger ?? Logger();
 
@@ -51,6 +53,8 @@ class GatewayService {
   final SyncRepository syncRepository;
 
   final Logger _logger;
+
+  final GatewayUiBridge uiBridge;
 
   GatewayWsServer? _wsServer;
   StreamSubscription<GatewayNativeEvent>? _nativeEventSubscription;
@@ -268,6 +272,7 @@ class GatewayService {
         clientDeviceId: clientDeviceId,
       ),
     );
+    uiBridge.sendConnectionUpdate(isConnected: true, clientDeviceId: clientDeviceId);
   }
   void _handleClientDisconnected() {
     _connectedClientDeviceId = null;
@@ -277,6 +282,7 @@ class GatewayService {
         clientDeviceId: null,
       ),
     );
+    uiBridge.sendConnectionUpdate(isConnected: false);
   }
   void dispose() {
     _connectionStateController.close();
