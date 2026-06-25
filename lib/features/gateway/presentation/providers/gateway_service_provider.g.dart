@@ -6,7 +6,7 @@ part of 'gateway_service_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gatewayServiceHash() => r'd195afcb085eb0adac2a66a3ddf13ae4facfbc1d';
+String _$gatewayServiceHash() => r'e8e9d35bfd5a3f74809f455c7efb542fcae6afcf';
 
 /// See also [gatewayService].
 @ProviderFor(gatewayService)
