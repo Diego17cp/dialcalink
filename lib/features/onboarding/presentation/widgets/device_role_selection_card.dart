@@ -4,8 +4,8 @@ import 'package:notidialca/core/database/drift/tables/devices_table.dart';
 
 class DeviceRoleSelectionCard extends StatelessWidget {
   final DeviceRole role;
-  final DeviceRole? selectedRole;
-  final ValueChanged<DeviceRole?> onSelected;
+  final DeviceRole selectedRole;
+  final ValueChanged<DeviceRole> onSelected;
 
   const DeviceRoleSelectionCard({
     super.key,

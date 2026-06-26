@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notidialca/core/database/drift/tables/devices_table.dart';
+import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
 import 'package:notidialca/features/onboarding/presentation/widgets/device_role_selection_card.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,10 +22,17 @@ class OnboardingRoleSelectionScreen extends ConsumerStatefulWidget {
 
 class _OnboardingRoleSelectionScreenState
     extends ConsumerState<OnboardingRoleSelectionScreen> {
-  DeviceRole? _selectedRole;
-  void _onRoleSelected(DeviceRole? role) => setState(() {
+  DeviceRole _selectedRole = DeviceRole.client;
+  void _onRoleSelected(DeviceRole role) => setState(() {
     _selectedRole = role;
   });
+  void _onContinuePressed() async {
+    final service = await ref.read(deviceIdentityServiceProvider.future);
+    await service.setRole(_selectedRole);
+    ref.invalidate(localDeviceIdentityProvider);
+    if (!mounted) return;
+    context.go('/onboarding/permissions/${_selectedRole.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +99,7 @@ class _OnboardingRoleSelectionScreenState
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: _selectedRole != null
-                          ? () {
-                              final role = _selectedRole!;
-                              context.push('/onboarding/permissions/${role.name}');
-                            }
-                          : null,
+                      onPressed: _onContinuePressed,
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                         backgroundColor: theme.colorScheme.primary,
