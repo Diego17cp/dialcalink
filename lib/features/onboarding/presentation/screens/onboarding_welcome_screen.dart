@@ -14,7 +14,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -24,7 +24,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                         : 'assets/images/dialcalink_icon_black.png',
                     width: 80,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 32),
                   Badge(
                     label: const Text('Bienvenido'),
                     backgroundColor: theme.colorScheme.secondary,
@@ -36,7 +36,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                     'Recibe tus SMS y llamadas en un solo lugar',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 25,
                       color: theme.colorScheme.onSurface,
                     ),
                     textAlign: TextAlign.center,
@@ -50,8 +50,9 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   Image.asset('assets/images/onboarding_welcome.png', width: 200),
+                  const SizedBox(height: 30),
                   Card(
                     elevation: 4.0,
                     shape: RoundedRectangleBorder(
