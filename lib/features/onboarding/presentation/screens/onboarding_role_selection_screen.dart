@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:notidialca/core/database/drift/tables/devices_table.dart';
 import 'package:notidialca/features/onboarding/presentation/widgets/device_role_selection_card.dart';
 import 'package:flutter/widget_previews.dart';
@@ -93,10 +94,7 @@ class _OnboardingRoleSelectionScreenState
                       onPressed: _selectedRole != null
                           ? () {
                               final role = _selectedRole!;
-                              Navigator.pushNamed(
-                                context,
-                                '/onboarding/permissions/${role.name}',
-                              );
+                              context.push('/onboarding/permissions/${role.name}');
                             }
                           : null,
                       style: FilledButton.styleFrom(
