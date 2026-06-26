@@ -22,9 +22,9 @@ class _OnboardingPermissionsScreenState
   bool get _canContinue => _statuses.values.every((status) => status.isGranted);
   void _onContinue() {
     if (widget.role == DeviceRole.gateway) {
-      context.go('/onboarding/gateway-setup');
+      context.push('/onboarding/gateway-setup');
     } else {
-      context.go('/onboarding/pairing-scan');
+      context.push('/onboarding/pairing-scan');
     }
   }
 
