@@ -50,8 +50,8 @@ class SmsDao extends DatabaseAccessor<AppDatabase> with _$SmsDaoMixin {
 
   Future<void> markAsRead(String messageId) {
     return (update(smsMessages)..where((t) => t.id.equals(messageId))).write(
-      SmsMessagesCompanion(
-        isRead: const Value(true),
+      const SmsMessagesCompanion(
+        isRead: Value(true),
       ),
     );
   }
@@ -59,5 +59,13 @@ class SmsDao extends DatabaseAccessor<AppDatabase> with _$SmsDaoMixin {
   Future<SmsMessage?> findById(String id) {
     final query = select(smsMessages)..where((t) => t.id.equals(id));
     return query.getSingleOrNull();
+  }
+
+  Future<int> countByDateAndId(DateTime date, String id) {
+    final query = select(smsMessages)
+      ..where((t) =>
+          t.receivedAt.isBiggerOrEqualValue(date) &
+          t.id.equals(id));
+    return query.get().then((rows) => rows.length);
   }
 }

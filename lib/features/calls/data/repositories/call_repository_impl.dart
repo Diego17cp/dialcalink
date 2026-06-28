@@ -83,4 +83,13 @@ class CallRepositoryImpl implements CallRepository {
       );
     }
   }
+
+  @override
+  Future<int> countByDateAndId(DateTime date, String id) async {
+    try {
+      return await _dao.countByDateAndId(date, id);
+    } catch (e) {
+      throw DatabaseFailure('Error contando llamadas para fecha $date y id $id', cause: e);
+    }
+  }
 }

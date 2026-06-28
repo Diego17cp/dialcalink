@@ -9,4 +9,5 @@ abstract class SmsRepository {
   Future<Result<void>> upsertMessage(SmsMessageEntity message);
   Future<Result<void>> markAsRead(String messageId);
   Future<Result<SmsMessageEntity>> findById(String id);
+  Future<int> countByDateAndId(DateTime date, String id);
 }

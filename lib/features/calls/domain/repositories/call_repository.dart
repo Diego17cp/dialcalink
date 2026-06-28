@@ -9,4 +9,5 @@ abstract class CallRepository {
   Future<Result<void>> markCallEnded(String callId, DateTime endedAt);
   Future<Result<CallLogEntity>> findById(String id);
   Future<Result<CallLogEntity?>> findOpenCallByPhoneNumber(String phoneNumber);
+  Future<int> countByDateAndId(DateTime date, String id);
 }
