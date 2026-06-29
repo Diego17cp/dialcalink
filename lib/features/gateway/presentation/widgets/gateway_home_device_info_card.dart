@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
 import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
 import 'package:notidialca/core/network/discovery/network_info_result.dart';
+import 'package:notidialca/features/gateway/presentation/providers/gateway_home_provider.dart';
+import 'package:notidialca/features/gateway/presentation/utils/formatters.dart';
 import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_device_info_item.dart';
 
 class GatewayHomeDeviceInfoCard extends ConsumerWidget {
@@ -13,6 +15,8 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localDeviceIdentity = ref.watch(localDeviceIdentityProvider).value;
     final localDeviceIp = ref.watch(gatewayIpProvider).value;
+    final homeState = ref.watch(gatewayHomeNotifierProvider);
+    final uptime = ref.watch(gatewayUptimeProvider).valueOrNull;
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +32,6 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
               value: localDeviceIdentity.name,
               icon: CupertinoIcons.device_phone_portrait,
             ),
-            const SizedBox(height: 8),
             if (localDeviceIp != null &&
                 localDeviceIp is NetworkInfoResolved) ...[
               GatewayHomeDeviceInfoItem(
@@ -44,9 +47,16 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
               ),
             ],
             GatewayHomeDeviceInfoItem(
-              title: 'Tiempo de actividad',
-              value: localDeviceIdentity.uptime,
+              title: 'Activo desde',
+              value: homeState.serviceStartedAt != null
+                  ? formatDateTime(homeState.serviceStartedAt)
+                  : 'No Iniciado',
               icon: CupertinoIcons.clock,
+            ),
+            GatewayHomeDeviceInfoItem(
+              title: 'Tiempo de actividad',
+              value: formatDuration(uptime),
+              icon: CupertinoIcons.hourglass,
             ),
           ],
         ],
