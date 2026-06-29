@@ -10,11 +10,13 @@ class LocalDeviceIdentity {
     required this.id,
     required this.name,
     required this.role,
+    this.serviceStartedAt,
   });
 
   final String id;
   final String name;
   final DeviceRole role;
+  final DateTime? serviceStartedAt;
 }
 
 class DeviceIdentityService {
@@ -44,7 +46,7 @@ class DeviceIdentityService {
     if (id == null || name == null || role == null) {
       return null;
     }
-    return LocalDeviceIdentity(id: id, name: name, role: role);
+    return LocalDeviceIdentity(id: id, name: name, role: role, serviceStartedAt: await readServiceStartedAtAsync());
   }
 
   Future<void> setRole(DeviceRole role) async {
@@ -62,4 +64,12 @@ class DeviceIdentityService {
   }
 
   Future<void> clearRole() async => await _storage.clearRole();
+
+  DateTime? readServiceStartedAt() => _storage.readServiceStartedAt();
+
+  Future<void> writeServiceStartedAt(DateTime startedAt) => _storage.writeServiceStartedAt(startedAt);
+
+  Future<void> clearServiceStartedAt() => _storage.clearServiceStartedAt();
+
+  Future<DateTime?> readServiceStartedAtAsync() => _storage.readServiceStartedAtAsync();
 }

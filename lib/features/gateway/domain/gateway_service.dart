@@ -104,7 +104,9 @@ class GatewayService {
         _logger.e('GatewayService: Error receiving native event', error: error);
       },
     );
-    _logger.i('GatewayService: Service started successfully');
+    final now = DateTime.now();
+    await identityService.writeServiceStartedAt(now);
+    _logger.i('[BACK-ENGINE] Servicio iniciado exitosamente.');
   }
 
   Future<void> stop() async {
@@ -114,6 +116,7 @@ class GatewayService {
     await _wsServer?.stop();
     _wsServer = null;
     _connectedClientDeviceId = null;
+    await identityService.clearServiceStartedAt();
     _logger.i('GatewayService: Service stopped');
   }
 

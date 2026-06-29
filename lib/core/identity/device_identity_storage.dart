@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 const String _kDeviceRole = 'identity.device_role';
 const String _kDeviceName = 'identity.device_name';
+const String _kServiceStartedAt = 'identity.service_started_at';
 const String _kDeviceId = 'identity.device_id';
 
 class DeviceIdentityStorage {
@@ -34,5 +35,20 @@ class DeviceIdentityStorage {
     final role = readRole();
     final name = readDeviceName();
     return id != null && role != null && name != null;
+  }
+
+  DateTime? readServiceStartedAt() {
+    final raw = _prefs.getInt(_kServiceStartedAt);
+    if (raw == null) return null;
+    return DateTime.fromMillisecondsSinceEpoch(raw);
+  }
+
+  Future<void> writeServiceStartedAt(DateTime startedAt) async => _prefs.setInt(_kServiceStartedAt, startedAt.millisecondsSinceEpoch);
+
+  Future<void> clearServiceStartedAt() async => _prefs.remove(_kServiceStartedAt);
+
+  Future<DateTime?> readServiceStartedAtAsync() async {
+    await _prefs.reload();
+    return readServiceStartedAt();
   }
 }
