@@ -105,12 +105,12 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                         spacing: 8,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Icon(CupertinoIcons.shield, color: theme.colorScheme.primary, size: 18),
+                          Icon(CupertinoIcons.shield, color: theme.colorScheme.primary, size: 20),
                           Text(
                             'Tu información permanece dentro de tu red\nlocal. '
                             'No utilizamos servidores externos.',
                             style: TextStyle(
-                              fontSize: 9.6,
+                              fontSize: 10,
                               color: theme.colorScheme.onSurface,
                             ),
                           ),

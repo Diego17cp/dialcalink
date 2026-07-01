@@ -40,7 +40,6 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(clientPairingNotifierProvider);
     final isLinked = state.phase == ClientPairingPhase.linked;
-    final theme = Theme.of(context);
 
     if (isLinked && !_hasNavigated) {
       _hasNavigated = true;
