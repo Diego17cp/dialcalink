@@ -5,7 +5,7 @@ import 'package:notidialca/core/network/discovery/network_info_result.dart';
 import 'package:notidialca/features/pairing/domain/value_objects/pairing_payload.dart';
 import 'package:uuid/uuid.dart';
 
-const int kGatewayWebSocketPort = 8080;
+const int kGatewayWebSocketPort = 8888;
 
 // Gateway
 class GenerateGatewayPairingPayloadUseCase {

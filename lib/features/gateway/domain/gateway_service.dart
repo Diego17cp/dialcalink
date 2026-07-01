@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:notidialca/core/database/drift/app_database.dart';
 import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
@@ -72,7 +73,7 @@ class GatewayService {
 
   String? get connectedClientDeviceId => _connectedClientDeviceId;
 
-  static const int _port = 8080;
+  static const int _port = 8888;
 
   Future<void> start() async {
     final identity = await identityService.readIdentity();
@@ -85,6 +86,8 @@ class GatewayService {
     _localDeviceId = identity.id;
     _wsServer = GatewayWsServer(
       port: _port,
+      gatewayDeviceId: identity.id,
+      gatewayName: identity.name,
       onHandshakeRequest: _handleHandshakeRequest,
       onSyncRequested: _handleSyncRequested,
       onSyncAckReceived: _handleSyncAck,
@@ -106,7 +109,15 @@ class GatewayService {
     );
     final now = DateTime.now();
     await identityService.writeServiceStartedAt(now);
-    _logger.i('[BACK-ENGINE] Servicio iniciado exitosamente.');
+    uiBridge.startListeningConnectionUpdates();
+    uiBridge.pairingTokenUpdates.listen((token) {
+      debugPrint('[DIALCA][BACK] Token recibido via stream: "$token" isEmpty: ${token.isEmpty}');
+      if (token.isNotEmpty) {
+        setActivePairingToken(token);
+      }
+    });
+    _logger.i('[BACK-ENGINE] Servicio iniciado exitosamente y escuchando bridge.');
+    _logger.i('WebSocket server started on port $_port');
   }
 
   Future<void> stop() async {
@@ -250,8 +261,11 @@ class GatewayService {
     String? pairingToken,
     String clientDeviceId,
   ) async {
+    debugPrint('[DIALCA][BACK] Token recibido: "$pairingToken"');
+    debugPrint('[DIALCA][BACK] Token activo: "$_activePairingToken"');
     if (pairingToken != null) {
       final isValid = pairingToken == _activePairingToken;
+      _logger.i('[BACK-ENGINE] Es pairing nuevo. Valido: $isValid');
       if (isValid) {
         _activePairingToken = null;
         _onClientConnected(clientDeviceId);
@@ -261,6 +275,10 @@ class GatewayService {
 
     final device = await database.devicesDao.findById(clientDeviceId);
     final isLinked = device != null && device.pairingStatus.name == 'linked';
+    _logger.i(
+      '[BACK-ENGINE] Es reconexion. clientDeviceId: "$clientDeviceId" | '
+      'Vinculado: $isLinked',
+    );
     if (isLinked) {
       _onClientConnected(clientDeviceId);
     }
