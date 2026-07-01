@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:notidialca/app/layouts/glass_scaffold.dart';
 import 'package:notidialca/core/database/drift/tables/devices_table.dart';
 import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
 import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
@@ -107,14 +108,9 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
     final theme = Theme.of(context);
     final identityAsync = ref.watch(localDeviceIdentityProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('DialcaLink', textAlign: TextAlign.center),
-        backgroundColor: theme.colorScheme.surface,
-        foregroundColor: theme.colorScheme.onSurface,
-        elevation: 0,
-      ),
-      backgroundColor: theme.colorScheme.surface,
+    return GlassScaffold(
+      onBackTap: () => context.pop(),
+      title: 'Configurar Gateway',
       body: SafeArea(
         child: identityAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -142,214 +138,188 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
                 final canContinue =
                     permissionsGranted &&
                     (hotspotStatus is NetworkInfoResolved);
-                return Center(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withValues(
-                                alpha: 0.1,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Icon(
-                              Icons.router,
-                              color: theme.colorScheme.primary,
-                              size: 50,
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-                          Text(
-                            'Preparar el dispositivo como Gateway',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Configure su dispositivo para actuar como un punto de enlace de comunicación.',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: theme.colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 40),
-                          Card(
-                            elevation: 0,
-                            color: theme.colorScheme.surfaceContainerHighest,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                              side: BorderSide(
-                                color: theme.colorScheme.outlineVariant
-                                    .withValues(alpha: 0.5),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Column(
-                                children: [
-                                  GatewaySetupPermissionsItem(
-                                    permissionsGranted: permissionsGranted,
-                                  ),
-                                  Divider(
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    color: theme.colorScheme.outlineVariant
-                                        .withValues(alpha: 0.3),
-                                  ),
-                                  GatewaySetupDeviceItem(
-                                    isExpanded: isIdentityExpanded,
-                                    identity: identity,
-                                    onTap: _toggleIdentityExpanded,
-                                  ),
-                                  Divider(
-                                    height: 1,
-                                    indent: 16,
-                                    endIndent: 16,
-                                    color: theme.colorScheme.outlineVariant
-                                        .withValues(alpha: 0.3),
-                                  ),
-                                  const GatewaySetupHotspotItem(),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child:
-                                (_isLoading || _step == GatewaySetupStep.error)
-                                ? Padding(
-                                    key: ValueKey(_statusMessage),
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 8,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: _step == GatewaySetupStep.error
-                                            ? theme.colorScheme.errorContainer
-                                                  .withValues(alpha: 0.5)
-                                            : theme.colorScheme.primaryContainer
-                                                  .withValues(alpha: 0.3),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (_isLoading)
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 10,
-                                              ),
-                                              child: SizedBox(
-                                                width: 14,
-                                                height: 14,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                      strokeWidth: 2,
-                                                      color: theme
-                                                          .colorScheme
-                                                          .primary,
-                                                    ),
-                                              ),
-                                            ),
-                                          Flexible(
-                                            child: Text(
-                                              _statusMessage,
-                                              style: theme.textTheme.bodySmall
-                                                  ?.copyWith(
-                                                    color:
-                                                        _step ==
-                                                            GatewaySetupStep
-                                                                .error
-                                                        ? theme
-                                                              .colorScheme
-                                                              .error
-                                                        : theme
-                                                              .colorScheme
-                                                              .primary,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox.shrink(),
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: FilledButton(
-                              onPressed: canContinue && !_isLoading
-                                  ? () => _onFinishSetup(permissionsGranted)
-                                  : null,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                  horizontal: 16,
-                                ),
-                                backgroundColor: theme.colorScheme.primary,
-                                foregroundColor: theme.colorScheme.onPrimary,
-                              ),
-                              child: _isLoading
-                                  ? SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
-                                        color: theme.colorScheme.onPrimary,
-                                        strokeWidth: 2.5,
-                                      ),
-                                    )
-                                  : const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('Activar Gateway'),
-                                        SizedBox(width: 8),
-                                        Icon(
-                                          CupertinoIcons.bolt_fill,
-                                          size: 16,
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                          if (_step == GatewaySetupStep.error)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: TextButton.icon(
-                                onPressed: () =>
-                                    _onFinishSetup(permissionsGranted),
-                                icon: const Icon(
-                                  Icons.refresh_rounded,
-                                  size: 18,
-                                ),
-                                label: const Text('Intentar de nuevo'),
-                              ),
-                            ),
-                        ],
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(
+                        Icons.router,
+                        color: theme.colorScheme.primary,
+                        size: 50,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 32),
+                    Text(
+                      'Preparar el dispositivo como Gateway',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Configure su dispositivo para actuar como un punto de enlace de comunicación.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: theme.colorScheme.onSurface.withValues(
+                          alpha: 0.7,
+                        ),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+                    Card(
+                      elevation: 0,
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        side: BorderSide(
+                          color: theme.colorScheme.outlineVariant.withValues(
+                            alpha: 0.5,
+                          ),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          children: [
+                            GatewaySetupPermissionsItem(
+                              permissionsGranted: permissionsGranted,
+                            ),
+                            Divider(
+                              height: 1,
+                              indent: 16,
+                              endIndent: 16,
+                              color: theme.colorScheme.outlineVariant
+                                  .withValues(alpha: 0.3),
+                            ),
+                            GatewaySetupDeviceItem(
+                              isExpanded: isIdentityExpanded,
+                              identity: identity,
+                              onTap: _toggleIdentityExpanded,
+                            ),
+                            Divider(
+                              height: 1,
+                              indent: 16,
+                              endIndent: 16,
+                              color: theme.colorScheme.outlineVariant
+                                  .withValues(alpha: 0.3),
+                            ),
+                            const GatewaySetupHotspotItem(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: (_isLoading || _step == GatewaySetupStep.error)
+                          ? Padding(
+                              key: ValueKey(_statusMessage),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: _step == GatewaySetupStep.error
+                                      ? theme.colorScheme.errorContainer
+                                            .withValues(alpha: 0.5)
+                                      : theme.colorScheme.primaryContainer
+                                            .withValues(alpha: 0.3),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (_isLoading)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 10,
+                                        ),
+                                        child: SizedBox(
+                                          width: 14,
+                                          height: 14,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: theme.colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                    Flexible(
+                                      child: Text(
+                                        _statusMessage,
+                                        style: theme.textTheme.bodySmall
+                                            ?.copyWith(
+                                              color:
+                                                  _step ==
+                                                      GatewaySetupStep.error
+                                                  ? theme.colorScheme.error
+                                                  : theme.colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: canContinue && !_isLoading
+                            ? () => _onFinishSetup(permissionsGranted)
+                            : null,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: 16,
+                          ),
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: theme.colorScheme.onPrimary,
+                        ),
+                        child: _isLoading
+                            ? SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: theme.colorScheme.onPrimary,
+                                  strokeWidth: 2.5,
+                                ),
+                              )
+                            : const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Activar Gateway'),
+                                  SizedBox(width: 8),
+                                  Icon(CupertinoIcons.bolt_fill, size: 16),
+                                ],
+                              ),
+                      ),
+                    ),
+                    if (_step == GatewaySetupStep.error)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: TextButton.icon(
+                          onPressed: () => _onFinishSetup(permissionsGranted),
+                          icon: const Icon(Icons.refresh_rounded, size: 18),
+                          label: const Text('Intentar de nuevo'),
+                        ),
+                      ),
+                  ],
                 );
               },
             );
