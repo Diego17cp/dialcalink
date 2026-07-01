@@ -31,7 +31,7 @@ class _OnboardingRoleSelectionScreenState
     await service.setRole(_selectedRole);
     ref.invalidate(localDeviceIdentityProvider);
     if (!mounted) return;
-    context.go('/onboarding/permissions/${_selectedRole.name}');
+    context.push('/onboarding/permissions/${_selectedRole.name}');
   }
 
   @override
