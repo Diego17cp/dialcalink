@@ -6,22 +6,30 @@ import 'package:flutter/cupertino.dart';
 class BaseScaffold extends StatelessWidget {
   final Widget child;
   final AppRole role;
+  final String? title;
+  final List<Widget>? actions;
+  final Widget? bottomNavigationBar;
   
   const BaseScaffold({
     super.key, 
     required this.child,
     required this.role,
+    this.title,
+    this.actions,
+    this.bottomNavigationBar
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final displayTitle = title ?? 'DialcaLink ${role == AppRole.gateway ? 'Gateway' : 'Cliente'}';
     return Scaffold(
       appBar: AppBar(
-        title: Text('DialcaLink ${role == AppRole.gateway ? 'Gateway' : 'Cliente'}'),
+        title: Text(displayTitle),
         backgroundColor: theme.colorScheme.surface,
         foregroundColor: theme.colorScheme.onSurface,
         actions: [
+          ...?actions,
           IconButton(
             icon: const Icon(CupertinoIcons.circle_lefthalf_fill),
             tooltip: 'Cambiar tema',
@@ -38,6 +46,7 @@ class BaseScaffold extends StatelessWidget {
         ]
       ),
       body: child,
+        bottomNavigationBar: bottomNavigationBar
     );
   }
 }
