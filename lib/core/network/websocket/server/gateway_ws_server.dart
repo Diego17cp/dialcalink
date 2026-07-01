@@ -21,6 +21,8 @@ class GatewayWsServerFailed extends GatewayWsServerStartResult {
 class GatewayWsServer {
   GatewayWsServer({
     required this.port,
+    required this.gatewayDeviceId,
+    required this.gatewayName,
     required this.onHandshakeRequest,
     required this.onSyncRequested,
     required this.onSyncAckReceived,
@@ -33,6 +35,8 @@ class GatewayWsServer {
        _logger = logger ?? Logger();
 
   final int port;
+  final String gatewayDeviceId;
+  final String gatewayName;
   final Duration _pingInterval;
   final Duration _heartbeatTimeout;
   final Logger _logger;
@@ -60,6 +64,7 @@ class GatewayWsServer {
 
     try {
       _httpServer = await HttpServer.bind(InternetAddress.anyIPv4, port);
+      _logger.i('SERVER-LOG: Escuchando en ${_httpServer!.address.address}:${_httpServer!.port}');
       _httpServer!
           .transform(WebSocketTransformer())
           .listen(
@@ -96,7 +101,7 @@ class GatewayWsServer {
       _logger.w(
         'GatewayWsServer: Rejecting new connection - already have a connected client',
       );
-      socket.close(1008, 'Only one client allowed');
+      socket.close(4003, 'Only one client allowed');
       return;
     }
     final session = WsClientSession(clientDeviceId: 'pending', socket: socket);
@@ -173,12 +178,19 @@ class GatewayWsServer {
           payload: WsHandshakeErrorPayload(reason: 'Invalid pairing token'),
         ).toJsonString(),
       );
-      await session.close(1008, 'Invalid token');
+      await session.close(4003, 'Invalid token');
       _connectedClient = null;
       return;
     }
 
     session.markHandshakeComplete();
+    session.send(WsMessage(
+      type: WsMessageType.handshakeOk,
+      payload: WsHandshakeOkPayload(
+        gatewayDeviceId: gatewayDeviceId,
+        gatewayName: gatewayName,
+      ),
+    ).toJsonString());
     _logger.i(
       'GatewayWsServer: Handshake successful for device ${payload.clientDeviceId}',
     );
@@ -209,7 +221,7 @@ class GatewayWsServer {
 
   void broadcast(WsMessage message) {
     final client = _connectedClient;
-    if (client == null || client.isHandshakeComplete) return;
+    if (client == null || !client.isHandshakeComplete) return;
     client.send(message.toJsonString());
   }
 

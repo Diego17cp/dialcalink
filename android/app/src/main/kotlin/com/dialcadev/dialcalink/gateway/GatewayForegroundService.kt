@@ -34,6 +34,7 @@ class GatewayForegroundService : Service() {
     private var flutterEngine: FlutterEngine? = null
     private var eventSink: EventChannel.EventSink? = null
     private var uiBridgeEventSink: EventChannel.EventSink? = null
+    private var pendingPairingToken: String? = null
 
     private val smsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -100,10 +101,17 @@ class GatewayForegroundService : Service() {
         Log.i(TAG, "onStartCommand")
         if (intent?.action == "SET_PAIRING_TOKEN") {
             val token = intent.getStringExtra("token") ?: ""
-            uiBridgeEventSink?.success(mapOf(
-                "type" to "pairing_token_updated",
-                "token" to token
-            ))
+            if (token.isNotEmpty()) {
+                if (uiBridgeEventSink != null) {
+                    uiBridgeEventSink?.success(mapOf(
+                        "type" to "pairing_token_updated",
+                        "token" to token
+                    ))
+                } else {
+                    pendingPairingToken = token
+                    Log.i(TAG, "Token guardado como pendiente: $token")
+                }
+            }
         }
         return START_STICKY
     }
@@ -151,17 +159,15 @@ class GatewayForegroundService : Service() {
         }
     }
     private fun setupFlutterEngine() {
-        val loader = FlutterLoader()
-        loader.startInitialization(applicationContext)
+        val loader = io.flutter.FlutterInjector.instance().flutterLoader()
         loader.ensureInitializationComplete(applicationContext, null)
 
         val engine = FlutterEngine(applicationContext)
-        engine.dartExecutor.executeDartEntrypoint(
-            DartExecutor.DartEntrypoint(
-                loader.findAppBundlePath(),
-                "gatewayServiceEntrypoint", // ver subfase 3.4/3.5: entrypoint Dart dedicado
-            )
+        val entrypoint = DartExecutor.DartEntrypoint(
+            loader.findAppBundlePath(),
+            "gatewayServiceEntrypoint"
         )
+        engine.dartExecutor.executeDartEntrypoint(entrypoint)
         GeneratedPluginRegistrant.registerWith(engine)
 
         EventChannel(engine.dartExecutor.binaryMessenger, EVENT_CHANNEL_NAME)
@@ -219,6 +225,16 @@ class GatewayForegroundService : Service() {
             .setStreamHandler(object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, sink: EventChannel.EventSink?) {
                     uiBridgeEventSink = sink
+                    Log.i(TAG, "UI Bridge EventChannel: Dart suscrito")
+
+                    pendingPairingToken?.let { token ->
+                        Log.i(TAG, "Emitiendo token pendiente: $token")
+                        sink?.success(mapOf(
+                            "type" to "pair ing_token_updated",
+                            "token" to token
+                        ))
+                        pendingPairingToken = null
+                    }
                 }
                 override fun onCancel(arguments: Any?) {
                     uiBridgeEventSink = null

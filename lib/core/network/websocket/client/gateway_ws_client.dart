@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:notidialca/core/network/websocket/client/ws_backoff_calculator.dart';
 import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
@@ -99,7 +101,7 @@ class GatewayWsClient {
     await _eventController.close();
   }
 
-  void _attemptConnect() {
+  void _attemptConnect() async {
     if (_isDisposed) return;
     _attempt++;
     _setState(WsConnecting(attempt: _attempt));
@@ -108,18 +110,16 @@ class GatewayWsClient {
     );
 
     try {
-      _channel = IOWebSocketChannel.connect(
-        Uri.parse(_uri),
-        connectTimeout: const Duration(seconds: 10),
-      );
-      _setState(const WsConnected());
+      final socket = await WebSocket.connect(_uri).timeout(const Duration(seconds: 5));
+      _channel = IOWebSocketChannel(socket);
       _subscription = _channel!.stream.listen(
         _onMessage,
         onDone: _onDisconnected,
-        onError: _onError,
+        onError: (error) => _onError(error),
         cancelOnError: false,
       );
       _sendHandshake();
+      _setState(const WsConnected());
     } catch (e) {
       _logger.e('GatewayWsClient: Connection attempt failed', error: e);
       _scheduleReconnect();
@@ -138,7 +138,7 @@ class GatewayWsClient {
   }
 
   void _onDisconnected() {
-    if (_isDisposed) return;
+    if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;
     _logger.w('GatewayWsClient: Disconnected from server');
     _channel = null;
     _subscription = null;
@@ -147,7 +147,7 @@ class GatewayWsClient {
 
   void _onError(Object error) {
     _logger.e('GatewayWsClient: Connection error', error: error);
-    if (_isDisposed) return;
+    if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;    
     _channel = null;
     _scheduleReconnect();
   }
@@ -207,7 +207,7 @@ class GatewayWsClient {
         : 'Handshake rejected by server';
     _logger.w('GatewayWsClient: Handshake failed: $reason');
     _setState(WsHandshakeRejected(reason: reason));
-    _channel?.sink.close(1008, reason);
+    _channel?.sink.close(4003, reason);
     _channel = null;
   }
 
@@ -215,7 +215,10 @@ class GatewayWsClient {
     _channel?.sink.add(message.toJsonString());
   }
 
-  void _sendHandshake() {
+  void _sendHandshake() async {
+    if (pairingToken != null) {
+      await Future.delayed(const Duration(milliseconds: 800));
+    }
     _send(
       WsMessage(
         type: WsMessageType.handshake,
@@ -225,6 +228,7 @@ class GatewayWsClient {
         ),
       ),
     );
+    debugPrint('[DIALCA][CLIENT] Enviando token: "$pairingToken" at ${DateTime.now()}');
   }
 
   void _sendPong() {
