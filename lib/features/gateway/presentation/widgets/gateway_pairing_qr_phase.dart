@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notidialca/app/theme/colors.dart';
 import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
+import 'package:notidialca/core/platform/gateway/providers/gateway_ui_bridge_provider.dart';
 import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_notifier.dart';
 import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_state.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -52,6 +53,13 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
   Widget build(BuildContext context) {
     final pairingState = ref.watch(gatewayPairingNotifierProvider);
     final theme = Theme.of(context);
+
+    ref.listen<GatewayPairingState>(gatewayPairingNotifierProvider, (prev, next) {
+      if (next.phase == GatewayPairingPhase.showingQr && next.payload != null && next.payload?.pairingToken != prev?.payload?.pairingToken) {
+        final bridge = ref.read(gatewayUiBridgeProvider);
+        bridge.sendPairingToken(next.payload!.pairingToken);
+      }
+    });
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
