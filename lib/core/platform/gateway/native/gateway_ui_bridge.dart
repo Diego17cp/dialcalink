@@ -20,8 +20,12 @@ class GatewayUiBridge {
   final _connectionController =
       StreamController<GatewayClientConnectionUpdate>.broadcast();
 
+  final _tokenController = StreamController<String>.broadcast();
+
   Stream<GatewayClientConnectionUpdate> get connectionUpdates =>
       _connectionController.stream;
+
+  Stream<String> get pairingTokenUpdates => _tokenController.stream;
 
   void startListeningConnectionUpdates() {
     _subscription?.cancel();
@@ -36,6 +40,11 @@ class GatewayUiBridge {
               clientDeviceId: raw['clientDeviceId'] as String?,
             ),
           );
+        } else if (type == 'pairing_token_updated') {
+            final token = raw['token'] as String?;
+            if (token != null && token.isNotEmpty) {
+              _tokenController.add(token);
+            }
         }
       },
       onError: (Object e) {
@@ -77,6 +86,7 @@ class GatewayUiBridge {
   void dispose() {
     stopListening();
     _connectionController.close();
+    _tokenController.close();
   }
 }
 
