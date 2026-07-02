@@ -7,7 +7,7 @@ part of 'flutter_secure_storage_provider.dart';
 // **************************************************************************
 
 String _$flutterSecureStorageHash() =>
-    r'24f4375aee0d1441c71de6d342151ed125df793d';
+    r'53d7e09b1d139be136ce85684c423402f71d5cae';
 
 /// See also [flutterSecureStorage].
 @ProviderFor(flutterSecureStorage)

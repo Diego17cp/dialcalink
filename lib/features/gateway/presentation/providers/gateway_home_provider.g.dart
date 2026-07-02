@@ -59,7 +59,7 @@ final gatewayUptimeProvider = AutoDisposeStreamProvider<Duration?>.internal(
 // ignore: unused_element
 typedef GatewayUptimeRef = AutoDisposeStreamProviderRef<Duration?>;
 String _$gatewayHomeNotifierHash() =>
-    r'7283fe855659521913e3ddace8f7ea631c69e4b8';
+    r'42e509e1044330f4d4ca38fbc2e76eb0ac53171e';
 
 /// See also [GatewayHomeNotifier].
 @ProviderFor(GatewayHomeNotifier)
