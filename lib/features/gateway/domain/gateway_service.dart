@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:notidialca/core/database/drift/app_database.dart';
 import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
+import 'package:notidialca/core/database/drift/tables/devices_table.dart';
 import 'package:notidialca/core/database/drift/tables/sync_events_table.dart';
 import 'package:notidialca/core/failures/result.dart';
 import 'package:notidialca/core/identity/device_identity_service.dart';
@@ -268,6 +270,14 @@ class GatewayService {
       _logger.i('[BACK-ENGINE] Es pairing nuevo. Valido: $isValid');
       if (isValid) {
         _activePairingToken = null;
+        await database.devicesDao.upsertDevice(DevicesCompanion(
+          id: Value(clientDeviceId),
+          deviceName: const Value('Cliente vinculado'),
+          role: const Value(DeviceRole.client),
+          pairingStatus: const Value(DevicePairingStatus.linked),
+          createdAt: Value(DateTime.now()),
+          lastSeenAt: Value(DateTime.now()),
+        ));
         _onClientConnected(clientDeviceId);
       } 
       return isValid;
