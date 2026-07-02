@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
 import 'package:notidialca/core/network/websocket/client/gateway_ws_client.dart';
 import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
@@ -11,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_ws_client_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
   GatewayWsClient? _client;
 
@@ -27,20 +28,27 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
     required String ip,
     required int port,
     required String clientDeviceId,
-  }) {
-    _client?.disconnect();
-    _client = GatewayWsClient.forSession(
+  }) async {
+    final oldClient = _client;
+    if (oldClient != null) {
+      await _client?.disconnect();
+    }
+    final newClient = GatewayWsClient.forSession(
       ip: ip,
       port: port,
       clientDeviceId: clientDeviceId,
     );
+    _client = newClient;
 
-    _client!.connectionState.listen((wsState) {
-      state = wsState;
+    newClient.connectionState.listen((wsState) {
+      if (_client == newClient) state = wsState;
+      debugPrint('[DIALCA][UI] Estado actualizado en Notifier: $wsState');
     });
 
-    _client!.incomingEvents.listen(_dispatchEvent);
-    _client!.connect();
+    newClient.incomingEvents.listen((event) {
+      if (_client == newClient) _dispatchEvent(event);
+    });
+    newClient.connect();
   }
 
   Future<void> disconnect() async {

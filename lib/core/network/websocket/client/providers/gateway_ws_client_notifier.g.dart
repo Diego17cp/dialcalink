@@ -7,15 +7,12 @@ part of 'gateway_ws_client_notifier.dart';
 // **************************************************************************
 
 String _$gatewayWsClientNotifierHash() =>
-    r'3b6152c6f2bb95f03784206a0fdef1752fe5424a';
+    r'c950d6c73c97ee4e275c68802f1b7c67b69bf56d';
 
 /// See also [GatewayWsClientNotifier].
 @ProviderFor(GatewayWsClientNotifier)
 final gatewayWsClientNotifierProvider =
-    AutoDisposeNotifierProvider<
-      GatewayWsClientNotifier,
-      WsConnectionState
-    >.internal(
+    NotifierProvider<GatewayWsClientNotifier, WsConnectionState>.internal(
       GatewayWsClientNotifier.new,
       name: r'gatewayWsClientNotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,6 +22,6 @@ final gatewayWsClientNotifierProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$GatewayWsClientNotifier = AutoDisposeNotifier<WsConnectionState>;
+typedef _$GatewayWsClientNotifier = Notifier<WsConnectionState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
