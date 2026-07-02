@@ -41,23 +41,31 @@ class ClientPairingNotifier extends _$ClientPairingNotifier {
       attempt: attempt,
       failure: null,
     );
-    final confirmUseCase = await ref.read(confirmPairingUseCaseProvider.future);
-    final result = await confirmUseCase.call(attempt);
+    try {
+      final confirmUseCase = await ref.read(confirmPairingUseCaseProvider.future);
+      final result = await confirmUseCase.call(attempt);
 
-    result.when(
-      ok: (device) {
-        state = state.copyWith(
-          phase: ClientPairingPhase.linked,
-          linkedDevice: device,
-        );
-      },
-      failure: (failure) {
-        state = state.copyWith(
-          phase: ClientPairingPhase.failed,
-          failure: failure is PairingFailure ? failure : null,
-        );
-      },
-    );
+      result.when(
+        ok: (device) {
+          if (state.phase == ClientPairingPhase.verifying) {
+            state = state.copyWith(
+              phase: ClientPairingPhase.linked,
+              linkedDevice: device,
+            );
+          }
+        },
+        failure: (failure) {
+          print('DIALCA_ERROR: Failure during pairing confirm: $failure');
+          state = state.copyWith(
+            phase: ClientPairingPhase.failed,
+            failure: failure is PairingFailure ? failure : null,
+          );
+        },
+      );
+    } catch (e) {
+      print('DIALCA_ERROR: Catch during pairing: $e');
+      state = state.copyWith(phase: ClientPairingPhase.failed);
+    }
   }
 
   void retry() {
