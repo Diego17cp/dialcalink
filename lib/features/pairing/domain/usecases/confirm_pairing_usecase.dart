@@ -47,9 +47,9 @@ class ConfirmPairingUseCase {
       lastKnownPort: verifiedAttempt.payload.port,
       lastSeenAt: DateTime.now(),
     );
-    final insertResult = await _deviceRepository.insertDevice(device);
-    if (insertResult.isFailure) {
-      return Result.failure(insertResult.failureOrNull!);
+    final saveResult = await _deviceRepository.upsertDevice(device);
+    if (saveResult.isFailure) {
+      return Result.failure(saveResult.failureOrNull!);
     }
     return Result.ok(device);
   }

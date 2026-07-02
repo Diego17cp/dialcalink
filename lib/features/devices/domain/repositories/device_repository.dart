@@ -7,6 +7,7 @@ abstract class DeviceRepository {
   Stream<DeviceEntity?> watchDeviceById(String id);
   Future<Result<DeviceEntity>> findById(String id);
   Future<Result<void>> insertDevice(DeviceEntity device);
+  Future<Result<void>> upsertDevice(DeviceEntity device);
   Future<Result<void>> updatePairingStatus(
     String deviceId,
     DevicePairingStatus status,

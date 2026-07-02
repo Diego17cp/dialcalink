@@ -50,6 +50,18 @@ class DeviceRepositoryImpl implements DeviceRepository {
   }
 
   @override
+  Future<Result<void>> upsertDevice(DeviceEntity entity) async {
+    try {
+      await _dao.upsertDevice(DeviceMapper.toCompanion(entity));
+      return Result.ok(null);
+    } catch (e) {
+      return Result.failure(
+        DatabaseFailure('Error insertando o actualizando dispositivo ${entity.id}', cause: e),
+      );
+    }
+  }
+
+  @override
   Future<Result<void>> updatePairingStatus(
     String deviceId,
     DevicePairingStatus status,

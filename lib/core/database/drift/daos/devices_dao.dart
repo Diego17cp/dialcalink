@@ -31,6 +31,10 @@ class DevicesDao extends DatabaseAccessor<AppDatabase> with _$DevicesDaoMixin {
     return into(devices).insert(entry);
   }
 
+  Future<void> upsertDevice(DevicesCompanion entry) {
+    return into(devices).insertOnConflictUpdate(entry);
+  }
+
   Future<void> upsertLocalDevice({
     required String id,
     required String name,
