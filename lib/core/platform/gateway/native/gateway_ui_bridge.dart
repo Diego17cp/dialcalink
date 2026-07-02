@@ -34,16 +34,20 @@ class GatewayUiBridge {
         if (raw is! Map) return;
         final type = raw['type'] as String?;
         if (type == 'client_connection_changed') {
+          if (!_connectionController.isClosed) {
           _connectionController.add(
             GatewayClientConnectionUpdate(
               isConnected: raw['isConnected'] as bool? ?? false,
               clientDeviceId: raw['clientDeviceId'] as String?,
             ),
           );
+          }
         } else if (type == 'pairing_token_updated') {
             final token = raw['token'] as String?;
-            if (token != null && token.isNotEmpty) {
-              _tokenController.add(token);
+            if (!_tokenController.isClosed) {
+              if (token != null && token.isNotEmpty) {
+                _tokenController.add(token);
+              }
             }
         }
       },

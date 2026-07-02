@@ -122,6 +122,11 @@ class GatewayWsClient {
       _setState(const WsConnected());
     } catch (e) {
       _logger.e('GatewayWsClient: Connection attempt failed', error: e);
+      if (_attempt >= 5 && (e is TimeoutException || e.toString().contains('113') || e.toString().contains('103'))) {
+        _logger.w('GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.');
+        _setState(const WsError(message: 'No se pudo encontrar el Gateway en esta red.'));
+        return;
+      }
       _scheduleReconnect();
     }
   }
@@ -139,21 +144,32 @@ class GatewayWsClient {
 
   void _onDisconnected() {
     if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;
+    if (_state is WsHandshakeRejected) {
+      _logger.w('GatewayWsClient: Connection closed due to handshake rejection. Stopping auto-reconnect.');
+      return;
+    }
     _logger.w('GatewayWsClient: Disconnected from server');
     _channel = null;
     _subscription = null;
+    if (_state is WsError) return;
     _scheduleReconnect();
   }
 
   void _onError(Object error) {
     _logger.e('GatewayWsClient: Connection error', error: error);
     if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;    
+    if (_attempt >= 5 && (error is TimeoutException || error.toString().contains('113'))) {
+      _logger.w('GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.');
+      _setState(const WsError(message: 'No se pudo encontrar el Gateway en esta red.'));
+      return;
+    }
     _channel = null;
     _scheduleReconnect();
   }
 
   void _onMessage(dynamic raw) {
     if (raw is! String) return;
+    if (_isDisposed || _eventController.isClosed) return;
     final message = WsMessage.fromJsonString(raw);
 
     switch (message.type) {
@@ -164,25 +180,25 @@ class GatewayWsClient {
       case WsMessageType.ping:
         _sendPong();
       case WsMessageType.smsReceived:
-        if (message.payload is WsSmsReceivedPayload) {
+        if (message.payload is WsSmsReceivedPayload && !_eventController.isClosed) {
           _eventController.add(
             WsSmsEvent(message.payload as WsSmsReceivedPayload),
           );
         }
       case WsMessageType.callIncoming:
-        if (message.payload is WsCallIncomingPayload) {
+        if (message.payload is WsCallIncomingPayload && !_eventController.isClosed) {
           _eventController.add(
             WsCallIncomingEvent(message.payload as WsCallIncomingPayload),
           );
         }
       case WsMessageType.callEnded:
-        if (message.payload is WsCallEndedPayload) {
+        if (message.payload is WsCallEndedPayload && !_eventController.isClosed) {
           _eventController.add(
             WsCallEndedEvent(message.payload as WsCallEndedPayload),
           );
         }
       case WsMessageType.syncResponse:
-        if (message.payload is WsSyncResponsePayload) {
+        if (message.payload is WsSyncResponsePayload && !_eventController.isClosed) {
           _eventController.add(
             WsSyncResponseEvent(message.payload as WsSyncResponsePayload),
           );
