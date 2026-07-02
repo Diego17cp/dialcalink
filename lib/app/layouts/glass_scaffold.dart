@@ -11,6 +11,7 @@ class GlassScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? bottomNavigationBar;
   final Color? backgroundColor;
+  final bool scrollable;
 
   const GlassScaffold({
     super.key,
@@ -20,6 +21,7 @@ class GlassScaffold extends StatelessWidget {
     this.actions,
     this.bottomNavigationBar,
     this.backgroundColor,
+    this.scrollable = true,
   });
 
   @override
@@ -34,16 +36,21 @@ class GlassScaffold extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.only(
-                top: appBarHeight + 16.0,
-                left: 16,
-                right: 16,
-                bottom: 32,
-              ),
-              child: body,
-            ),
+            child: scrollable ? 
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.only(
+                  top: appBarHeight + 16.0,
+                  left: 16,
+                  right: 16,
+                  bottom: 32,
+                ),
+                child: body,
+              )
+              : Padding(
+                  padding: EdgeInsets.only(top: appBarHeight),
+                  child: body,
+                ),
           ),
           Positioned(
             top: 0,
