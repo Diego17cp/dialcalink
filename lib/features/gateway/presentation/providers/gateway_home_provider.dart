@@ -95,28 +95,54 @@ class GatewayHomeNotifier extends _$GatewayHomeNotifier {
   }
 }
 
-@riverpod
-Future<int> messagesTodayCount(Ref ref) async {
-  final identity = await ref.watch(localDeviceIdentityProvider.future);
-  if (identity == null) return 0;
+// @riverpod
+// Future<int> messagesTodayCount(Ref ref) async {
+//   final identity = await ref.watch(localDeviceIdentityProvider.future);
+//   if (identity == null) return 0;
   
+//   final repository = ref.watch(smsRepositoryProvider);
+//   final now = DateTime.now();
+//   final startOfDay = DateTime(now.year, now.month, now.day);
+  
+//   return repository.countByDateAndId(startOfDay, identity.id);
+// }
+
+// @riverpod
+// Future<int> callsTodayCount(Ref ref) async {
+//   final identity = await ref.watch(localDeviceIdentityProvider.future);
+//   if (identity == null) return 0;
+  
+//   final repository = ref.watch(callRepositoryProvider);
+//   final now = DateTime.now();
+//   final startOfDay = DateTime(now.year, now.month, now.day);
+  
+//   return repository.countByDateAndId(startOfDay, identity.id);
+// }
+
+@riverpod
+Stream<int> messagesTodayCount(Ref ref) async* {
+  final identity = await ref.watch(localDeviceIdentityProvider.future);
+  if (identity == null) {
+    yield 0;
+    return;
+  }
   final repository = ref.watch(smsRepositoryProvider);
   final now = DateTime.now();
   final startOfDay = DateTime(now.year, now.month, now.day);
-  
-  return repository.countByDateAndId(startOfDay, identity.id);
+  yield* repository.watchCountByDateAndId(startOfDay, identity.id);
 }
 
 @riverpod
-Future<int> callsTodayCount(Ref ref) async {
+Stream<int> callsTodayCount(Ref ref) async* {
   final identity = await ref.watch(localDeviceIdentityProvider.future);
-  if (identity == null) return 0;
-  
+  if (identity == null) {
+    yield 0;
+    return;
+  }
   final repository = ref.watch(callRepositoryProvider);
   final now = DateTime.now();
   final startOfDay = DateTime(now.year, now.month, now.day);
-  
-  return repository.countByDateAndId(startOfDay, identity.id);
+  yield* repository.watchCountByDateAndId(startOfDay, identity.id);
 }
 
 @riverpod

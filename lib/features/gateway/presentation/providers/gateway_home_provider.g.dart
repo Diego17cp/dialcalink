@@ -7,11 +7,11 @@ part of 'gateway_home_provider.dart';
 // **************************************************************************
 
 String _$messagesTodayCountHash() =>
-    r'935abe25b25c41745c0b32a036f94f353bab0026';
+    r'4dc4aee666653488678e9d735a2bb6e49f031d13';
 
 /// See also [messagesTodayCount].
 @ProviderFor(messagesTodayCount)
-final messagesTodayCountProvider = AutoDisposeFutureProvider<int>.internal(
+final messagesTodayCountProvider = AutoDisposeStreamProvider<int>.internal(
   messagesTodayCount,
   name: r'messagesTodayCountProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,12 +23,12 @@ final messagesTodayCountProvider = AutoDisposeFutureProvider<int>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef MessagesTodayCountRef = AutoDisposeFutureProviderRef<int>;
-String _$callsTodayCountHash() => r'e9365faa90459fbbd4dffcf5a2710114abd835c7';
+typedef MessagesTodayCountRef = AutoDisposeStreamProviderRef<int>;
+String _$callsTodayCountHash() => r'ad3c3a7a894289c589d144f31d90e1d370118b1f';
 
 /// See also [callsTodayCount].
 @ProviderFor(callsTodayCount)
-final callsTodayCountProvider = AutoDisposeFutureProvider<int>.internal(
+final callsTodayCountProvider = AutoDisposeStreamProvider<int>.internal(
   callsTodayCount,
   name: r'callsTodayCountProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -40,7 +40,7 @@ final callsTodayCountProvider = AutoDisposeFutureProvider<int>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CallsTodayCountRef = AutoDisposeFutureProviderRef<int>;
+typedef CallsTodayCountRef = AutoDisposeStreamProviderRef<int>;
 String _$gatewayUptimeHash() => r'2334c1a0cfc34113133adaf115d1588e679ad86b';
 
 /// See also [gatewayUptime].
