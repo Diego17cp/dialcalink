@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:notidialca/app/theme/avatar/avatar_color_generator.dart';
 import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
 
 class SmsCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class SmsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final hasContact = sms.contactName != null;
+    final avatarScheme = AvatarColorGenerator.fromSeed(sms.phoneNumber);
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 0,
@@ -32,21 +34,19 @@ class SmsCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: theme.colorScheme.primaryContainer.withValues(
-                  alpha: 0.5,
-                ),
+                backgroundColor: avatarScheme.background,
                 child: hasContact
                     ? Text(
                         sms.contactName![0].toUpperCase(),
                         style: TextStyle(
-                          color: theme.colorScheme.primary,
+                          color: avatarScheme.foreground,
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       )
                     : Icon(
                         CupertinoIcons.person_fill,
-                        color: theme.colorScheme.primary,
+                        color: avatarScheme.foreground,
                         size: 28,
                       ),
               ),
