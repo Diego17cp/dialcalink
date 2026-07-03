@@ -32,6 +32,7 @@ class GlassScaffold extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
+      extendBody: true,
       bottomNavigationBar: bottomNavigationBar,
       body: Stack(
         children: [
@@ -67,7 +68,7 @@ class GlassScaffold extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(
                         color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.08,
+                          alpha: 0.02 ,
                         ),
                         width: 1,
                       ),
