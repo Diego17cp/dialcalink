@@ -12,7 +12,7 @@ import 'tables/sync_events_table.dart';
 
 part 'app_database.g.dart';
 
-const String _databaseName = 'notidialca';
+const String _databaseName = 'dialcalink';
 
 @DriftDatabase(
   tables: [
