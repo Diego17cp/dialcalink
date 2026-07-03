@@ -64,3 +64,16 @@ Future<Result<void>> markConversationAsRead(Ref ref, String phoneNumber) {
   final repo = ref.watch(smsRepositoryProvider);
   return repo.markAllAsReadByPhoneNumber(phoneNumber);
 }
+
+@riverpod
+Stream<List<SmsMessageEntity>> smsConversations(Ref ref) {
+  return ref.watch(smsRepositoryProvider).watchAllMessages().map((messages) {
+    final Map<String, SmsMessageEntity> groups = {};
+    for (final msg in messages) {
+      if (!groups.containsKey(msg.phoneNumber)) {
+        groups[msg.phoneNumber] = msg;
+      }
+    }
+    return groups.values.toList();
+  });
+}

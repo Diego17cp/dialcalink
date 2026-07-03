@@ -497,5 +497,24 @@ class _MarkConversationAsReadProviderElement
       (origin as MarkConversationAsReadProvider).phoneNumber;
 }
 
+String _$smsConversationsHash() => r'2486d1378facda59c41a77438bcecb0aa3b84e10';
+
+/// See also [smsConversations].
+@ProviderFor(smsConversations)
+final smsConversationsProvider =
+    AutoDisposeStreamProvider<List<SmsMessageEntity>>.internal(
+      smsConversations,
+      name: r'smsConversationsProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$smsConversationsHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SmsConversationsRef =
+    AutoDisposeStreamProviderRef<List<SmsMessageEntity>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

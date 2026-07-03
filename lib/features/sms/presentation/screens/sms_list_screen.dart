@@ -12,7 +12,7 @@ class SmsListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messagesAsync = ref.watch(allSmsMessagesProvider);
+    final messagesAsync = ref.watch(smsConversationsProvider);
     return messagesAsync.when(
       data: (messages) {
         if (messages.isEmpty) {
