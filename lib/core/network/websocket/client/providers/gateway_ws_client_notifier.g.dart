@@ -7,7 +7,7 @@ part of 'gateway_ws_client_notifier.dart';
 // **************************************************************************
 
 String _$gatewayWsClientNotifierHash() =>
-    r'87322a5c0bdc463be7eae41597138af7a85cd236';
+    r'1c48c430f078754ec41e625562ae331f65ac9cc6';
 
 /// See also [GatewayWsClientNotifier].
 @ProviderFor(GatewayWsClientNotifier)

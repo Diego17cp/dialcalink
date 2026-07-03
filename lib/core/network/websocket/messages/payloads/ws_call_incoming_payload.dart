@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
 import 'package:notidialca/core/utils/epoch_millis_converter.dart';
 
 import './ws_payloads.dart';
@@ -13,6 +14,7 @@ class WsCallIncomingPayload extends WsPayload {
     required this.phoneNumber,
     required this.startedAt,
     required this.sourceDeviceId,
+    required this.callType,
     this.contactName,
   });
 
@@ -20,6 +22,7 @@ class WsCallIncomingPayload extends WsPayload {
   final String phoneNumber;
   final String? contactName;
   final String sourceDeviceId;
+  final CallType callType;
   @EpochMillisConverter()
   final DateTime startedAt;
 

@@ -106,7 +106,7 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
     final entity = CallLogEntity(
       id: payload.id,
       phoneNumber: payload.phoneNumber,
-      callType: CallType.incoming,
+      callType: payload.callType,
       sourceDeviceId: payload.sourceDeviceId,
       contactName: payload.contactName,
       startedAt: payload.startedAt,
@@ -135,7 +135,7 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
     final entity = CallLogEntity(
       id: payload.id,
       phoneNumber: payload.phoneNumber,
-      callType: CallType.incoming,
+      callType: payload.callType,
       sourceDeviceId: payload.sourceDeviceId,
       contactName: null,
       startedAt: null,

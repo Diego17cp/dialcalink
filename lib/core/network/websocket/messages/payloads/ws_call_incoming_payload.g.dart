@@ -15,6 +15,7 @@ WsCallIncomingPayload _$WsCallIncomingPayloadFromJson(
     (json['startedAt'] as num).toInt(),
   ),
   sourceDeviceId: json['sourceDeviceId'] as String,
+  callType: $enumDecode(_$CallTypeEnumMap, json['callType']),
   contactName: json['contactName'] as String?,
 );
 
@@ -25,5 +26,12 @@ Map<String, dynamic> _$WsCallIncomingPayloadToJson(
   'phoneNumber': instance.phoneNumber,
   'contactName': instance.contactName,
   'sourceDeviceId': instance.sourceDeviceId,
+  'callType': _$CallTypeEnumMap[instance.callType]!,
   'startedAt': const EpochMillisConverter().toJson(instance.startedAt),
+};
+
+const _$CallTypeEnumMap = {
+  CallType.incoming: 'incoming',
+  CallType.outgoing: 'outgoing',
+  CallType.missed: 'missed',
 };

@@ -14,6 +14,7 @@ WsCallEndedPayload _$WsCallEndedPayloadFromJson(Map<String, dynamic> json) =>
       ),
       sourceDeviceId: json['sourceDeviceId'] as String,
       phoneNumber: json['phoneNumber'] as String,
+      callType: $enumDecode(_$CallTypeEnumMap, json['callType']),
     );
 
 Map<String, dynamic> _$WsCallEndedPayloadToJson(WsCallEndedPayload instance) =>
@@ -21,5 +22,12 @@ Map<String, dynamic> _$WsCallEndedPayloadToJson(WsCallEndedPayload instance) =>
       'id': instance.id,
       'sourceDeviceId': instance.sourceDeviceId,
       'phoneNumber': instance.phoneNumber,
+      'callType': _$CallTypeEnumMap[instance.callType]!,
       'endedAt': const EpochMillisConverter().toJson(instance.endedAt),
     };
+
+const _$CallTypeEnumMap = {
+  CallType.incoming: 'incoming',
+  CallType.outgoing: 'outgoing',
+  CallType.missed: 'missed',
+};
