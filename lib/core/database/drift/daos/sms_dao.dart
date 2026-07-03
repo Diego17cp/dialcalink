@@ -55,6 +55,13 @@ class SmsDao extends DatabaseAccessor<AppDatabase> with _$SmsDaoMixin {
       ),
     );
   }
+  Future<void> markAllAsReadByPhoneNumber(String phoneNumber) {
+    return (update(smsMessages)..where((t) => t.phoneNumber.equals(phoneNumber))).write(
+      const SmsMessagesCompanion(
+        isRead: Value(true),
+      ),
+    );
+  }
 
   Future<SmsMessage?> findById(String id) {
     final query = select(smsMessages)..where((t) => t.id.equals(id));

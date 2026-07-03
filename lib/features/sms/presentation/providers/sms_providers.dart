@@ -58,3 +58,9 @@ Future<Result<void>> markSmsAsRead(Ref ref, String messageId) {
   final repo = ref.watch(smsRepositoryProvider);
   return repo.markAsRead(messageId);
 }
+
+@riverpod
+Future<Result<void>> markConversationAsRead(Ref ref, String phoneNumber) {
+  final repo = ref.watch(smsRepositoryProvider);
+  return repo.markAllAsReadByPhoneNumber(phoneNumber);
+}

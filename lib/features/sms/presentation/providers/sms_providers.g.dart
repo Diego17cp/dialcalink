@@ -370,5 +370,132 @@ class _MarkSmsAsReadProviderElement
   String get messageId => (origin as MarkSmsAsReadProvider).messageId;
 }
 
+String _$markConversationAsReadHash() =>
+    r'a3accfb8b2b35d6a6141ea152e660890f52486cf';
+
+/// See also [markConversationAsRead].
+@ProviderFor(markConversationAsRead)
+const markConversationAsReadProvider = MarkConversationAsReadFamily();
+
+/// See also [markConversationAsRead].
+class MarkConversationAsReadFamily extends Family<AsyncValue<Result<void>>> {
+  /// See also [markConversationAsRead].
+  const MarkConversationAsReadFamily();
+
+  /// See also [markConversationAsRead].
+  MarkConversationAsReadProvider call(String phoneNumber) {
+    return MarkConversationAsReadProvider(phoneNumber);
+  }
+
+  @override
+  MarkConversationAsReadProvider getProviderOverride(
+    covariant MarkConversationAsReadProvider provider,
+  ) {
+    return call(provider.phoneNumber);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'markConversationAsReadProvider';
+}
+
+/// See also [markConversationAsRead].
+class MarkConversationAsReadProvider
+    extends AutoDisposeFutureProvider<Result<void>> {
+  /// See also [markConversationAsRead].
+  MarkConversationAsReadProvider(String phoneNumber)
+    : this._internal(
+        (ref) => markConversationAsRead(
+          ref as MarkConversationAsReadRef,
+          phoneNumber,
+        ),
+        from: markConversationAsReadProvider,
+        name: r'markConversationAsReadProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$markConversationAsReadHash,
+        dependencies: MarkConversationAsReadFamily._dependencies,
+        allTransitiveDependencies:
+            MarkConversationAsReadFamily._allTransitiveDependencies,
+        phoneNumber: phoneNumber,
+      );
+
+  MarkConversationAsReadProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.phoneNumber,
+  }) : super.internal();
+
+  final String phoneNumber;
+
+  @override
+  Override overrideWith(
+    FutureOr<Result<void>> Function(MarkConversationAsReadRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: MarkConversationAsReadProvider._internal(
+        (ref) => create(ref as MarkConversationAsReadRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        phoneNumber: phoneNumber,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Result<void>> createElement() {
+    return _MarkConversationAsReadProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MarkConversationAsReadProvider &&
+        other.phoneNumber == phoneNumber;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, phoneNumber.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin MarkConversationAsReadRef on AutoDisposeFutureProviderRef<Result<void>> {
+  /// The parameter `phoneNumber` of this provider.
+  String get phoneNumber;
+}
+
+class _MarkConversationAsReadProviderElement
+    extends AutoDisposeFutureProviderElement<Result<void>>
+    with MarkConversationAsReadRef {
+  _MarkConversationAsReadProviderElement(super.provider);
+
+  @override
+  String get phoneNumber =>
+      (origin as MarkConversationAsReadProvider).phoneNumber;
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

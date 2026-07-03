@@ -57,6 +57,17 @@ class SmsRepositoryImpl implements SmsRepository {
       );
     }
   }
+  @override
+  Future<Result<void>> markAllAsReadByPhoneNumber(String phoneNumber) async {
+    try {
+      await _dao.markAllAsReadByPhoneNumber(phoneNumber);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.failure(
+        DatabaseFailure('Error marcando todos los mensajes de $phoneNumber como leídos', cause: e),
+      );
+    }
+  }
 
   @override
   Future<Result<SmsMessageEntity>> findById(String id) async {
