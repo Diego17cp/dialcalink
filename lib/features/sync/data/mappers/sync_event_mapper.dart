@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:notidialca/core/database/drift/app_database.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/core/database/drift/app_database.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
 
 class SyncEventMapper {
   const SyncEventMapper._();

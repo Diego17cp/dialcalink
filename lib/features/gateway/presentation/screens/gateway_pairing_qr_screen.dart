@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_pairing_identity_failed.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_pairing_qr_phase.dart';
-import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_notifier.dart';
-import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_state.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_pairing_identity_failed.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_pairing_qr_phase.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/gateway_pairing_notifier.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/gateway_pairing_state.dart';
 
 class GatewayPairingQrScreen extends ConsumerStatefulWidget {
   const GatewayPairingQrScreen({super.key});

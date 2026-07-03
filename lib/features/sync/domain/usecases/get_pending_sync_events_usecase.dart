@@ -1,6 +1,6 @@
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
-import 'package:notidialca/features/sync/domain/repositories/sync_repository.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/features/sync/domain/repositories/sync_repository.dart';
 
 // Gateway excl.
 

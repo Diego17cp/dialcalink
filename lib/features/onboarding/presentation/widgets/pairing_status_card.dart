@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notidialca/features/pairing/presentation/providers/client_pairing_state.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/client_pairing_state.dart';
 
 class PairingStatusCard extends StatelessWidget {
   final ClientPairingPhase phase;

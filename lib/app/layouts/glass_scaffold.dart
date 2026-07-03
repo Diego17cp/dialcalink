@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notidialca/shared/glass_icon_button.dart';
+import 'package:dialcalink/shared/glass_icon_button.dart';
 
 class GlassScaffold extends StatelessWidget {
   final String title;

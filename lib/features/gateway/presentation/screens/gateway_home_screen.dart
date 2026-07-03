@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/features/gateway/presentation/providers/gateway_home_provider.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_device_info_card.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_header_status.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_scan_card.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_stat_card.dart';
-import 'package:notidialca/shared/theme_toggler_button.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/features/gateway/presentation/providers/gateway_home_provider.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_device_info_card.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_header_status.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_scan_card.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_stat_card.dart';
+import 'package:dialcalink/shared/theme_toggler_button.dart';
 
 class GatewayHomeScreen extends ConsumerWidget {
   const GatewayHomeScreen({super.key});

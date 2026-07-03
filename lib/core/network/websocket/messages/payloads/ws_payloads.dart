@@ -1,4 +1,4 @@
-import 'package:notidialca/core/network/websocket/messages/ws_message_type.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message_type.dart';
 
 import 'ws_handshake_payload.dart';
 import 'ws_handshake_ok_payload.dart';

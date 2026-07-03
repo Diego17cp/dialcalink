@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/permissions/app_permission.dart';
-import 'package:notidialca/core/permissions/providers/permissions_provider.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/permissions/app_permission.dart';
+import 'package:dialcalink/core/permissions/providers/permissions_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class OnboardingPermissionsScreen extends ConsumerStatefulWidget {

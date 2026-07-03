@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/features/devices/data/repositories/device_repository_impl.dart';
-import 'package:notidialca/features/devices/domain/repositories/device_repository.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/features/devices/data/repositories/device_repository_impl.dart';
+import 'package:dialcalink/features/devices/domain/repositories/device_repository.dart';
 
 part 'device_providers.g.dart';
 

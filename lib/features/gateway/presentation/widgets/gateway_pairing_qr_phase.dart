@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/app/theme/colors.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/platform/gateway/providers/gateway_ui_bridge_provider.dart';
-import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_notifier.dart';
-import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_state.dart';
+import 'package:dialcalink/app/theme/colors.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/platform/gateway/providers/gateway_ui_bridge_provider.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/gateway_pairing_notifier.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/gateway_pairing_state.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GatewayPairingQrPhase extends ConsumerStatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notidialca/core/utils/duration_formatter.dart';
-import 'package:notidialca/core/utils/ui_date_formatter.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
-import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
+import 'package:dialcalink/core/utils/duration_formatter.dart';
+import 'package:dialcalink/core/utils/ui_date_formatter.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart';
 
 class CallLogItem extends StatelessWidget {
   final CallLogEntity call;

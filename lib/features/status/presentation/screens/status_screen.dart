@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
-import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
-import 'package:notidialca/features/devices/presentation/providers/device_providers.dart';
-import 'package:notidialca/features/gateway/presentation/utils/formatters.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
+import 'package:dialcalink/features/gateway/presentation/utils/formatters.dart';
 
 class StatusScreen extends ConsumerWidget {
   const StatusScreen({super.key});

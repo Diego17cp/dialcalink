@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notidialca/core/identity/device_identity_service.dart';
+import 'package:dialcalink/core/identity/device_identity_service.dart';
 
 class GatewaySetupDeviceItem extends StatelessWidget {
   final bool isExpanded;

@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/features/sync/presentation/providers/sync_providers.dart';
-import 'package:notidialca/features/calls/data/repositories/call_repository_impl.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
-import 'package:notidialca/features/calls/domain/repositories/call_repository.dart';
-import 'package:notidialca/features/calls/domain/services/active_call_resolver.dart';
-import 'package:notidialca/features/calls/domain/usecases/apply_synced_call_usecase.dart';
-import 'package:notidialca/features/calls/domain/usecases/end_call_usecase.dart';
-import 'package:notidialca/features/calls/domain/usecases/register_incoming_call_usecase.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/features/sync/presentation/providers/sync_providers.dart';
+import 'package:dialcalink/features/calls/data/repositories/call_repository_impl.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/features/calls/domain/repositories/call_repository.dart';
+import 'package:dialcalink/features/calls/domain/services/active_call_resolver.dart';
+import 'package:dialcalink/features/calls/domain/usecases/apply_synced_call_usecase.dart';
+import 'package:dialcalink/features/calls/domain/usecases/end_call_usecase.dart';
+import 'package:dialcalink/features/calls/domain/usecases/register_incoming_call_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'call_providers.g.dart';

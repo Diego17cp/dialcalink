@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sync/data/repositories/sync_repository_impl.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
-import 'package:notidialca/features/sync/domain/repositories/sync_repository.dart';
-import 'package:notidialca/features/sync/domain/usecases/get_pending_sync_events_usecase.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sync/data/repositories/sync_repository_impl.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/features/sync/domain/repositories/sync_repository.dart';
+import 'package:dialcalink/features/sync/domain/usecases/get_pending_sync_events_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_providers.g.dart';

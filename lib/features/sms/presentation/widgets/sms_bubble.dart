@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notidialca/core/utils/ui_date_formatter.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/core/utils/ui_date_formatter.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
 
 class SmsBubble extends StatelessWidget {
   final SmsMessageEntity sms;

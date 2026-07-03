@@ -1,5 +1,5 @@
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
 
 abstract class CallRepository {
   Stream<List<CallLogEntity>> watchAllCalls();

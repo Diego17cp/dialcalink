@@ -1,6 +1,6 @@
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
 
 abstract class DeviceRepository {
   Stream<List<DeviceEntity>> watchLinkedDevices();

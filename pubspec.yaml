@@ -1,5 +1,5 @@
-name: notidialca
-description: "Notidialca -  Gateway telefonico Android via red local (SMS + Llamadas)"
+name: dialcalink
+description: "DialcaLink -  Gateway telefonico Android via red local (SMS + Llamadas)"
 publish_to: 'none'
 version: 0.1.0
 

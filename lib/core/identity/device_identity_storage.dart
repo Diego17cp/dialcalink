@@ -1,4 +1,4 @@
-import 'package:notidialca/core/database/drift/tables/devices_table.dart' show DeviceRole;
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart' show DeviceRole;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

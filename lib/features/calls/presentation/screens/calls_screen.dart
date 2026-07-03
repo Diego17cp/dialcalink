@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/features/calls/presentation/providers/call_providers.dart';
-import 'package:notidialca/features/calls/presentation/widgets/call_log_item.dart';
-import 'package:notidialca/features/calls/presentation/widgets/calls_skeleton.dart';
-import 'package:notidialca/features/calls/presentation/widgets/empty_calls_list.dart';
+import 'package:dialcalink/features/calls/presentation/providers/call_providers.dart';
+import 'package:dialcalink/features/calls/presentation/widgets/call_log_item.dart';
+import 'package:dialcalink/features/calls/presentation/widgets/calls_skeleton.dart';
+import 'package:dialcalink/features/calls/presentation/widgets/empty_calls_list.dart';
 
 class CallsScreen extends ConsumerWidget {
   const CallsScreen({super.key});

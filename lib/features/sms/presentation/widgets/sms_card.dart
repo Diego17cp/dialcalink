@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/theme/avatar/avatar_color_generator.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/app/theme/avatar/avatar_color_generator.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
 
 class SmsCard extends StatelessWidget {
   final SmsMessageEntity sms;

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:notidialca/features/pairing/domain/value_objects/pairing_payload.dart';
+import 'package:dialcalink/features/pairing/domain/value_objects/pairing_payload.dart';
 
 part 'pairing_attempt.freezed.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:notidialca/app/theme/avatar/avatar_color_scheme.dart';
+import 'package:dialcalink/app/theme/avatar/avatar_color_scheme.dart';
 
 class AvatarPalette {
   static const schemes = <AvatarColorScheme>[

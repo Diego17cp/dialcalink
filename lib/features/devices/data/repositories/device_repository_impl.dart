@@ -1,10 +1,10 @@
-import 'package:notidialca/core/database/drift/daos/devices_dao.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/core/failures/failure.dart';
-import 'package:notidialca/features/devices/data/mappers/device_mapper.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
-import 'package:notidialca/features/devices/domain/repositories/device_repository.dart';
+import 'package:dialcalink/core/database/drift/daos/devices_dao.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/core/failures/failure.dart';
+import 'package:dialcalink/features/devices/data/mappers/device_mapper.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/devices/domain/repositories/device_repository.dart';
 
 class DeviceRepositoryImpl implements DeviceRepository {
   DeviceRepositoryImpl(this._dao);

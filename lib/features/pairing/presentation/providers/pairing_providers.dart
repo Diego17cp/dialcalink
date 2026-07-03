@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
-import 'package:notidialca/features/devices/presentation/providers/device_providers.dart';
-import 'package:notidialca/features/pairing/data/repositories/pairing_repository_impl.dart';
-import 'package:notidialca/features/pairing/data/services/websocket_pairing_connection_checker.dart';
-import 'package:notidialca/features/pairing/domain/repositories/pairing_repository.dart';
-import 'package:notidialca/features/pairing/domain/services/pairing_connection_checker.dart';
-import 'package:notidialca/features/pairing/domain/usecases/confirm_pairing_usecase.dart';
-import 'package:notidialca/features/pairing/domain/usecases/decode_scanned_pairing_payload_usecase.dart';
-import 'package:notidialca/features/pairing/domain/usecases/generate_gateway_pairing_payload_usecase.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
+import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
+import 'package:dialcalink/features/pairing/data/repositories/pairing_repository_impl.dart';
+import 'package:dialcalink/features/pairing/data/services/websocket_pairing_connection_checker.dart';
+import 'package:dialcalink/features/pairing/domain/repositories/pairing_repository.dart';
+import 'package:dialcalink/features/pairing/domain/services/pairing_connection_checker.dart';
+import 'package:dialcalink/features/pairing/domain/usecases/confirm_pairing_usecase.dart';
+import 'package:dialcalink/features/pairing/domain/usecases/decode_scanned_pairing_payload_usecase.dart';
+import 'package:dialcalink/features/pairing/domain/usecases/generate_gateway_pairing_payload_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pairing_providers.g.dart';

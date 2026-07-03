@@ -1,4 +1,4 @@
-import 'package:notidialca/core/permissions/app_permission.dart';
+import 'package:dialcalink/core/permissions/app_permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionsService {

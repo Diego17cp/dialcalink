@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
-import 'package:notidialca/core/network/websocket/client/gateway_ws_client.dart';
-import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
-import 'package:notidialca/core/network/websocket/messages/payloads/ws_payloads.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
-import 'package:notidialca/features/calls/presentation/providers/call_providers.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
-import 'package:notidialca/features/sms/presentation/providers/sms_providers.dart';
-import 'package:notidialca/core/notifications/providers/notification_service_provider.dart';
+import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart';
+import 'package:dialcalink/core/network/websocket/client/gateway_ws_client.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_payloads.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/features/calls/presentation/providers/call_providers.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
+import 'package:dialcalink/core/notifications/providers/notification_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_ws_client_notifier.g.dart';

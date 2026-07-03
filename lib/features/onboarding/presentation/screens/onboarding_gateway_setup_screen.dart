@@ -2,19 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
-import 'package:notidialca/core/network/discovery/network_info_result.dart';
-import 'package:notidialca/core/permissions/app_permission.dart';
-import 'package:notidialca/core/permissions/providers/permissions_provider.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
+import 'package:dialcalink/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/core/permissions/app_permission.dart';
+import 'package:dialcalink/core/permissions/providers/permissions_provider.dart';
 import 'package:flutter/widget_previews.dart';
-import 'package:notidialca/core/platform/gateway/native/gateway_native_bridge.dart';
-import 'package:notidialca/core/platform/gateway/providers/gateway_native_bridge_provider.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/gateway_setup_device_item.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/gateway_setup_hotspot_item.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/gateway_setup_permissions_item.dart';
+import 'package:dialcalink/core/platform/gateway/native/gateway_native_bridge.dart';
+import 'package:dialcalink/core/platform/gateway/providers/gateway_native_bridge_provider.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/gateway_setup_device_item.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/gateway_setup_hotspot_item.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/gateway_setup_permissions_item.dart';
 
 @Preview(name: 'Onboarding - Configuración de Gateway', group: 'Onboarding')
 Widget previewOnboardingGatewaySetup() {

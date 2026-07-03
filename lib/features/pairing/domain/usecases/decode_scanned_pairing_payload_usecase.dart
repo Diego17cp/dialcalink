@@ -1,5 +1,5 @@
-import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
-import 'package:notidialca/features/pairing/domain/repositories/pairing_repository.dart';
+import 'package:dialcalink/features/pairing/domain/entities/pairing_attempt.dart';
+import 'package:dialcalink/features/pairing/domain/repositories/pairing_repository.dart';
 
 // Client
 class DecodeScannedPairingPayloadUseCase {

@@ -1,7 +1,7 @@
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:logger/logger.dart';
-import 'package:notidialca/core/identity/permissions/contacts_permission_service.dart';
-import 'package:notidialca/core/utils/phone_number_normalizer.dart';
+import 'package:dialcalink/core/identity/permissions/contacts_permission_service.dart';
+import 'package:dialcalink/core/utils/phone_number_normalizer.dart';
 
 class ContactResolverService {
   ContactResolverService({

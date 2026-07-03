@@ -1,9 +1,9 @@
-import 'package:notidialca/core/database/drift/daos/sync_events_dao.dart';
-import 'package:notidialca/core/failures/failure.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sync/data/mappers/sync_event_mapper.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
-import 'package:notidialca/features/sync/domain/repositories/sync_repository.dart';
+import 'package:dialcalink/core/database/drift/daos/sync_events_dao.dart';
+import 'package:dialcalink/core/failures/failure.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sync/data/mappers/sync_event_mapper.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/features/sync/domain/repositories/sync_repository.dart';
 
 class SyncRepositoryImpl implements SyncRepository {
   SyncRepositoryImpl(this._dao);

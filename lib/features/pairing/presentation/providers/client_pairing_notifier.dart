@@ -1,7 +1,7 @@
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
-import 'package:notidialca/features/pairing/presentation/providers/client_pairing_state.dart';
-import 'package:notidialca/features/pairing/presentation/providers/pairing_providers.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/features/pairing/domain/entities/pairing_attempt.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/client_pairing_state.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/pairing_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'client_pairing_notifier.g.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:notidialca/core/network/websocket/messages/payloads/ws_payloads.dart';
-import 'package:notidialca/core/network/websocket/messages/ws_message_type.dart';
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_payloads.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message_type.dart';
 
 class WsMessage {
   const WsMessage({required this.type, required this.payload});

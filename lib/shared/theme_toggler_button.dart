@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:notidialca/app/layouts/widgets/theme_selection_sheet.dart';
-import 'package:notidialca/shared/glass_icon_button.dart';
+import 'package:dialcalink/app/layouts/widgets/theme_selection_sheet.dart';
+import 'package:dialcalink/shared/glass_icon_button.dart';
 
 class ThemeTogglerButton extends StatelessWidget {
   const ThemeTogglerButton({super.key});

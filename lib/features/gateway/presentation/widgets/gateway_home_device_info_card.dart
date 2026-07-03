@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
-import 'package:notidialca/core/network/discovery/network_info_result.dart';
-import 'package:notidialca/features/gateway/presentation/providers/gateway_home_provider.dart';
-import 'package:notidialca/features/gateway/presentation/utils/formatters.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_device_info_item.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
+import 'package:dialcalink/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/features/gateway/presentation/providers/gateway_home_provider.dart';
+import 'package:dialcalink/features/gateway/presentation/utils/formatters.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_device_info_item.dart';
 
 class GatewayHomeDeviceInfoCard extends ConsumerWidget {
   const GatewayHomeDeviceInfoCard({super.key});

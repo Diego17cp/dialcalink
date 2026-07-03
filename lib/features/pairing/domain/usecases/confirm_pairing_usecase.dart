@@ -1,10 +1,10 @@
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
-import 'package:notidialca/features/devices/domain/repositories/device_repository.dart';
-import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
-import 'package:notidialca/features/pairing/domain/repositories/pairing_repository.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/devices/domain/repositories/device_repository.dart';
+import 'package:dialcalink/features/pairing/domain/entities/pairing_attempt.dart';
+import 'package:dialcalink/features/pairing/domain/repositories/pairing_repository.dart';
 
 const Duration kPairingTokenMaxAge = Duration(minutes: 5);
 

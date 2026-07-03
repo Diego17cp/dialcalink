@@ -1,6 +1,6 @@
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:notidialca/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/core/network/discovery/network_info_result.dart';
 import 'dart:io';
 
 class LocalNetworkInfoService {

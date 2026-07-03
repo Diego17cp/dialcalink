@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/features/sync/presentation/providers/sync_providers.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sms/data/repositories/sms_repository_impl.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
-import 'package:notidialca/features/sms/domain/repositories/sms_repository.dart';
-import 'package:notidialca/features/sms/domain/usecases/apply_synced_sms_usecase.dart';
-import 'package:notidialca/features/sms/domain/usecases/receive_sms_usecase.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/features/sync/presentation/providers/sync_providers.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sms/data/repositories/sms_repository_impl.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/features/sms/domain/repositories/sms_repository.dart';
+import 'package:dialcalink/features/sms/domain/usecases/apply_synced_sms_usecase.dart';
+import 'package:dialcalink/features/sms/domain/usecases/receive_sms_usecase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sms_providers.g.dart';

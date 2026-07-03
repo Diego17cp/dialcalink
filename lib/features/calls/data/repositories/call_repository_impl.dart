@@ -1,9 +1,9 @@
-import 'package:notidialca/core/database/drift/daos/calls_dao.dart';
-import 'package:notidialca/core/failures/failure.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/calls/data/mappers/call_log_mapper.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
-import 'package:notidialca/features/calls/domain/repositories/call_repository.dart';
+import 'package:dialcalink/core/database/drift/daos/calls_dao.dart';
+import 'package:dialcalink/core/failures/failure.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/calls/data/mappers/call_log_mapper.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/features/calls/domain/repositories/call_repository.dart';
 
 class CallRepositoryImpl implements CallRepository {
   CallRepositoryImpl(this._dao);

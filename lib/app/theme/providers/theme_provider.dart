@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notidialca/app/theme/theme_storage.dart';
-import 'package:notidialca/core/storage/providers/shared_preferences_provider.dart';
+import 'package:dialcalink/app/theme/theme_storage.dart';
+import 'package:dialcalink/core/storage/providers/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme_provider.g.dart';

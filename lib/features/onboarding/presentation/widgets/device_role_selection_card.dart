@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
 
 class DeviceRoleSelectionCard extends StatelessWidget {
   final DeviceRole role;

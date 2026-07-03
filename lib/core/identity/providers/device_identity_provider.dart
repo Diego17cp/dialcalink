@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/identity/device_identity_service.dart';
-import 'package:notidialca/core/identity/device_identity_storage.dart';
-import 'package:notidialca/core/platform/device_info_service.dart';
-import 'package:notidialca/core/storage/providers/flutter_secure_storage_provider.dart';
-import 'package:notidialca/core/storage/providers/shared_preferences_provider.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/identity/device_identity_service.dart';
+import 'package:dialcalink/core/identity/device_identity_storage.dart';
+import 'package:dialcalink/core/platform/device_info_service.dart';
+import 'package:dialcalink/core/storage/providers/flutter_secure_storage_provider.dart';
+import 'package:dialcalink/core/storage/providers/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'device_identity_provider.g.dart';

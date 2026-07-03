@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/pairing_scanner_overlay.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/pairing_status_card.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/pairing_success_view.dart';
-import 'package:notidialca/features/pairing/presentation/providers/client_pairing_notifier.dart';
-import 'package:notidialca/features/pairing/presentation/providers/client_pairing_state.dart';
-import 'package:notidialca/shared/glass_icon_button.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/pairing_scanner_overlay.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/pairing_status_card.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/pairing_success_view.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/client_pairing_notifier.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/client_pairing_state.dart';
+import 'package:dialcalink/shared/glass_icon_button.dart';
 
 class PairingScanScreen extends ConsumerStatefulWidget {
   const PairingScanScreen({super.key});

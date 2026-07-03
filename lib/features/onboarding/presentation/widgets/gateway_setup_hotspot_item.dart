@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/network/discovery/local_network_info_provider.dart';
-import 'package:notidialca/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
+import 'package:dialcalink/core/network/discovery/network_info_result.dart';
 
 class GatewaySetupHotspotItem extends ConsumerWidget {
   const GatewaySetupHotspotItem({super.key});

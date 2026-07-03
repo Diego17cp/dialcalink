@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
-import 'package:notidialca/core/network/websocket/client/ws_backoff_calculator.dart';
-import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
-import 'package:notidialca/core/network/websocket/messages/payloads/ws_payloads.dart';
-import 'package:notidialca/core/network/websocket/messages/ws_message.dart';
-import 'package:notidialca/core/network/websocket/messages/ws_message_type.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_backoff_calculator.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_payloads.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message_type.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 

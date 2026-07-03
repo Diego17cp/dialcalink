@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notidialca/app/theme/color_schemes.dart';
+import 'package:dialcalink/app/theme/color_schemes.dart';
 
 class AppTheme {
   static ThemeData light = ThemeData(

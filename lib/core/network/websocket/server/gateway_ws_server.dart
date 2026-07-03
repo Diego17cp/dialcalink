@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:notidialca/core/network/websocket/messages/payloads/ws_payloads.dart';
-import 'package:notidialca/core/network/websocket/messages/ws_message.dart';
-import 'package:notidialca/core/network/websocket/messages/ws_message_type.dart';
-import 'package:notidialca/core/network/websocket/server/ws_client_session.dart';
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_payloads.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message.dart';
+import 'package:dialcalink/core/network/websocket/messages/ws_message_type.dart';
+import 'package:dialcalink/core/network/websocket/server/ws_client_session.dart';
 
 enum GatewayWsServerStatus { stopped, starting, running, error }
 

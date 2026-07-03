@@ -1,11 +1,11 @@
-import 'package:notidialca/core/database/drift/tables/call_logs_table.dart' show CallType;
-import 'package:notidialca/core/database/drift/tables/sync_events_table.dart' show SyncEntityType, SyncEventType;
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
-import 'package:notidialca/features/calls/domain/repositories/call_repository.dart';
-import 'package:notidialca/features/calls/domain/services/active_call_resolver.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
-import 'package:notidialca/features/sync/domain/repositories/sync_repository.dart';
+import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart' show CallType;
+import 'package:dialcalink/core/database/drift/tables/sync_events_table.dart' show SyncEntityType, SyncEventType;
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/features/calls/domain/repositories/call_repository.dart';
+import 'package:dialcalink/features/calls/domain/services/active_call_resolver.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/features/sync/domain/repositories/sync_repository.dart';
 import 'package:uuid/uuid.dart';
 
 // Gateway excl.

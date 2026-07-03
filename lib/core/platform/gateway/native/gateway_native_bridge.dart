@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-import 'package:notidialca/core/platform/gateway/native/gateway_native_event.dart';
+import 'package:dialcalink/core/platform/gateway/native/gateway_native_event.dart';
 
 class GatewayNativeBridge {
   GatewayNativeBridge({Logger? logger}) : _logger = logger ?? Logger();

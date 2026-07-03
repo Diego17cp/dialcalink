@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
-import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/pairing/domain/entities/pairing_attempt.dart';
 
 part 'client_pairing_state.freezed.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notidialca/app/layouts/widgets/theme_selection_sheet.dart';
-import 'package:notidialca/core/permissions/app_permission.dart';
+import 'package:dialcalink/app/layouts/widgets/theme_selection_sheet.dart';
+import 'package:dialcalink/core/permissions/app_permission.dart';
 import 'package:flutter/cupertino.dart';
 
 class BaseScaffold extends StatelessWidget {

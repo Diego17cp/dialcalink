@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/features/sms/presentation/providers/sms_providers.dart';
-import 'package:notidialca/features/sms/presentation/widgets/empty_sms_list.dart';
-import 'package:notidialca/features/sms/presentation/widgets/read_only_footer.dart';
-import 'package:notidialca/features/sms/presentation/widgets/sms_bubble.dart';
-import 'package:notidialca/features/sms/presentation/widgets/sms_conversation_skeleton.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/empty_sms_list.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/read_only_footer.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/sms_bubble.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/sms_conversation_skeleton.dart';
 
 class SmsConversationScreen extends ConsumerStatefulWidget {
   final String phoneNumber;

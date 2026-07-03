@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:notidialca/core/database/drift/app_database.dart';
-import 'package:notidialca/features/calls/domain/entities/call_log_entity.dart';
+import 'package:dialcalink/core/database/drift/app_database.dart';
+import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
 
 class CallLogMapper {
   const CallLogMapper._();

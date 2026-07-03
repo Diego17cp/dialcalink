@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/app/router/app_router.dart';
-import 'package:notidialca/app/theme/providers/theme_provider.dart';
-import 'package:notidialca/app/theme/theme.dart';
+import 'package:dialcalink/app/router/app_router.dart';
+import 'package:dialcalink/app/theme/providers/theme_provider.dart';
+import 'package:dialcalink/app/theme/theme.dart';
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});

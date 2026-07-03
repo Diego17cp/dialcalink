@@ -1,9 +1,9 @@
-import 'package:notidialca/core/database/drift/daos/sms_dao.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/core/failures/failure.dart';
-import 'package:notidialca/features/sms/data/mappers/sms_message_mapper.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
-import 'package:notidialca/features/sms/domain/repositories/sms_repository.dart';
+import 'package:dialcalink/core/database/drift/daos/sms_dao.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/core/failures/failure.dart';
+import 'package:dialcalink/features/sms/data/mappers/sms_message_mapper.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/features/sms/domain/repositories/sms_repository.dart';
 
 class SmsRepositoryImpl implements SmsRepository {
   SmsRepositoryImpl(this._dao);

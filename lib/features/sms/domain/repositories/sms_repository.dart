@@ -1,5 +1,5 @@
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
 
 abstract class SmsRepository {
   Stream<List<SmsMessageEntity>> watchAllMessages();

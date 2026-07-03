@@ -1,4 +1,4 @@
-import 'package:notidialca/core/failures/failure.dart';
+import 'package:dialcalink/core/failures/failure.dart';
 
 sealed class Result<T> {
   const Result();

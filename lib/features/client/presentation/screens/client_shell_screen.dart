@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/app/layouts/glass_scaffold.dart';
-import 'package:notidialca/app/layouts/widgets/bottom_nav.dart';
-import 'package:notidialca/app/router/tab_config.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
-import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
-import 'package:notidialca/core/notifications/providers/notification_service_provider.dart';
-import 'package:notidialca/features/devices/domain/entities/device_entity.dart';
-import 'package:notidialca/features/devices/presentation/providers/device_providers.dart';
-import 'package:notidialca/shared/theme_toggler_button.dart';
+import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/app/layouts/widgets/bottom_nav.dart';
+import 'package:dialcalink/app/router/tab_config.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
+import 'package:dialcalink/core/notifications/providers/notification_service_provider.dart';
+import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
+import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
+import 'package:dialcalink/shared/theme_toggler_button.dart';
 
 class ClientShellScreen extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;

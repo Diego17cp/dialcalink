@@ -1,11 +1,11 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:notidialca/core/database/drift/tables/sync_events_table.dart' show SyncEntityType, SyncEventType;
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/sms/domain/entities/sms_message_entity.dart';
-import 'package:notidialca/features/sync/domain/entities/sync_event_entity.dart';
-import 'package:notidialca/features/sms/domain/repositories/sms_repository.dart';
-import 'package:notidialca/features/sync/domain/repositories/sync_repository.dart';
+import 'package:dialcalink/core/database/drift/tables/sync_events_table.dart' show SyncEntityType, SyncEventType;
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
+import 'package:dialcalink/features/sync/domain/entities/sync_event_entity.dart';
+import 'package:dialcalink/features/sms/domain/repositories/sms_repository.dart';
+import 'package:dialcalink/features/sync/domain/repositories/sync_repository.dart';
 
 // Gateway excl.
 

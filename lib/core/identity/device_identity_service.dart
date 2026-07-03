@@ -1,8 +1,8 @@
-import 'package:notidialca/core/database/drift/app_database.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart'
+import 'package:dialcalink/core/database/drift/app_database.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart'
     show DeviceRole;
-import 'package:notidialca/core/platform/device_info_service.dart';
-import 'package:notidialca/core/identity/device_identity_storage.dart';
+import 'package:dialcalink/core/platform/device_info_service.dart';
+import 'package:dialcalink/core/identity/device_identity_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class LocalDeviceIdentity {

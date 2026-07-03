@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:notidialca/core/database/drift/tables/call_logs_table.dart';
-import 'package:notidialca/core/utils/epoch_millis_converter.dart';
+import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart';
+import 'package:dialcalink/core/utils/epoch_millis_converter.dart';
 
 import './ws_payloads.dart';
 

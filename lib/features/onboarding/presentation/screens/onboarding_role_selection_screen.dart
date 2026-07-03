@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notidialca/core/database/drift/tables/devices_table.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/features/onboarding/presentation/widgets/device_role_selection_card.dart';
+import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/features/onboarding/presentation/widgets/device_role_selection_card.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:flutter/cupertino.dart';
 

@@ -1,9 +1,9 @@
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/features/pairing/domain/entities/pairing_attempt.dart';
-import 'package:notidialca/features/pairing/domain/repositories/pairing_repository.dart';
-import 'package:notidialca/features/pairing/domain/services/pairing_connection_checker.dart';
-import 'package:notidialca/features/pairing/domain/value_objects/pairing_payload_codec.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/features/pairing/domain/entities/pairing_attempt.dart';
+import 'package:dialcalink/features/pairing/domain/repositories/pairing_repository.dart';
+import 'package:dialcalink/features/pairing/domain/services/pairing_connection_checker.dart';
+import 'package:dialcalink/features/pairing/domain/value_objects/pairing_payload_codec.dart';
 
 class PairingRepositoryImpl implements PairingRepository {
   PairingRepositoryImpl(this._connectionChecker);

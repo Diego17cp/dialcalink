@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/core/network/discovery/network_info_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:notidialca/core/network/discovery/local_network_info_service.dart';
+import 'package:dialcalink/core/network/discovery/local_network_info_service.dart';
 
 part 'local_network_info_provider.g.dart';
 

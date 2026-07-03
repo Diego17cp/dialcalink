@@ -1,6 +1,6 @@
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/features/pairing/presentation/providers/gateway_pairing_state.dart';
-import 'package:notidialca/features/pairing/presentation/providers/pairing_providers.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/gateway_pairing_state.dart';
+import 'package:dialcalink/features/pairing/presentation/providers/pairing_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_pairing_notifier.g.dart';

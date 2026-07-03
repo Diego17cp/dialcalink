@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:notidialca/core/failures/pairing_failure.dart';
-import 'package:notidialca/core/failures/result.dart';
-import 'package:notidialca/core/network/websocket/client/gateway_ws_client.dart';
-import 'package:notidialca/core/network/websocket/client/ws_connection_state.dart';
-import 'package:notidialca/features/pairing/domain/services/pairing_connection_checker.dart';
-import 'package:notidialca/features/pairing/domain/value_objects/pairing_payload.dart';
+import 'package:dialcalink/core/failures/pairing_failure.dart';
+import 'package:dialcalink/core/failures/result.dart';
+import 'package:dialcalink/core/network/websocket/client/gateway_ws_client.dart';
+import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
+import 'package:dialcalink/features/pairing/domain/services/pairing_connection_checker.dart';
+import 'package:dialcalink/features/pairing/domain/value_objects/pairing_payload.dart';
 import 'package:uuid/uuid.dart';
 
 class WebSocketPairingConnectionChecker implements PairingConnectionChecker {

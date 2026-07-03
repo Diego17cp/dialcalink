@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
-import 'package:notidialca/core/notifications/notification_id_generator.dart';
+import 'package:dialcalink/core/notifications/notification_id_generator.dart';
 
 import 'notification_channels.dart';
 

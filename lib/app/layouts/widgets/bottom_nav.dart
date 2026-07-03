@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:notidialca/app/router/tab_config.dart';
+import 'package:dialcalink/app/router/tab_config.dart';
 
 class BottomNav extends StatelessWidget {
   final int currentIndex;

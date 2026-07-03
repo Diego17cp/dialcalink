@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/utils/ui_date_formatter.dart';
-import 'package:notidialca/features/sms/presentation/providers/sms_providers.dart';
-import 'package:notidialca/features/sms/presentation/widgets/empty_sms_list.dart';
-import 'package:notidialca/features/sms/presentation/widgets/sms_card.dart';
-import 'package:notidialca/features/sms/presentation/widgets/sms_skeleton.dart';
+import 'package:dialcalink/core/utils/ui_date_formatter.dart';
+import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/empty_sms_list.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/sms_card.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/sms_skeleton.dart';
 
 class SmsListScreen extends ConsumerWidget {
   const SmsListScreen({super.key});

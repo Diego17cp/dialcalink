@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/core/database/drift/app_database_provider.dart';
-import 'package:notidialca/core/identity/providers/device_identity_provider.dart';
-import 'package:notidialca/core/platform/contacts/providers/contact_resolver_provider.dart';
-import 'package:notidialca/core/platform/gateway/providers/gateway_native_bridge_provider.dart';
-import 'package:notidialca/core/platform/gateway/providers/gateway_ui_bridge_provider.dart';
-import 'package:notidialca/features/calls/presentation/providers/call_providers.dart';
-import 'package:notidialca/features/gateway/domain/gateway_service.dart';
-import 'package:notidialca/features/sms/presentation/providers/sms_providers.dart';
-import 'package:notidialca/features/sync/presentation/providers/sync_providers.dart';
+import 'package:dialcalink/core/database/drift/app_database_provider.dart';
+import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
+import 'package:dialcalink/core/platform/contacts/providers/contact_resolver_provider.dart';
+import 'package:dialcalink/core/platform/gateway/providers/gateway_native_bridge_provider.dart';
+import 'package:dialcalink/core/platform/gateway/providers/gateway_ui_bridge_provider.dart';
+import 'package:dialcalink/features/calls/presentation/providers/call_providers.dart';
+import 'package:dialcalink/features/gateway/domain/gateway_service.dart';
+import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
+import 'package:dialcalink/features/sync/presentation/providers/sync_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_service_provider.g.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notidialca/app/theme/colors.dart';
-import 'package:notidialca/features/devices/presentation/providers/device_providers.dart';
-import 'package:notidialca/features/gateway/presentation/providers/gateway_home_provider.dart';
-import 'package:notidialca/features/gateway/presentation/widgets/gateway_home_status_indicator.dart';
+import 'package:dialcalink/app/theme/colors.dart';
+import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
+import 'package:dialcalink/features/gateway/presentation/providers/gateway_home_provider.dart';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_home_status_indicator.dart';
 
 class GatewayHomeHeaderStatus extends ConsumerWidget {
   const GatewayHomeHeaderStatus({super.key});
