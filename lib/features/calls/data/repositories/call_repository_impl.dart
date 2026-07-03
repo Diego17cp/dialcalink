@@ -92,4 +92,13 @@ class CallRepositoryImpl implements CallRepository {
       throw DatabaseFailure('Error contando llamadas para fecha $date y id $id', cause: e);
     }
   }
+
+  @override
+  Stream<int> watchCountByDateAndId(DateTime date, String id) {
+    try {
+      return _dao.watchCountByDateAndId(date, id);
+    } catch (e) {
+      throw DatabaseFailure('Error observando conteo de llamadas para fecha $date y id $id', cause: e);
+    }
+  }
 }

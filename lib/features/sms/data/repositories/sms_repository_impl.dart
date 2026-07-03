@@ -83,4 +83,13 @@ class SmsRepositoryImpl implements SmsRepository {
       throw DatabaseFailure('Error contando mensajes para fecha $date y id $id', cause: e);
     }
   }
+
+  @override
+  Stream<int> watchCountByDateAndId(DateTime date, String id) {
+    try {
+      return _dao.watchCountByDateAndId(date, id);
+    } catch (e) {
+      throw DatabaseFailure('Error observando conteo de mensajes para fecha $date y id $id', cause: e);
+    }
+  }
 }

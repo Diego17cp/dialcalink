@@ -74,4 +74,14 @@ class CallsDao extends DatabaseAccessor<AppDatabase> with _$CallsDaoMixin {
           t.sourceDeviceId.equals(id));
     return query.get().then((rows) => rows.length);
   }
+
+  Stream<int> watchCountByDateAndId(DateTime date, String id) {
+    final query = selectOnly(callLogs)
+      ..addColumns([callLogs.id.count()])
+      ..where(
+        callLogs.startedAt.isBiggerOrEqualValue(date) &
+        callLogs.sourceDeviceId.equals(id),
+      );
+    return query.map((row) => row.read(callLogs.id.count()) ?? 0).watchSingle();
+  }
 }

@@ -68,4 +68,14 @@ class SmsDao extends DatabaseAccessor<AppDatabase> with _$SmsDaoMixin {
           t.sourceDeviceId.equals(id));
     return query.get().then((rows) => rows.length);
   }
+
+  Stream<int> watchCountByDateAndId(DateTime date, String id) {
+    final query = selectOnly(smsMessages)
+      ..addColumns([smsMessages.id.count()])
+      ..where(
+        smsMessages.receivedAt.isBiggerOrEqualValue(date) &
+        smsMessages.sourceDeviceId.equals(id),
+      );
+    return query.map((row) => row.read(smsMessages.id.count()) ?? 0).watchSingle();
+  }
 }
