@@ -148,6 +148,8 @@ class GatewayService {
         await _onCallIncoming(event, sourceDeviceId);
       case GatewayNativeCallEnded():
         await _onCallEnded(event, sourceDeviceId);
+      case GatewayNativeCallOutgoing():
+        await _onCallOutgoing(event, sourceDeviceId);
     }
   }
 
@@ -218,6 +220,7 @@ class GatewayService {
             startedAt: event.startedAt,
             sourceDeviceId: sourceDeviceId,
             contactName: contactName,
+            callType: CallType.incoming,
           ),
         );
         debugPrint('[DIALCA][BACK] Llamada emitida por WebSocket');
@@ -232,15 +235,68 @@ class GatewayService {
     );
   }
 
+  Future<void> _onCallOutgoing(
+    GatewayNativeCallOutgoing event,
+    String sourceDeviceId,
+  ) async {
+    debugPrint('[DIALCA][BACK] Llamada saliente a: ${event.phoneNumber}');
+    _lastRingingPhoneNumber = event.phoneNumber;
+
+    final result = await registerIncomingCallUseCase.call(
+      phoneNumber: event.phoneNumber,
+      callType: CallType.outgoing,
+      sourceDeviceId: sourceDeviceId,
+      contactName: null,
+      startedAt: event.startedAt,
+    );
+
+    result.when(
+      ok: (callLog) {
+        _wsServer?.broadcastCallIncoming(
+          WsCallIncomingPayload(
+            id: callLog.id,
+            phoneNumber: event.phoneNumber,
+            startedAt: event.startedAt,
+            sourceDeviceId: sourceDeviceId,
+            callType: CallType.outgoing,
+            contactName: null,
+          ),
+        );
+      }, 
+      failure: (f) => debugPrint('[DIALCA][BACK] ERROR guardando llamada saliente: ${f.message}')
+    );
+  }
+
   Future<void> _onCallEnded(
     GatewayNativeCallEnded event,
     String sourceDeviceId,
   ) async {
     final phoneNumber = _lastRingingPhoneNumber;
-    if (phoneNumber == null) {
-      _logger.w(
-        'GatewayService: Received call ended event, but no record of last ringing phone number',
+    if (event.callType == 'missed' && phoneNumber != null) {
+      debugPrint('[DIALCA][BACK] Llamada perdida de: $phoneNumber');
+      final result = await endCallUseCase.call(
+        phoneNumber: phoneNumber,
+        sourceDeviceId: sourceDeviceId,
+        endedAt: event.endedAt,
       );
+      result.when(ok: (callLog) async {
+        await callRepository.upsertCall(callLog.copyWith(callType: CallType.missed));
+        _wsServer?.broadcastCallEnded(
+          WsCallEndedPayload(
+            id: callLog.id,
+            phoneNumber: phoneNumber,
+            endedAt: event.endedAt,
+            sourceDeviceId: sourceDeviceId,
+            callType: CallType.missed,
+          )
+        );
+      }, 
+      failure: (f) => debugPrint('[DIALCA][BACK] ERROR guardando llamada perdida: ${f.message}'));
+      _lastRingingPhoneNumber = null;
+      return;
+    }
+    if (phoneNumber == null) {
+      debugPrint('[DIALCA][BACK] call_ended sin numero asociado, descartado');
       return;
     }
     _lastRingingPhoneNumber = null;
@@ -257,15 +313,11 @@ class GatewayService {
             phoneNumber: phoneNumber,
             endedAt: event.endedAt,
             sourceDeviceId: sourceDeviceId,
+            callType: event.callType == 'missed' ? CallType.missed : CallType.incoming,
           ),
         );
       },
-      failure: (failure) {
-        _logger.e(
-          'GatewayService: Error processing call ended event',
-          error: failure,
-        );
-      },
+      failure: (f) => debugPrint('[DIALCA][BACK] ERROR: ${f.message}'),
     );
   }
 
@@ -371,6 +423,12 @@ class GatewayService {
     if (call == null) return null;
 
     final isFinished = call.endedAt != null;
+    final String eventType;
+    if (isFinished) {
+      eventType = 'call_ended';
+    } else {
+      eventType = call.callType == CallType.outgoing ? 'call_outgoing' : 'call_incoming';
+    }
     if (isFinished) {
       return WsSyncEventDto(
         eventId: eventId,
@@ -380,18 +438,20 @@ class GatewayService {
           endedAt: call.endedAt as DateTime,
           sourceDeviceId: call.sourceDeviceId as String,
           phoneNumber: call.phoneNumber as String,
+          callType: call.callType as CallType
         ),
       );
     }
     return WsSyncEventDto(
       eventId: eventId,
-      type: 'call_incoming',
+      type: eventType,
       callIncoming: WsCallIncomingPayload(
         id: call.id as String,
         phoneNumber: call.phoneNumber as String,
         startedAt: call.startedAt as DateTime,
         sourceDeviceId: call.sourceDeviceId as String,
         contactName: call.contactName as String?,
+        callType: call.callType as CallType
       ),
     );
   }
