@@ -71,6 +71,7 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
   }
 
   Future<void> _applySms(WsSmsReceivedPayload payload) async {
+    debugPrint('[DIALCA][CLIENT] SMS recibido via WS de: ${payload.phoneNumber}');
     final useCase = ref.read(applySyncedSmsUseCaseProvider);
     final entity = SmsMessageEntity(
       id: payload.id,
@@ -84,6 +85,7 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
     final result = await useCase.call(entity);
     result.when(
       ok: (_) {
+        debugPrint('[DIALCA][CLIENT] SMS guardado en DB local: ${payload.id}');
         final notificationService = ref.read(notificationServiceProvider);
         notificationService.showSmsNotification(
           smsId: payload.id,
@@ -92,11 +94,14 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
           payload: payload.phoneNumber,
         );
       },
-      failure: (_) {},
+      failure: (f) {
+        debugPrint('[DIALCA][CLIENT] ERROR guardando SMS: ${f.message}');
+      },
     );
   }
 
   Future<void> _applyCallIncoming(WsCallIncomingPayload payload) async {
+    debugPrint('[DIALCA][CLIENT] Llamada recibida via WS de: ${payload.phoneNumber}');
     final useCase = ref.read(applySyncedCallUseCaseProvider);
     final entity = CallLogEntity(
       id: payload.id,
@@ -111,6 +116,7 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
 
     result.when(
       ok: (_) {
+        debugPrint('[DIALCA][CLIENT] Llamada guardada en DB local: ${payload.id}');
         final notificationService = ref.read(notificationServiceProvider);
         notificationService.showCallNotification(
           callId: payload.id,
@@ -118,7 +124,9 @@ class GatewayWsClientNotifier extends _$GatewayWsClientNotifier {
           phoneNumber: payload.phoneNumber,
         );
       },
-      failure: (_) {},
+      failure: (f) {
+        debugPrint('[DIALCA][CLIENT] ERROR guardando llamada: ${f.message}');
+      },
     );
   }
 

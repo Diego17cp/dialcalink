@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:notidialca/core/platform/gateway/native/gateway_native_event.dart';
@@ -25,10 +26,13 @@ class GatewayNativeBridge {
     _rawSubscription?.cancel();
     _rawSubscription = _eventChannel.receiveBroadcastStream().listen(
       (dynamic raw) {
+        debugPrint('[DIALCA][BRIDGE] Evento nativo recibido: $raw');
         try {
           final event = GatewayNativeEvent.fromMap(raw as Map);
+          debugPrint('[DIALCA][BRIDGE] Evento parseado: ${event.runtimeType}');
           _eventsController.add(event);
         } catch (e, st) {
+          debugPrint('[DIALCA][BRIDGE] Error parseando evento: $e');
           _logger.e(
             'GatewayNativeBridge: Failed to parse native event',
             error: e,
@@ -37,6 +41,7 @@ class GatewayNativeBridge {
         }
       },
       onError: (Object error) {
+        debugPrint('[DIALCA][BRIDGE] Error en EventChannel: $error');
         _logger.e(
           'GatewayNativeBridge: Error receiving native event',
           error: error,

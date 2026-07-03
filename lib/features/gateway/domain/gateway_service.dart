@@ -155,6 +155,8 @@ class GatewayService {
     GatewayNativeSmsReceived event,
     String sourceDeviceId,
   ) async {
+    debugPrint('[DIALCA][BACK] SMS recibido de: ${event.phoneNumber}');
+    debugPrint('[DIALCA][BACK] Contenido: ${event.content.length > 30 ? event.content.substring(0, 30) : event.content}');
     final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
     final result = await receiveSmsUseCase.call(
       phoneNumber: event.phoneNumber,
@@ -166,6 +168,8 @@ class GatewayService {
 
     result.when(
       ok: (message) {
+        debugPrint('[DIALCA][BACK] SMS guardado en DB con id: ${message.id}');
+        debugPrint('[DIALCA][BACK] Emitiendo por WebSocket...');
         _wsServer?.broadcastSmsReceived(
           WsSmsReceivedPayload(
             id: message.id,
@@ -176,12 +180,14 @@ class GatewayService {
             contactName: contactName,
           ),
         );
+        debugPrint('[DIALCA][BACK] SMS emitido por WebSocket');
       },
       failure: (failure) {
         _logger.e(
           'GatewayService: Error processing incoming SMS',
           error: failure,
         );
+        debugPrint('[DIALCA][BACK] ERROR guardando SMS: ${failure.message}');
       },
     );
   }
@@ -190,6 +196,7 @@ class GatewayService {
     GatewayNativeCallIncoming event,
     String sourceDeviceId,
   ) async {
+    debugPrint('[DIALCA][BACK] Llamada entrante de: ${event.phoneNumber}');
     _lastRingingPhoneNumber = event.phoneNumber;
 
     final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
@@ -203,6 +210,7 @@ class GatewayService {
     );
     result.when(
       ok: (call) {
+        debugPrint('[DIALCA][BACK] Llamada guardada en DB con id: ${call.id}');
         _wsServer?.broadcastCallIncoming(
           WsCallIncomingPayload(
             id: call.id,
@@ -212,8 +220,10 @@ class GatewayService {
             contactName: contactName,
           ),
         );
+        debugPrint('[DIALCA][BACK] Llamada emitida por WebSocket');
       },
       failure: (failure) {
+        debugPrint('[DIALCA][BACK] ERROR guardando llamada: ${failure.message}');
         _logger.e(
           'GatewayService: Error processing incoming call',
           error: failure,
