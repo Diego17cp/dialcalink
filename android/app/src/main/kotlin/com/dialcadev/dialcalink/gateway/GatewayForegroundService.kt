@@ -36,6 +36,9 @@ class GatewayForegroundService : Service() {
     private var uiBridgeEventSink: EventChannel.EventSink? = null
     private var pendingPairingToken: String? = null
 
+    private var lastCallState: String? = null
+    private var lastCallNumber: String? = null
+
     private val smsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
@@ -59,32 +62,54 @@ class GatewayForegroundService : Service() {
             if (intent?.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
 
             val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
+            val number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
+            Log.i(TAG, "[CALL] Estado: $state | Numero: $number | Anterior: $lastCallState")
             when (state) {
                 TelephonyManager.EXTRA_STATE_RINGING -> {
-                    val number = intent.getStringExtra(
-                        TelephonyManager.EXTRA_INCOMING_NUMBER
-                    ) ?: "unknown"
+                    lastCallNumber = number ?: "unknown"
+                    lastCallState = state
                     emitEvent(
                         mapOf(
                             "type" to "call_incoming",
-                            "phoneNumber" to number,
+                            "phoneNumber" to (lastCallNumber ?: "unknown"),
                             "startedAtMillis" to System.currentTimeMillis(),
                         )
                     )
                 }
+                TelephonyManager.EXTRA_STATE_OFFHOOK -> {
+                    if (lastCallState != TelephonyManager.EXTRA_STATE_RINGING) {
+                        emitEvent(mapOf(
+                            "type" to "call_outgoing",
+                            "phoneNumber" to (number ?: "unknown"),
+                            "startedAtMillis" to System.currentTimeMillis(),
+                        ))
+                    }
+                }
                 TelephonyManager.EXTRA_STATE_IDLE -> {
+                    val wasMissed = lastCallState == TelephonyManager.EXTRA_STATE_RINGING
+                    val callType = when {
+                        wasMissed -> "missed"
+                        else -> "ended"
+                    }
+                    Log.i(TAG, "[CALL] Tipo al terminar: $callType")
                     emitEvent(
                         mapOf(
                             "type" to "call_ended",
+                            "callType" to callType,
                             "endedAtMillis" to System.currentTimeMillis(),
                         )
                     )
+                    lastCallState = null
+                    lastCallNumber = null
                 }
                 // EXTRA_STATE_OFFHOOK (llamada en curso, contestada) se
                 // ignora deliberadamente: el documento tecnico solo
                 // contempla deteccion de llamadas entrantes/finalizadas,
                 // no el estado "en curso" como evento propio.
                 else -> return
+            }
+            if (state != TelephonyManager.EXTRA_STATE_IDLE) {
+                lastCallState = state
             }
         }
     }

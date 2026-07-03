@@ -19,11 +19,19 @@ sealed class GatewayNativeEvent {
             raw['startedAtMillis'] as int,
           ),
         );
+      case 'call_outgoing':
+        return GatewayNativeCallOutgoing(
+          phoneNumber: raw['phoneNumber'] as String,
+          startedAt: DateTime.fromMillisecondsSinceEpoch(
+            raw['startedAtMillis'] as int,
+          ),
+        );
       case 'call_ended':
         return GatewayNativeCallEnded(
           endedAt: DateTime.fromMillisecondsSinceEpoch(
             raw['endedAtMillis'] as int,
           ),
+          callType: raw['callType'] as String ?? 'ended',
         );
       default:
         throw FormatException('Unknown event type: $type');
@@ -53,8 +61,20 @@ class GatewayNativeCallIncoming extends GatewayNativeEvent {
   final DateTime startedAt;
 }
 
-class GatewayNativeCallEnded extends GatewayNativeEvent {
-  const GatewayNativeCallEnded({required this.endedAt});
+class GatewayNativeCallOutgoing extends GatewayNativeEvent {
+  const GatewayNativeCallOutgoing({
+    required this.phoneNumber,
+    required this.startedAt,
+  });
+  final String phoneNumber;
+  final DateTime startedAt;
+}
 
+class GatewayNativeCallEnded extends GatewayNativeEvent {
+  const GatewayNativeCallEnded({
+    required this.endedAt,
+    this.callType = 'ended',
+  });
+  final String callType;
   final DateTime endedAt;
 }
