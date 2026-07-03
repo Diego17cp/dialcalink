@@ -9,20 +9,20 @@ sealed class GatewayNativeEvent {
           phoneNumber: raw['phoneNumber'] as String,
           content: raw['content'] as String? ?? '',
           receivedAt: DateTime.fromMillisecondsSinceEpoch(
-            raw['receivedAt'] as int,
+            raw['receivedAtMillis'] as int,
           ),
         );
       case 'call_incoming':
         return GatewayNativeCallIncoming(
           phoneNumber: raw['phoneNumber'] as String,
           startedAt: DateTime.fromMillisecondsSinceEpoch(
-            raw['receivedAt'] as int,
+            raw['startedAtMillis'] as int,
           ),
         );
       case 'call_ended':
         return GatewayNativeCallEnded(
           endedAt: DateTime.fromMillisecondsSinceEpoch(
-            raw['receivedAt'] as int,
+            raw['endedAtMillis'] as int,
           ),
         );
       default:
