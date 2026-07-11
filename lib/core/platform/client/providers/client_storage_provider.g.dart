@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'client_storage_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$clientStorageHash() => r'c86b6c8d0733640593e1c9bde68ef4b703ebba35';
+
+/// See also [clientStorage].
+@ProviderFor(clientStorage)
+final clientStorageProvider = AutoDisposeFutureProvider<ClientStorage>.internal(
+  clientStorage,
+  name: r'clientStorageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$clientStorageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ClientStorageRef = AutoDisposeFutureProviderRef<ClientStorage>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
