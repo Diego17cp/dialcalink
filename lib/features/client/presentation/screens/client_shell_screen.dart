@@ -1,14 +1,10 @@
+import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dialcalink/app/layouts/glass_scaffold.dart';
 import 'package:dialcalink/app/layouts/widgets/bottom_nav.dart';
 import 'package:dialcalink/app/router/tab_config.dart';
-import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
-import 'package:dialcalink/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
-import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
-import 'package:dialcalink/core/notifications/providers/notification_service_provider.dart';
-import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
 import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
 import 'package:dialcalink/shared/theme_toggler_button.dart';
 
@@ -21,44 +17,34 @@ class ClientShellScreen extends ConsumerStatefulWidget {
 }
 
 class _ClientShellScreenState extends ConsumerState<ClientShellScreen> {
-  bool _notificationsInitialized = false;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeNotifications();
+      _ensureClientServiceRunning();
     });
   }
-  Future<void> _initializeNotifications() async {
-    if (_notificationsInitialized) return;
-    _notificationsInitialized = true;
-    await ref.read(notificationServiceProvider).initialize(
-      onNotificationTapped: (payload) {
-        if (payload != null && mounted) {
-          context.go('/client/sms/${Uri.encodeComponent(payload)}');
-        }
+  Future<void> _ensureClientServiceRunning() async {
+    final linked = ref.read(linkedDevicesProvider).valueOrNull;
+    if (linked == null || linked.isEmpty) return;
+    final bridge = ref.read(clientNativeBridgeProvider);
+    final isRunning = await bridge.isClientServiceRunning();
+    if (!isRunning) {
+      try {
+        await bridge.startClientService();
+        debugPrint('[DIALCA] ClientForegroundService arrancado desde shell');
+      } catch (e) {
+        debugPrint('[DIALCA] Error al arrancar ClientForegroundService desde shell: $e');
       }
-    );
+    }
   }
-  void _connectToGateway(DeviceEntity gateway) {
-    final identity = ref.read(localDeviceIdentityProvider).valueOrNull;
-    if (identity == null) return;
-
-    ref.read(gatewayWsClientNotifierProvider.notifier).connect(
-      ip: gateway.lastKnownIp ?? '',
-      port: gateway.lastKnownPort ?? 8888,
-      clientDeviceId: identity.id,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     ref.listen(linkedDevicesProvider, (prev, next) {
-      final gateway = next.valueOrNull?.firstOrNull;
-      if (gateway == null) return;
-      final currentStatus = ref.read(gatewayWsClientNotifierProvider);
-      if (currentStatus is WsDisconnected || currentStatus is WsError) {
-        _connectToGateway(gateway);
+      final hadGateway = prev?.valueOrNull?.isNotEmpty ?? false;
+      final hasGateway = next.valueOrNull?.isNotEmpty ?? false;
+      if (!hadGateway && hasGateway) {
+        _ensureClientServiceRunning();
       }
     });
     final currentTab = clientTabs[widget.navigationShell.currentIndex];

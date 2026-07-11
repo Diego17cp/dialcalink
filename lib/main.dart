@@ -1,4 +1,5 @@
 // export 'package:dialcalink/gateway_entrypoint/main_gateway_service.dart' show gatewayServiceEntrypoint;
+import 'package:dialcalink/features/client/presentation/providers/client_connection_service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/app/app.dart';
@@ -23,6 +24,27 @@ void gatewayServiceEntrypoint() {
       });
     },
     onError: (Object error, StackTrace stack) {
+    },
+  );
+}
+
+@pragma('vm:entry-point')
+void clientServiceEntrypoint() {
+  WidgetsFlutterBinding.ensureInitialized();
+  debugPrint('[DIALCA][CLIENT-ENTRYPOINT] Iniciando entrypoint del Cliente');
+
+  final container = ProviderContainer();
+  container.read(clientConnectionServiceProvider.future).then(
+    (service) {
+      debugPrint('[DIALCA][CLIENT-ENTRYPOINT] ClientConnectionService construido');
+      service.start().then((_) {
+        debugPrint('[DIALCA][CLIENT-ENTRYPOINT] start() completado');
+      }).catchError((Object e, StackTrace s) {
+        debugPrint('[DIALCA][CLIENT-ENTRYPOINT] Error en start(): $e');
+      });
+    },
+    onError: (Object e, StackTrace s) {
+      debugPrint('[DIALCA][CLIENT-ENTRYPOINT] Error construyendo servicio: $e');
     },
   );
 }

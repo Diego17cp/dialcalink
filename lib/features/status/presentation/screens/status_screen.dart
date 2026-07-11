@@ -1,10 +1,12 @@
+import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
+import 'package:dialcalink/core/platform/client/providers/client_connection_state_provider.dart';
+import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
+import 'package:dialcalink/core/platform/client/providers/client_storage_provider.dart';
+import 'package:dialcalink/core/platform/client/providers/client_ui_bridge_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
-import 'package:dialcalink/core/network/websocket/client/providers/gateway_ws_client_notifier.dart';
-import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
 import 'package:dialcalink/features/devices/domain/entities/device_entity.dart';
 import 'package:dialcalink/features/devices/presentation/providers/device_providers.dart';
 import 'package:dialcalink/features/gateway/presentation/utils/formatters.dart';
@@ -15,32 +17,33 @@ class StatusScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-
-    final connectionState = ref.watch(gatewayWsClientNotifierProvider);
+    final connectionAsync = ref.watch(clientConnectionStateProvider);
+    final connectionState = connectionAsync.valueOrNull?.state ?? ClientConnectionStateBridge.disconnected;
+    // final connectionState = ref.watch(gatewayWsClientNotifierProvider);
 
     final linkedDevicesAsync = ref.watch(linkedDevicesProvider);
     final gateway = linkedDevicesAsync.valueOrNull?.firstOrNull;
 
     final (statusLabel, statusColor, statusIcon) = switch (connectionState) {
-      WsReady() => ('Conectado', Colors.green, CupertinoIcons.wifi),
-      WsConnecting() => ('Conectando...', Colors.orange, CupertinoIcons.wifi),
-      WsReconnecting() => (
+      ClientConnectionStateBridge.ready => ('Conectado', Colors.green, CupertinoIcons.wifi),
+      ClientConnectionStateBridge.connecting => ('Conectando...', Colors.orange, CupertinoIcons.wifi),
+      ClientConnectionStateBridge.reconnecting => (
         'Reconectando...',
         Colors.orange,
         CupertinoIcons.wifi,
       ),
-      WsHandshakeRejected() => (
+      ClientConnectionStateBridge.handshakeRejected => (
         'Vínculo perdido',
         Colors.red,
         CupertinoIcons.wifi_exclamationmark,
       ),
-      WsDisconnected() => (
+      ClientConnectionStateBridge.disconnected => (
         'Desconectado',
         Colors.grey,
         CupertinoIcons.wifi_slash,
       ),
-      WsConnected() => ('Autenticando...', Colors.orange, CupertinoIcons.wifi),
-      WsError() => (
+      ClientConnectionStateBridge.connected => ('Autenticando...', Colors.orange, CupertinoIcons.wifi),
+      ClientConnectionStateBridge.error => (
         'Error de conexión',
         Colors.red,
         CupertinoIcons.exclamationmark_circle,
@@ -142,7 +145,7 @@ class StatusScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 40),
-            if (connectionState is WsHandshakeRejected || connectionState is WsError)
+            if (connectionState == ClientConnectionStateBridge.handshakeRejected || connectionState == ClientConnectionStateBridge.error)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: SizedBox(
@@ -158,9 +161,9 @@ class StatusScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-            if (connectionState is WsReconnecting ||
-                connectionState is WsDisconnected ||
-                connectionState is WsError)
+            if (connectionState == ClientConnectionStateBridge.reconnecting ||
+                connectionState == ClientConnectionStateBridge.disconnected ||
+                connectionState == ClientConnectionStateBridge.error)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: SizedBox(
@@ -249,13 +252,15 @@ class StatusScreen extends ConsumerWidget {
       ),
     );
     if (confirmed == true) {
-      await ref.read(gatewayWsClientNotifierProvider.notifier).disconnect();
+      await ref.read(clientUiBridgeProvider).requestDisconnect();
+      await ref.read(clientNativeBridgeProvider).stopClientService();
       final result = await ref
           .read(deviceRepositoryProvider)
           .revokeDevice(gatewayId);
-      if (result.isFailure) {
-        return;
-      }
+      if (result.isFailure) return;
+      final storage = await ref.read(clientStorageProvider.future);
+      await storage.setHasLinkedGateway(false);
+      
       ref.invalidate(linkedDevicesProvider);
 
       if (context.mounted) {
@@ -265,17 +270,7 @@ class StatusScreen extends ConsumerWidget {
   }
 
   void _forceReconnect(WidgetRef ref, DeviceEntity gateway) {
-    final identity = ref.read(localDeviceIdentityProvider).valueOrNull;
-    if (identity == null) return;
-
-    ref.read(gatewayWsClientNotifierProvider.notifier).disconnect();
-    ref
-        .read(gatewayWsClientNotifierProvider.notifier)
-        .connect(
-          ip: gateway.lastKnownIp ?? '',
-          port: gateway.lastKnownPort ?? 8888,
-          clientDeviceId: identity.id,
-        );
+    ref.read(clientUiBridgeProvider).requestReconnect();
   }
 }
 

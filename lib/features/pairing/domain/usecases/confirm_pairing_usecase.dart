@@ -11,10 +11,11 @@ const Duration kPairingTokenMaxAge = Duration(minutes: 5);
 // Client
 
 class ConfirmPairingUseCase {
-  ConfirmPairingUseCase(this._pairingRepository, this._deviceRepository);
+  ConfirmPairingUseCase(this._pairingRepository, this._deviceRepository, {this.onPairingConfirmed});
 
   final PairingRepository _pairingRepository;
   final DeviceRepository _deviceRepository;
+  final Future<void> Function(String linkedDeviceId)? onPairingConfirmed;
 
   Future<Result<DeviceEntity>> call(PairingAttempt attempt) async {
     final age = DateTime.now().difference(attempt.payload.generatedAt);
@@ -51,6 +52,7 @@ class ConfirmPairingUseCase {
     if (saveResult.isFailure) {
       return Result.failure(saveResult.failureOrNull!);
     }
+    await onPairingConfirmed?.call(device.id);
     return Result.ok(device);
   }
 }

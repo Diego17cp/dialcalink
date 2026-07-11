@@ -85,7 +85,7 @@ final decodeScannedPairingPayloadUseCaseProvider =
 typedef DecodeScannedPairingPayloadUseCaseRef =
     AutoDisposeFutureProviderRef<DecodeScannedPairingPayloadUseCase>;
 String _$confirmPairingUseCaseHash() =>
-    r'b70ba664d3955acc5c064e8749a80efe4940f98b';
+    r'beb171a9446df48b328048577ad9727d8d7c72fa';
 
 /// See also [confirmPairingUseCase].
 @ProviderFor(confirmPairingUseCase)

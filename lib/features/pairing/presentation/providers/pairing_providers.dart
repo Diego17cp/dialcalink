@@ -1,3 +1,6 @@
+import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
+import 'package:dialcalink/core/platform/client/providers/client_storage_provider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
 import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
@@ -55,8 +58,19 @@ Future<DecodeScannedPairingPayloadUseCase> decodeScannedPairingPayloadUseCase(
 @riverpod
 Future<ConfirmPairingUseCase> confirmPairingUseCase(Ref ref) async {
   final repository = await ref.watch(pairingRepositoryProvider.future);
+  final storage = await ref.watch(clientStorageProvider.future);
+  final bridge = ref.watch(clientNativeBridgeProvider);
   return ConfirmPairingUseCase(
     repository,
     ref.watch(deviceRepositoryProvider),
+    onPairingConfirmed:(linkedDeviceId) async {
+      await storage.setHasLinkedGateway(true);
+      try {
+        await bridge.startClientService();
+        debugPrint('[DIALCA] ClientForegroundService iniciado post-pairing');
+      } catch (e) {
+        debugPrint('[DIALCA] Error al iniciar ClientForegroundService post-pairing: $e');
+      }
+    },
   );
 }
