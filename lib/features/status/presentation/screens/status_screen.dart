@@ -3,6 +3,8 @@ import 'package:dialcalink/core/platform/client/providers/client_connection_stat
 import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
 import 'package:dialcalink/core/platform/client/providers/client_storage_provider.dart';
 import 'package:dialcalink/core/platform/client/providers/client_ui_bridge_provider.dart';
+import 'package:dialcalink/features/status/presentation/widgets/gateway_info_row.dart';
+import 'package:dialcalink/features/status/presentation/widgets/status_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,81 +26,12 @@ class StatusScreen extends ConsumerWidget {
     final linkedDevicesAsync = ref.watch(linkedDevicesProvider);
     final gateway = linkedDevicesAsync.valueOrNull?.firstOrNull;
 
-    final (statusLabel, statusColor, statusIcon) = switch (connectionState) {
-      ClientConnectionStateBridge.ready => ('Conectado', Colors.green, CupertinoIcons.wifi),
-      ClientConnectionStateBridge.connecting => ('Conectando...', Colors.orange, CupertinoIcons.wifi),
-      ClientConnectionStateBridge.reconnecting => (
-        'Reconectando...',
-        Colors.orange,
-        CupertinoIcons.wifi,
-      ),
-      ClientConnectionStateBridge.handshakeRejected => (
-        'Vínculo perdido',
-        Colors.red,
-        CupertinoIcons.wifi_exclamationmark,
-      ),
-      ClientConnectionStateBridge.disconnected => (
-        'Desconectado',
-        Colors.grey,
-        CupertinoIcons.wifi_slash,
-      ),
-      ClientConnectionStateBridge.connected => ('Autenticando...', Colors.orange, CupertinoIcons.wifi),
-      ClientConnectionStateBridge.error => (
-        'Error de conexión',
-        Colors.red,
-        CupertinoIcons.exclamationmark_circle,
-      ),
-    };
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Card(
-            elevation: 0,
-            color: statusColor.withValues(alpha: 0.1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-              side: BorderSide(color: statusColor.withValues(alpha: 0.2)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: statusColor.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(statusIcon, color: statusColor, size: 28),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Estado del Servicio',
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        Text(
-                          statusLabel,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: statusColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          StatusCard(connectionState: connectionState),
           const SizedBox(height: 24),
           Text(
             'Información del Gateway',
@@ -107,7 +40,6 @@ class StatusScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-
           if (gateway != null) ...[
             Card(
               elevation: 0,
@@ -123,19 +55,19 @@ class StatusScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    _InfoRow(
+                    GatewayInfoRow(
                       icon: CupertinoIcons.device_phone_portrait,
                       label: 'Dispositivo',
                       value: gateway.deviceName,
                     ),
                     const Divider(height: 32),
-                    _InfoRow(
+                    GatewayInfoRow(
                       icon: CupertinoIcons.antenna_radiowaves_left_right,
                       label: 'Dirección IP',
                       value: gateway.lastKnownIp ?? 'Desconocida',
                     ),
                     const Divider(height: 32),
-                    _InfoRow(
+                    GatewayInfoRow(
                       icon: CupertinoIcons.clock,
                       label: 'Última sincronización',
                       value: formatDateTime(gateway.lastSeenAt),
@@ -271,47 +203,5 @@ class StatusScreen extends ConsumerWidget {
 
   void _forceReconnect(WidgetRef ref, DeviceEntity gateway) {
     ref.read(clientUiBridgeProvider).requestReconnect();
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const _InfoRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: theme.colorScheme.primary),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              Text(
-                value,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 }
