@@ -1,10 +1,10 @@
+import 'package:dialcalink/features/sms/presentation/widgets/sms_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dialcalink/app/layouts/glass_scaffold.dart';
 import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/empty_sms_list.dart';
-import 'package:dialcalink/features/sms/presentation/widgets/read_only_footer.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/sms_bubble.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/sms_conversation_skeleton.dart';
 
@@ -21,7 +21,7 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(markConversationAsReadProvider(widget.phoneNumber).future);
+    Future.microtask(() => ref.read(markConversationAsReadProvider(widget.phoneNumber).future));
   }
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
         body: Center(child: Text('Error al cargar mensajes: $err')),
       ),
       data: (messages) {
-        final contactName = messages.first.contactName;
+        final contactName = messages.firstOrNull?.contactName;
         final displayTitle = contactName ?? widget.phoneNumber;
         return GlassScaffold(
           title: displayTitle,
@@ -49,19 +49,24 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
             children: [
               Expanded(
                 child: messages.isEmpty
-                  ? const EmptySmsList()
-                  : ListView.builder(
-                      reverse: true,
-                      padding: const EdgeInsets.fromLTRB(12, 100, 12, 40),
-                      itemCount: messages.length,
-                      itemBuilder:(context, index) => SmsBubble(sms: messages[index]),
-                    ),
+                    ? const EmptySmsList()
+                    : ListView.builder(
+                        reverse: true,
+                        padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) => SmsBubble(sms: messages[index]),
+                      ),
               ),
-              const ReadOnlyFooter()
+              SafeArea(
+                top: false,
+                child: SmsInputField(
+                  phoneNumber: widget.phoneNumber,
+                ),
+              ),
             ],
-          )
+          ),
         );
-      }
+      },
     );
   }
 }
