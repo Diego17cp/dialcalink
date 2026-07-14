@@ -632,6 +632,16 @@ class $SmsMessagesTable extends SmsMessages
     defaultValue: const Constant(false),
   );
   @override
+  late final GeneratedColumnWithTypeConverter<SmsDirection, String> direction =
+      GeneratedColumn<String>(
+        'direction',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('incoming'),
+      ).withConverter<SmsDirection>($SmsMessagesTable.$converterdirection);
+  @override
   List<GeneratedColumn> get $columns => [
     id,
     phoneNumber,
@@ -640,6 +650,7 @@ class $SmsMessagesTable extends SmsMessages
     receivedAt,
     sourceDeviceId,
     isRead,
+    direction,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -748,6 +759,12 @@ class $SmsMessagesTable extends SmsMessages
         DriftSqlType.bool,
         data['${effectivePrefix}is_read'],
       )!,
+      direction: $SmsMessagesTable.$converterdirection.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}direction'],
+        )!,
+      ),
     );
   }
 
@@ -755,6 +772,9 @@ class $SmsMessagesTable extends SmsMessages
   $SmsMessagesTable createAlias(String alias) {
     return $SmsMessagesTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<SmsDirection, String, String> $converterdirection =
+      const EnumNameConverter<SmsDirection>(SmsDirection.values);
 }
 
 class SmsMessage extends DataClass implements Insertable<SmsMessage> {
@@ -765,6 +785,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
   final DateTime receivedAt;
   final String sourceDeviceId;
   final bool isRead;
+  final SmsDirection direction;
   const SmsMessage({
     required this.id,
     required this.phoneNumber,
@@ -773,6 +794,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
     required this.receivedAt,
     required this.sourceDeviceId,
     required this.isRead,
+    required this.direction,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -786,6 +808,11 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
     map['received_at'] = Variable<DateTime>(receivedAt);
     map['source_device_id'] = Variable<String>(sourceDeviceId);
     map['is_read'] = Variable<bool>(isRead);
+    {
+      map['direction'] = Variable<String>(
+        $SmsMessagesTable.$converterdirection.toSql(direction),
+      );
+    }
     return map;
   }
 
@@ -800,6 +827,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
       receivedAt: Value(receivedAt),
       sourceDeviceId: Value(sourceDeviceId),
       isRead: Value(isRead),
+      direction: Value(direction),
     );
   }
 
@@ -816,6 +844,9 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
       receivedAt: serializer.fromJson<DateTime>(json['receivedAt']),
       sourceDeviceId: serializer.fromJson<String>(json['sourceDeviceId']),
       isRead: serializer.fromJson<bool>(json['isRead']),
+      direction: $SmsMessagesTable.$converterdirection.fromJson(
+        serializer.fromJson<String>(json['direction']),
+      ),
     );
   }
   @override
@@ -829,6 +860,9 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
       'receivedAt': serializer.toJson<DateTime>(receivedAt),
       'sourceDeviceId': serializer.toJson<String>(sourceDeviceId),
       'isRead': serializer.toJson<bool>(isRead),
+      'direction': serializer.toJson<String>(
+        $SmsMessagesTable.$converterdirection.toJson(direction),
+      ),
     };
   }
 
@@ -840,6 +874,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
     DateTime? receivedAt,
     String? sourceDeviceId,
     bool? isRead,
+    SmsDirection? direction,
   }) => SmsMessage(
     id: id ?? this.id,
     phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -848,6 +883,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
     receivedAt: receivedAt ?? this.receivedAt,
     sourceDeviceId: sourceDeviceId ?? this.sourceDeviceId,
     isRead: isRead ?? this.isRead,
+    direction: direction ?? this.direction,
   );
   SmsMessage copyWithCompanion(SmsMessagesCompanion data) {
     return SmsMessage(
@@ -866,6 +902,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
           ? data.sourceDeviceId.value
           : this.sourceDeviceId,
       isRead: data.isRead.present ? data.isRead.value : this.isRead,
+      direction: data.direction.present ? data.direction.value : this.direction,
     );
   }
 
@@ -878,7 +915,8 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
           ..write('content: $content, ')
           ..write('receivedAt: $receivedAt, ')
           ..write('sourceDeviceId: $sourceDeviceId, ')
-          ..write('isRead: $isRead')
+          ..write('isRead: $isRead, ')
+          ..write('direction: $direction')
           ..write(')'))
         .toString();
   }
@@ -892,6 +930,7 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
     receivedAt,
     sourceDeviceId,
     isRead,
+    direction,
   );
   @override
   bool operator ==(Object other) =>
@@ -903,7 +942,8 @@ class SmsMessage extends DataClass implements Insertable<SmsMessage> {
           other.content == this.content &&
           other.receivedAt == this.receivedAt &&
           other.sourceDeviceId == this.sourceDeviceId &&
-          other.isRead == this.isRead);
+          other.isRead == this.isRead &&
+          other.direction == this.direction);
 }
 
 class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
@@ -914,6 +954,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
   final Value<DateTime> receivedAt;
   final Value<String> sourceDeviceId;
   final Value<bool> isRead;
+  final Value<SmsDirection> direction;
   final Value<int> rowid;
   const SmsMessagesCompanion({
     this.id = const Value.absent(),
@@ -923,6 +964,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
     this.receivedAt = const Value.absent(),
     this.sourceDeviceId = const Value.absent(),
     this.isRead = const Value.absent(),
+    this.direction = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SmsMessagesCompanion.insert({
@@ -933,6 +975,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
     required DateTime receivedAt,
     required String sourceDeviceId,
     this.isRead = const Value.absent(),
+    this.direction = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        phoneNumber = Value(phoneNumber),
@@ -947,6 +990,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
     Expression<DateTime>? receivedAt,
     Expression<String>? sourceDeviceId,
     Expression<bool>? isRead,
+    Expression<String>? direction,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -957,6 +1001,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
       if (receivedAt != null) 'received_at': receivedAt,
       if (sourceDeviceId != null) 'source_device_id': sourceDeviceId,
       if (isRead != null) 'is_read': isRead,
+      if (direction != null) 'direction': direction,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -969,6 +1014,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
     Value<DateTime>? receivedAt,
     Value<String>? sourceDeviceId,
     Value<bool>? isRead,
+    Value<SmsDirection>? direction,
     Value<int>? rowid,
   }) {
     return SmsMessagesCompanion(
@@ -979,6 +1025,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
       receivedAt: receivedAt ?? this.receivedAt,
       sourceDeviceId: sourceDeviceId ?? this.sourceDeviceId,
       isRead: isRead ?? this.isRead,
+      direction: direction ?? this.direction,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1007,6 +1054,11 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
     if (isRead.present) {
       map['is_read'] = Variable<bool>(isRead.value);
     }
+    if (direction.present) {
+      map['direction'] = Variable<String>(
+        $SmsMessagesTable.$converterdirection.toSql(direction.value),
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1023,6 +1075,7 @@ class SmsMessagesCompanion extends UpdateCompanion<SmsMessage> {
           ..write('receivedAt: $receivedAt, ')
           ..write('sourceDeviceId: $sourceDeviceId, ')
           ..write('isRead: $isRead, ')
+          ..write('direction: $direction, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2444,6 +2497,7 @@ typedef $$SmsMessagesTableCreateCompanionBuilder =
       required DateTime receivedAt,
       required String sourceDeviceId,
       Value<bool> isRead,
+      Value<SmsDirection> direction,
       Value<int> rowid,
     });
 typedef $$SmsMessagesTableUpdateCompanionBuilder =
@@ -2455,6 +2509,7 @@ typedef $$SmsMessagesTableUpdateCompanionBuilder =
       Value<DateTime> receivedAt,
       Value<String> sourceDeviceId,
       Value<bool> isRead,
+      Value<SmsDirection> direction,
       Value<int> rowid,
     });
 
@@ -2521,6 +2576,12 @@ class $$SmsMessagesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnWithTypeConverterFilters<SmsDirection, SmsDirection, String>
+  get direction => $composableBuilder(
+    column: $table.direction,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
   $$DevicesTableFilterComposer get sourceDeviceId {
     final $$DevicesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -2584,6 +2645,11 @@ class $$SmsMessagesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get direction => $composableBuilder(
+    column: $table.direction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$DevicesTableOrderingComposer get sourceDeviceId {
     final $$DevicesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2640,6 +2706,9 @@ class $$SmsMessagesTableAnnotationComposer
 
   GeneratedColumn<bool> get isRead =>
       $composableBuilder(column: $table.isRead, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<SmsDirection, String> get direction =>
+      $composableBuilder(column: $table.direction, builder: (column) => column);
 
   $$DevicesTableAnnotationComposer get sourceDeviceId {
     final $$DevicesTableAnnotationComposer composer = $composerBuilder(
@@ -2700,6 +2769,7 @@ class $$SmsMessagesTableTableManager
                 Value<DateTime> receivedAt = const Value.absent(),
                 Value<String> sourceDeviceId = const Value.absent(),
                 Value<bool> isRead = const Value.absent(),
+                Value<SmsDirection> direction = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SmsMessagesCompanion(
                 id: id,
@@ -2709,6 +2779,7 @@ class $$SmsMessagesTableTableManager
                 receivedAt: receivedAt,
                 sourceDeviceId: sourceDeviceId,
                 isRead: isRead,
+                direction: direction,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2720,6 +2791,7 @@ class $$SmsMessagesTableTableManager
                 required DateTime receivedAt,
                 required String sourceDeviceId,
                 Value<bool> isRead = const Value.absent(),
+                Value<SmsDirection> direction = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SmsMessagesCompanion.insert(
                 id: id,
@@ -2729,6 +2801,7 @@ class $$SmsMessagesTableTableManager
                 receivedAt: receivedAt,
                 sourceDeviceId: sourceDeviceId,
                 isRead: isRead,
+                direction: direction,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
