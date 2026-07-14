@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
+import 'package:dialcalink/features/sms/domain/usecases/send_sms_usecase.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
@@ -38,6 +40,7 @@ class GatewayService {
     required this.callRepository,
     required this.syncRepository,
     required this.uiBridge,
+    required this.sendSmsUseCase,
     Logger? logger,
   }) : _logger = logger ?? Logger();
 
@@ -50,6 +53,7 @@ class GatewayService {
   final RegisterIncomingCallUseCase registerIncomingCallUseCase;
   final EndCallUseCase endCallUseCase;
   final GetPendingSyncEventsUseCase getPendingSyncEventsUseCase;
+  final SendSmsUseCase sendSmsUseCase;
 
   final SmsRepository smsRepository;
   final CallRepository callRepository;
@@ -69,9 +73,11 @@ class GatewayService {
 
   String? _connectedClientDeviceId;
 
-  final _connectionStateController = StreamController<GatewayClientConnectionInfo>.broadcast();
+  final _connectionStateController =
+      StreamController<GatewayClientConnectionInfo>.broadcast();
 
-  Stream<GatewayClientConnectionInfo> get connectionStateStream => _connectionStateController.stream;
+  Stream<GatewayClientConnectionInfo> get connectionStateStream =>
+      _connectionStateController.stream;
 
   String? get connectedClientDeviceId => _connectedClientDeviceId;
 
@@ -94,6 +100,7 @@ class GatewayService {
       onSyncRequested: _handleSyncRequested,
       onSyncAckReceived: _handleSyncAck,
       onClientDisconnected: _handleClientDisconnected,
+      onSendSmsRequested: _handleSendSmsRequest,
     );
     final startResult = await _wsServer!.start();
     if (startResult is GatewayWsServerFailed) {
@@ -113,12 +120,16 @@ class GatewayService {
     await identityService.writeServiceStartedAt(now);
     uiBridge.startListeningConnectionUpdates();
     uiBridge.pairingTokenUpdates.listen((token) {
-      debugPrint('[DIALCA][BACK] Token recibido via stream: "$token" isEmpty: ${token.isEmpty}');
+      debugPrint(
+        '[DIALCA][BACK] Token recibido via stream: "$token" isEmpty: ${token.isEmpty}',
+      );
       if (token.isNotEmpty) {
         setActivePairingToken(token);
       }
     });
-    _logger.i('[BACK-ENGINE] Servicio iniciado exitosamente y escuchando bridge.');
+    _logger.i(
+      '[BACK-ENGINE] Servicio iniciado exitosamente y escuchando bridge.',
+    );
     _logger.i('WebSocket server started on port $_port');
   }
 
@@ -158,8 +169,12 @@ class GatewayService {
     String sourceDeviceId,
   ) async {
     debugPrint('[DIALCA][BACK] SMS recibido de: ${event.phoneNumber}');
-    debugPrint('[DIALCA][BACK] Contenido: ${event.content.length > 30 ? event.content.substring(0, 30) : event.content}');
-    final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
+    debugPrint(
+      '[DIALCA][BACK] Contenido: ${event.content.length > 30 ? event.content.substring(0, 30) : event.content}',
+    );
+    final contactName = await contactResolverService.resolveContactName(
+      event.phoneNumber,
+    );
     final result = await receiveSmsUseCase.call(
       phoneNumber: event.phoneNumber,
       content: event.content,
@@ -180,6 +195,7 @@ class GatewayService {
             receivedAt: event.receivedAt,
             sourceDeviceId: sourceDeviceId,
             contactName: contactName,
+            direction: SmsDirection.incoming,
           ),
         );
         debugPrint('[DIALCA][BACK] SMS emitido por WebSocket');
@@ -194,6 +210,38 @@ class GatewayService {
     );
   }
 
+  Future<WsSmsSentPayload> _handleSendSmsRequest(
+    String to,
+    String content,
+  ) async {
+    final result = await sendSmsUseCase.call(
+      to: to,
+      content: content,
+      sourceDeviceId: _localDeviceId!,
+    );
+    return result.when(
+      ok: (msg) {
+        _wsServer?.broadcastSmsReceived(
+          WsSmsReceivedPayload(
+            id: msg.id,
+            phoneNumber: to,
+            content: content,
+            receivedAt: msg.receivedAt,
+            sourceDeviceId: _localDeviceId!,
+            direction: SmsDirection.outgoing,
+          ),
+        );
+        return WsSmsSentPayload(id: msg.id, to: to, success: true);
+      },
+      failure: (f) => WsSmsSentPayload(
+        id: '',
+        to: to,
+        success: false,
+        errorReason: f.message,
+      ),
+    );
+  }
+
   Future<void> _onCallIncoming(
     GatewayNativeCallIncoming event,
     String sourceDeviceId,
@@ -201,7 +249,9 @@ class GatewayService {
     debugPrint('[DIALCA][BACK] Llamada entrante de: ${event.phoneNumber}');
     _lastRingingPhoneNumber = event.phoneNumber;
 
-    final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
+    final contactName = await contactResolverService.resolveContactName(
+      event.phoneNumber,
+    );
 
     final result = await registerIncomingCallUseCase.call(
       phoneNumber: event.phoneNumber,
@@ -226,7 +276,9 @@ class GatewayService {
         debugPrint('[DIALCA][BACK] Llamada emitida por WebSocket');
       },
       failure: (failure) {
-        debugPrint('[DIALCA][BACK] ERROR guardando llamada: ${failure.message}');
+        debugPrint(
+          '[DIALCA][BACK] ERROR guardando llamada: ${failure.message}',
+        );
         _logger.e(
           'GatewayService: Error processing incoming call',
           error: failure,
@@ -262,8 +314,10 @@ class GatewayService {
             contactName: null,
           ),
         );
-      }, 
-      failure: (f) => debugPrint('[DIALCA][BACK] ERROR guardando llamada saliente: ${f.message}')
+      },
+      failure: (f) => debugPrint(
+        '[DIALCA][BACK] ERROR guardando llamada saliente: ${f.message}',
+      ),
     );
   }
 
@@ -279,19 +333,25 @@ class GatewayService {
         sourceDeviceId: sourceDeviceId,
         endedAt: event.endedAt,
       );
-      result.when(ok: (callLog) async {
-        await callRepository.upsertCall(callLog.copyWith(callType: CallType.missed));
-        _wsServer?.broadcastCallEnded(
-          WsCallEndedPayload(
-            id: callLog.id,
-            phoneNumber: phoneNumber,
-            endedAt: event.endedAt,
-            sourceDeviceId: sourceDeviceId,
-            callType: CallType.missed,
-          )
-        );
-      }, 
-      failure: (f) => debugPrint('[DIALCA][BACK] ERROR guardando llamada perdida: ${f.message}'));
+      result.when(
+        ok: (callLog) async {
+          await callRepository.upsertCall(
+            callLog.copyWith(callType: CallType.missed),
+          );
+          _wsServer?.broadcastCallEnded(
+            WsCallEndedPayload(
+              id: callLog.id,
+              phoneNumber: phoneNumber,
+              endedAt: event.endedAt,
+              sourceDeviceId: sourceDeviceId,
+              callType: CallType.missed,
+            ),
+          );
+        },
+        failure: (f) => debugPrint(
+          '[DIALCA][BACK] ERROR guardando llamada perdida: ${f.message}',
+        ),
+      );
       _lastRingingPhoneNumber = null;
       return;
     }
@@ -313,7 +373,9 @@ class GatewayService {
             phoneNumber: phoneNumber,
             endedAt: event.endedAt,
             sourceDeviceId: sourceDeviceId,
-            callType: event.callType == 'missed' ? CallType.missed : CallType.incoming,
+            callType: event.callType == 'missed'
+                ? CallType.missed
+                : CallType.incoming,
           ),
         );
       },
@@ -332,16 +394,18 @@ class GatewayService {
       _logger.i('[BACK-ENGINE] Es pairing nuevo. Valido: $isValid');
       if (isValid) {
         _activePairingToken = null;
-        await database.devicesDao.upsertDevice(DevicesCompanion(
-          id: Value(clientDeviceId),
-          deviceName: const Value('Cliente vinculado'),
-          role: const Value(DeviceRole.client),
-          pairingStatus: const Value(DevicePairingStatus.linked),
-          createdAt: Value(DateTime.now()),
-          lastSeenAt: Value(DateTime.now()),
-        ));
+        await database.devicesDao.upsertDevice(
+          DevicesCompanion(
+            id: Value(clientDeviceId),
+            deviceName: const Value('Cliente vinculado'),
+            role: const Value(DeviceRole.client),
+            pairingStatus: const Value(DevicePairingStatus.linked),
+            createdAt: Value(DateTime.now()),
+            lastSeenAt: Value(DateTime.now()),
+          ),
+        );
         _onClientConnected(clientDeviceId);
-      } 
+      }
       return isValid;
     }
 
@@ -365,8 +429,12 @@ class GatewayService {
         clientDeviceId: clientDeviceId,
       ),
     );
-    uiBridge.sendConnectionUpdate(isConnected: true, clientDeviceId: clientDeviceId);
+    uiBridge.sendConnectionUpdate(
+      isConnected: true,
+      clientDeviceId: clientDeviceId,
+    );
   }
+
   void _handleClientDisconnected() {
     _connectedClientDeviceId = null;
     _connectionStateController.add(
@@ -377,23 +445,24 @@ class GatewayService {
     );
     uiBridge.sendConnectionUpdate(isConnected: false);
   }
+
   void dispose() {
     _connectionStateController.close();
   }
+
   Future<List<WsSyncEventDto>> _handleSyncRequested() async {
-    final result = await getPendingSyncEventsUseCase
-        .call();
+    final result = await getPendingSyncEventsUseCase.call();
     return result.when(
-          ok: (List<SyncEventEntity> events) async {
-            final dtos = <WsSyncEventDto>[];
-            for (final syncEvent in events) {
-              final dto = await _toSyncEventDto(syncEvent);
-              if (dto != null) dtos.add(dto);
-            }
-            return dtos;
-          },
-          failure: (_) => <WsSyncEventDto>[],
-        );
+      ok: (List<SyncEventEntity> events) async {
+        final dtos = <WsSyncEventDto>[];
+        for (final syncEvent in events) {
+          final dto = await _toSyncEventDto(syncEvent);
+          if (dto != null) dtos.add(dto);
+        }
+        return dtos;
+      },
+      failure: (_) => <WsSyncEventDto>[],
+    );
   }
 
   Future<WsSyncEventDto?> _toSyncEventDto(dynamic syncEvent) async {
@@ -415,6 +484,7 @@ class GatewayService {
           receivedAt: sms.receivedAt,
           sourceDeviceId: sms.sourceDeviceId,
           contactName: sms.contactName,
+          direction: SmsDirection.outgoing,
         ),
       );
     }
@@ -427,7 +497,9 @@ class GatewayService {
     if (isFinished) {
       eventType = 'call_ended';
     } else {
-      eventType = call.callType == CallType.outgoing ? 'call_outgoing' : 'call_incoming';
+      eventType = call.callType == CallType.outgoing
+          ? 'call_outgoing'
+          : 'call_incoming';
     }
     if (isFinished) {
       return WsSyncEventDto(
@@ -438,7 +510,7 @@ class GatewayService {
           endedAt: call.endedAt as DateTime,
           sourceDeviceId: call.sourceDeviceId as String,
           phoneNumber: call.phoneNumber as String,
-          callType: call.callType as CallType
+          callType: call.callType as CallType,
         ),
       );
     }
@@ -451,7 +523,7 @@ class GatewayService {
         startedAt: call.startedAt as DateTime,
         sourceDeviceId: call.sourceDeviceId as String,
         contactName: call.contactName as String?,
-        callType: call.callType as CallType
+        callType: call.callType as CallType,
       ),
     );
   }

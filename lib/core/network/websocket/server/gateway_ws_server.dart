@@ -26,6 +26,7 @@ class GatewayWsServer {
     required this.onHandshakeRequest,
     required this.onSyncRequested,
     required this.onSyncAckReceived,
+    required this.onSendSmsRequested,
     this.onClientDisconnected,
     Duration pingInterval = const Duration(seconds: 20),
     Duration heartbeatTimeout = const Duration(seconds: 60),
@@ -46,6 +47,7 @@ class GatewayWsServer {
   final Future<List<WsSyncEventDto>> Function() onSyncRequested;
   final Future<void> Function(String eventId) onSyncAckReceived;
   final void Function()? onClientDisconnected;
+  final Future<WsSmsSentPayload> Function(String to, String content) onSendSmsRequested;
 
   HttpServer? _httpServer;
   WsClientSession? _connectedClient;
@@ -140,6 +142,8 @@ class GatewayWsServer {
       case WsMessageType.pong:
         session.markPongReceived();
         _logger.d('GatewayWsServer: Received pong from client');
+      case WsMessageType.sendSms:
+        await _handleSendSms(session, message.payload);
       default:
         _logger.w(
           'GatewayWsServer: Received unknown message type: ${message.type}',
@@ -217,6 +221,18 @@ class GatewayWsServer {
     if (!session.isHandshakeComplete) return;
     if (payload is! WsSyncAckPayload) return;
     await onSyncAckReceived(payload.eventId);
+  }
+
+  Future<void> _handleSendSms(
+    WsClientSession session,
+    WsPayload payload
+  ) async {
+    if (!session.isHandshakeComplete) return;
+    if (payload is! WsSendSmsPayload) return;
+    final result = await onSendSmsRequested(payload.to, payload.content);
+    session.send(
+      WsMessage(type: WsMessageType.smsSent, payload: result).toJsonString()
+    );
   }
 
   void broadcast(WsMessage message) {

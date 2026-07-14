@@ -22,6 +22,7 @@ Future<GatewayService> gatewayService(Ref ref) async {
     identityService: identityService,
     contactResolverService: ref.watch(contactResolverServiceProvider),
     receiveSmsUseCase: ref.watch(receiveSmsUseCaseProvider),
+    sendSmsUseCase: ref.watch(sendSmsUseCaseProvider),
     registerIncomingCallUseCase: ref.watch(registerIncomingCallUseCaseProvider),
     endCallUseCase: ref.watch(endCallUseCaseProvider),
     getPendingSyncEventsUseCase: ref.watch(getPendingSyncEventsUseCaseProvider),
