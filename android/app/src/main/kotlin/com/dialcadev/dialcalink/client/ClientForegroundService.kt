@@ -128,22 +128,22 @@ class ClientForegroundService : Service() {
                         result.success(null)
                     }
                     "emitConnectionState" -> {
-                val state = call.argument<String>("state") ?: "disconnected"
-                val gatewayName = call.argument<String>("gatewayName")
-                val payload = mapOf(
-                    "type" to "connection_state_changed",
-                    "state" to state,
-                    "gatewayName" to gatewayName
-                )
-                MainActivity.pendingClientConnectionState = payload
-                Log.i(TAG, "Guardando estado pendiente: $payload")
-                if (ClientUiBridgeChannel.uiEventSink != null) {
-                    ClientUiBridgeChannel.uiEventSink?.success(payload)
-                } else {
-                    pendingConnectionState = payload
-                }
-                result.success(null)
-            }
+                        val state = call.argument<String>("state") ?: "disconnected"
+                        val gatewayName = call.argument<String>("gatewayName")
+                        val payload = mapOf(
+                            "type" to "connection_state_changed",
+                            "state" to state,
+                            "gatewayName" to gatewayName
+                        )
+                        MainActivity.pendingClientConnectionState = payload
+                        Log.i(TAG, "Guardando estado pendiente: $payload")
+                        if (ClientUiBridgeChannel.uiEventSink != null) {
+                            ClientUiBridgeChannel.uiEventSink?.success(payload)
+                        } else {
+                            pendingConnectionState = payload
+                        }
+                        result.success(null)
+                    }
                     else -> result.notImplemented()
                 }
             }
