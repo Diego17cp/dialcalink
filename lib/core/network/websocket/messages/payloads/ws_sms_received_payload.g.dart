@@ -17,6 +17,9 @@ WsSmsReceivedPayload _$WsSmsReceivedPayloadFromJson(
   sourceDeviceId: json['sourceDeviceId'] as String,
   contactName: json['contactName'] as String?,
   content: json['content'] as String? ?? '',
+  direction:
+      $enumDecodeNullable(_$SmsDirectionEnumMap, json['direction']) ??
+      SmsDirection.incoming,
 );
 
 Map<String, dynamic> _$WsSmsReceivedPayloadToJson(
@@ -28,4 +31,10 @@ Map<String, dynamic> _$WsSmsReceivedPayloadToJson(
   'content': instance.content,
   'sourceDeviceId': instance.sourceDeviceId,
   'receivedAt': const EpochMillisConverter().toJson(instance.receivedAt),
+  'direction': _$SmsDirectionEnumMap[instance.direction]!,
+};
+
+const _$SmsDirectionEnumMap = {
+  SmsDirection.incoming: 'incoming',
+  SmsDirection.outgoing: 'outgoing',
 };

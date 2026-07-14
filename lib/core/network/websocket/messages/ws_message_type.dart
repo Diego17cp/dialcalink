@@ -7,12 +7,14 @@ enum WsMessageType {
   callEnded,
   syncResponse,
   ping,
+  sendSms,
 
   // Client -> Gateway
   handshake,
   syncRequest,
   syncAck,
   pong,
+  smsSent,
 
   unknown,
 }
@@ -30,6 +32,8 @@ extension WsMessageTypeX on WsMessageType {
     WsMessageType.syncAck: 'sync_ack',
     WsMessageType.ping: 'ping',
     WsMessageType.pong: 'pong',
+    WsMessageType.smsSent: 'sms_sent',
+    WsMessageType.sendSms: 'send_sms',
   };
 
   String toJsonValue() => _toJson[this] ?? 'unknown';

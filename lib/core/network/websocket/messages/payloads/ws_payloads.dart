@@ -12,6 +12,8 @@ import 'ws_sync_request_payload.dart';
 import 'ws_sync_response_payload.dart';
 import 'ws_sync_ack_payload.dart';
 import 'ws_unknown_payload.dart';
+import 'ws_send_sms_payload.dart';
+import 'ws_sms_sent_payload.dart';
 
 export 'ws_handshake_payload.dart';
 export 'ws_handshake_ok_payload.dart';
@@ -25,6 +27,8 @@ export 'ws_sync_ack_payload.dart';
 export 'ws_unknown_payload.dart';
 export 'ws_ping_payload.dart';
 export 'ws_pong_payload.dart';
+export 'ws_send_sms_payload.dart';
+export 'ws_sms_sent_payload.dart';
 
 abstract class WsPayload {
   const WsPayload();
@@ -45,6 +49,8 @@ abstract class WsPayload {
       WsMessageType.ping => const WsPingPayload(),
       WsMessageType.pong => const WsPongPayload(),
       WsMessageType.unknown => const WsUnknownPayload(),
+      WsMessageType.sendSms => WsSendSmsPayload.fromJson(json),
+      WsMessageType.smsSent => WsSmsSentPayload.fromJson(json),
     };
   }
 }

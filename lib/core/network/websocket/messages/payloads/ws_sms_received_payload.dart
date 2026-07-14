@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:dialcalink/core/utils/epoch_millis_converter.dart';
 
@@ -14,7 +15,8 @@ class WsSmsReceivedPayload extends WsPayload {
     required this.receivedAt,
     required this.sourceDeviceId,
     this.contactName,
-    this.content = '',
+    this.content = '', 
+    required this.direction,
   });
 
   final String id;
@@ -25,6 +27,9 @@ class WsSmsReceivedPayload extends WsPayload {
 
   @EpochMillisConverter()
   final DateTime receivedAt;
+
+  @JsonKey(defaultValue: SmsDirection.incoming)
+  final SmsDirection direction;
 
   factory WsSmsReceivedPayload.fromJson(Map<String, dynamic> json) => _$WsSmsReceivedPayloadFromJson(json);
 
