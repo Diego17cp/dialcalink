@@ -53,6 +53,16 @@ class ClientForegroundService : Service() {
                 Log.i(TAG, "Enviando comando disconnect_requested")
                 serviceSink?.success(mapOf("type" to "disconnect_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
             }
+            "SEND_SMS" -> {
+                val to = intent.getStringExtra("to") ?: ""
+                val content = intent.getStringExtra("content") ?: ""
+                Log.i(TAG, "Enviando comando send_sms_requested a $to")
+                serviceSink?.success(mapOf(
+                    "type" to "send_sms_requested",
+                    "to" to to,
+                    "content" to content
+                )) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+            }
         }
         return START_STICKY
     }
@@ -142,6 +152,20 @@ class ClientForegroundService : Service() {
                         } else {
                             pendingConnectionState = payload
                         }
+                        result.success(null)
+                    }
+                    "emitSmsSentResult" -> {
+                        val id = call.argument<String>("id") ?: ""
+                        val success = call.argument<Boolean>("success") ?: false
+                        val errorReason = call.argument<String>("errorReason")
+                        val payload = mapOf(
+                            "type" to "sms_sent_result",
+                            "id" to id,
+                            "success" to success,
+                            "errorReason" to errorReason
+                        )
+                        if (ClientUiBridgeChannel.uiEventSink != null) ClientUiBridgeChannel.uiEventSink?.success(payload)
+                        else Log.w(TAG, "sms_sent_result perdido: UI no suscrita ($id)")
                         result.success(null)
                     }
                     else -> result.notImplemented()

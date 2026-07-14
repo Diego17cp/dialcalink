@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.IBinder
 import android.provider.Telephony
 import android.telephony.TelephonyManager
+import android.telephony.SmsManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import io.flutter.embedding.engine.FlutterEngine
@@ -19,6 +20,7 @@ import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.embedding.engine.loader.FlutterLoader
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 class GatewayForegroundService : Service() {
@@ -214,6 +216,28 @@ class GatewayForegroundService : Service() {
                     "stopService" -> {
                         stopSelf()
                         result.success(null)
+                    }
+                    "sendSms" -> {
+                        val to = call.argument<String>("to")
+                        val content = call.argument<String>("content")
+                        if (to.isNullOrEmpty() || content.isNullOrEmpty()) {
+                            result.success(mapOf("success" to false, "error" to "Missing to/content"))
+                            return@setMethodCallHandler
+                        }
+                        try {
+                            val smsManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                getSystemService(SmsManager::class.java)
+                            } else {
+                                @Suppress("DEPRECATION")
+                                SmsManager.getDefault()
+                            }
+                            val parts = smsManager.divideMessage(content)
+                            smsManager.sendMultipartTextMessage(to, null, parts, null, null)
+                            result.success(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error al enviar SMS: $e")
+                            result.success(mapOf("success" to false, "error" to e.message))
+                        }
                     }
                     else -> result.notImplemented()
                 }

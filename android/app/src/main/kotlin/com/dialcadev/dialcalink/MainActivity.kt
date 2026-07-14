@@ -101,6 +101,16 @@ class MainActivity : FlutterActivity() {
                     startService(serviceIntent)
                     result.success(null)
                 }
+                "sendSms" -> {
+                    val to = call.argument<String>("to") ?: ""
+                    val content = call.argument<String>("content") ?: ""
+                    val serviceIntent = Intent(this, ClientForegroundService::class.java)
+                    serviceIntent.action = "SEND_SMS"
+                    serviceIntent.putExtra("to", to)
+                    serviceIntent.putExtra("content", content)
+                    startService(serviceIntent)
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }
