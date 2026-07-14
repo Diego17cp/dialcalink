@@ -51,4 +51,10 @@ class DeviceIdentityStorage {
     await _prefs.reload();
     return readServiceStartedAt();
   }
+  Future<void> clearAll() async {
+    await _secure.deleteAll();
+    await _prefs.clear();
+    await clearRole();
+    await clearServiceStartedAt();
+  }
 }

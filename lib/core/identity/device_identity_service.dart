@@ -3,6 +3,7 @@ import 'package:dialcalink/core/database/drift/tables/devices_table.dart'
     show DeviceRole;
 import 'package:dialcalink/core/platform/device_info_service.dart';
 import 'package:dialcalink/core/identity/device_identity_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class LocalDeviceIdentity {
@@ -28,12 +29,23 @@ class DeviceIdentityService {
   final Uuid _uuid = const Uuid();
 
   Future<void> ensureBootstrapped() async {
-    String? id = await _storage.readDeviceId();
-    if (id == null) {
-      id = _uuid.v4();
+    try {
+      String? id = await _storage.readDeviceId();
+      if (id == null) {
+        id = _uuid.v4();
+        await _storage.writeDeviceId(id);
+      }
+      if (_storage.readDeviceName() == null) {
+        final deviceName = await _deviceInfoService.getDeviceModel();
+        await _storage.writeDeviceName(deviceName);
+      }
+    } catch (e) {
+      debugPrint('[IDENTITY] Error al leer identidad: $e, limpiando datos...');
+      await _storage.clearAll();
+
+      // Generar nueva identidad
+      final id = _uuid.v4();
       await _storage.writeDeviceId(id);
-    }
-    if (_storage.readDeviceName() == null) {
       final deviceName = await _deviceInfoService.getDeviceModel();
       await _storage.writeDeviceName(deviceName);
     }
@@ -46,7 +58,12 @@ class DeviceIdentityService {
     if (id == null || name == null || role == null) {
       return null;
     }
-    return LocalDeviceIdentity(id: id, name: name, role: role, serviceStartedAt: await readServiceStartedAtAsync());
+    return LocalDeviceIdentity(
+      id: id,
+      name: name,
+      role: role,
+      serviceStartedAt: await readServiceStartedAtAsync(),
+    );
   }
 
   Future<void> setRole(DeviceRole role) async {
