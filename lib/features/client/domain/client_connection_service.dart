@@ -38,6 +38,7 @@ class ClientConnectionService {
   StreamSubscription<WsConnectionState>? _stateSub;
   StreamSubscription<WsIncomingEvent>? _eventSub;
   StreamSubscription<String>? _commandSub;
+  StreamSubscription<SendSmsCommand>? _sendSmsSub;
 
   Future<void> start() async {
     _logger.i('ClientConnectionService: iniciando...');
@@ -45,6 +46,7 @@ class ClientConnectionService {
     await notificationService.initialize(onNotificationTapped: (_) {});
     uiBridge.startListeningCommandsFromService();
     _commandSub = uiBridge.commands.listen(_handleCommand);
+    _sendSmsSub = uiBridge.sendSmsCommands.listen(_handleSendSmsCommand);
 
     await _connectToGateway();
 
@@ -54,6 +56,8 @@ class ClientConnectionService {
   Future<void> stop() async {
     await _commandSub?.cancel();
     _commandSub = null;
+    await _sendSmsSub?.cancel();
+    _sendSmsSub = null;
     await _disconnect();
     _logger.i('ClientConnectionService: detenido');
   }
@@ -84,9 +88,7 @@ class ClientConnectionService {
 
     if (ip == null || port == null) {
       _logger.w('ClientConnectionService: Gateway sin IP o puerto conocido');
-      await uiBridge.emitConnectionState(
-        ClientConnectionStateBridge.error,
-      );
+      await uiBridge.emitConnectionState(ClientConnectionStateBridge.error);
       return;
     }
 
@@ -115,7 +117,9 @@ class ClientConnectionService {
     _eventSub = null;
     _client?.disconnect();
     _client = null;
-    await uiBridge.emitConnectionState(ClientConnectionStateBridge.disconnected);
+    await uiBridge.emitConnectionState(
+      ClientConnectionStateBridge.disconnected,
+    );
   }
 
   Future<void> _handleConnectionState(WsConnectionState state) async {
@@ -151,6 +155,8 @@ class ClientConnectionService {
         await _applyCallEnded(payload);
       case WsSyncResponseEvent(payload: final payload):
         await _applySyncResponse(payload);
+      case WsSmsSentEvent(payload: final payload):
+        await _handleSmsSent(payload);
     }
   }
 
@@ -165,6 +171,7 @@ class ClientConnectionService {
       sourceDeviceId: payload.sourceDeviceId,
       isRead: false,
       contactName: payload.contactName,
+      direction: payload.direction,
     );
 
     final result = await applySmsUseCase.call(entity);
@@ -268,5 +275,21 @@ class ClientConnectionService {
         _logger.i('ClientConnectionService: desconectando...');
         await _disconnect();
     }
+  }
+
+  Future<void> _handleSmsSent(WsSmsSentPayload payload) async {
+    _logger.i(
+      'ClientConnectionService: resultado envío SMS ${payload.id} -> '
+      'success=${payload.success}',
+    );
+    await uiBridge.emitSmsSentResult(
+      payload.id,
+      payload.success,
+      payload.errorReason,
+    );
+  }
+  Future<void> _handleSendSmsCommand(SendSmsCommand cmd) async {
+    _logger.i('ClientConnectionService: solicitando envío SMS a ${cmd.to}');
+    _client?.sendSms(cmd.to, cmd.content);
   }
 }

@@ -35,6 +35,11 @@ class WsSyncResponseEvent extends WsIncomingEvent {
   final WsSyncResponsePayload payload;
 }
 
+class WsSmsSentEvent extends WsIncomingEvent {
+  const WsSmsSentEvent(this.payload);
+  final WsSmsSentPayload payload;
+}
+
 class GatewayWsClient {
   GatewayWsClient.forPairing({
     required this.ip,
@@ -43,18 +48,18 @@ class GatewayWsClient {
     required this.clientDeviceId,
     WsBackoffCalculator? backoff,
     Logger? logger,
-  })  : pairingToken = pairingToken,
-        _backoff = backoff ?? const WsBackoffCalculator(),
-        _logger = logger ?? Logger();
+  }) : pairingToken = pairingToken,
+       _backoff = backoff ?? const WsBackoffCalculator(),
+       _logger = logger ?? Logger();
   GatewayWsClient.forSession({
     required this.ip,
     required this.port,
     required this.clientDeviceId,
     WsBackoffCalculator? backoff,
     Logger? logger,
-  })  : pairingToken = null,
-        _backoff = backoff ?? const WsBackoffCalculator(),
-        _logger = logger ?? Logger();
+  }) : pairingToken = null,
+       _backoff = backoff ?? const WsBackoffCalculator(),
+       _logger = logger ?? Logger();
   final String ip;
   final int port;
   final String? pairingToken;
@@ -110,7 +115,9 @@ class GatewayWsClient {
     );
 
     try {
-      final socket = await WebSocket.connect(_uri).timeout(const Duration(seconds: 5));
+      final socket = await WebSocket.connect(
+        _uri,
+      ).timeout(const Duration(seconds: 5));
       _channel = IOWebSocketChannel(socket);
       _subscription = _channel!.stream.listen(
         _onMessage,
@@ -122,9 +129,18 @@ class GatewayWsClient {
       _setState(const WsConnected());
     } catch (e) {
       _logger.e('GatewayWsClient: Connection attempt failed', error: e);
-      if (_attempt >= 5 && (e is TimeoutException || e.toString().contains('113') || e.toString().contains('103'))) {
-        _logger.w('GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.');
-        _setState(const WsError(message: 'No se pudo encontrar el Gateway en esta red.'));
+      if (_attempt >= 5 &&
+          (e is TimeoutException ||
+              e.toString().contains('113') ||
+              e.toString().contains('103'))) {
+        _logger.w(
+          'GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.',
+        );
+        _setState(
+          const WsError(
+            message: 'No se pudo encontrar el Gateway en esta red.',
+          ),
+        );
         return;
       }
       _scheduleReconnect();
@@ -145,7 +161,9 @@ class GatewayWsClient {
   void _onDisconnected() {
     if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;
     if (_state is WsHandshakeRejected) {
-      _logger.w('GatewayWsClient: Connection closed due to handshake rejection. Stopping auto-reconnect.');
+      _logger.w(
+        'GatewayWsClient: Connection closed due to handshake rejection. Stopping auto-reconnect.',
+      );
       return;
     }
     _logger.w('GatewayWsClient: Disconnected from server');
@@ -157,10 +175,15 @@ class GatewayWsClient {
 
   void _onError(Object error) {
     _logger.e('GatewayWsClient: Connection error', error: error);
-    if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;    
-    if (_attempt >= 5 && (error is TimeoutException || error.toString().contains('113'))) {
-      _logger.w('GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.');
-      _setState(const WsError(message: 'No se pudo encontrar el Gateway en esta red.'));
+    if (_isDisposed || (_reconnectTimer?.isActive ?? false)) return;
+    if (_attempt >= 5 &&
+        (error is TimeoutException || error.toString().contains('113'))) {
+      _logger.w(
+        'GatewayWsClient: Demasiados fallos de red. Deteniendo auto-reconexión.',
+      );
+      _setState(
+        const WsError(message: 'No se pudo encontrar el Gateway en esta red.'),
+      );
       return;
     }
     _channel = null;
@@ -180,27 +203,37 @@ class GatewayWsClient {
       case WsMessageType.ping:
         _sendPong();
       case WsMessageType.smsReceived:
-        if (message.payload is WsSmsReceivedPayload && !_eventController.isClosed) {
+        if (message.payload is WsSmsReceivedPayload &&
+            !_eventController.isClosed) {
           _eventController.add(
             WsSmsEvent(message.payload as WsSmsReceivedPayload),
           );
         }
       case WsMessageType.callIncoming:
-        if (message.payload is WsCallIncomingPayload && !_eventController.isClosed) {
+        if (message.payload is WsCallIncomingPayload &&
+            !_eventController.isClosed) {
           _eventController.add(
             WsCallIncomingEvent(message.payload as WsCallIncomingPayload),
           );
         }
       case WsMessageType.callEnded:
-        if (message.payload is WsCallEndedPayload && !_eventController.isClosed) {
+        if (message.payload is WsCallEndedPayload &&
+            !_eventController.isClosed) {
           _eventController.add(
             WsCallEndedEvent(message.payload as WsCallEndedPayload),
           );
         }
       case WsMessageType.syncResponse:
-        if (message.payload is WsSyncResponsePayload && !_eventController.isClosed) {
+        if (message.payload is WsSyncResponsePayload &&
+            !_eventController.isClosed) {
           _eventController.add(
             WsSyncResponseEvent(message.payload as WsSyncResponsePayload),
+          );
+        }
+      case WsMessageType.smsSent:
+        if (message.payload is WsSmsSentPayload && !_eventController.isClosed) {
+          _eventController.add(
+            WsSmsSentEvent(message.payload as WsSmsSentPayload),
           );
         }
       default:
@@ -244,7 +277,9 @@ class GatewayWsClient {
         ),
       ),
     );
-    debugPrint('[DIALCA][CLIENT] Enviando token: "$pairingToken" at ${DateTime.now()}');
+    debugPrint(
+      '[DIALCA][CLIENT] Enviando token: "$pairingToken" at ${DateTime.now()}',
+    );
   }
 
   void _sendPong() {
@@ -276,5 +311,14 @@ class GatewayWsClient {
     if (!_stateController.isClosed) {
       _stateController.add(state);
     }
+  }
+
+  void sendSms(String to, String content) {
+    _send(
+      WsMessage(
+        type: WsMessageType.sendSms,
+        payload: WsSendSmsPayload(to: to, content: content),
+      ),
+    );
   }
 }
