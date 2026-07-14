@@ -61,6 +61,46 @@ final applySyncedSmsUseCaseProvider =
 // ignore: unused_element
 typedef ApplySyncedSmsUseCaseRef =
     AutoDisposeProviderRef<ApplySyncedSmsUseCase>;
+String _$sendSmsNativeHash() => r'b3bd67f2b7b5f9f4078adb24206a067eb720f8aa';
+
+/// See also [sendSmsNative].
+@ProviderFor(sendSmsNative)
+final sendSmsNativeProvider =
+    AutoDisposeProvider<
+      Future<Result<void>> Function(String to, String content)
+    >.internal(
+      sendSmsNative,
+      name: r'sendSmsNativeProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$sendSmsNativeHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SendSmsNativeRef =
+    AutoDisposeProviderRef<
+      Future<Result<void>> Function(String to, String content)
+    >;
+String _$sendSmsUseCaseHash() => r'afcf667834456bdd3ffe0cab7025a412e2250b43';
+
+/// See also [sendSmsUseCase].
+@ProviderFor(sendSmsUseCase)
+final sendSmsUseCaseProvider = AutoDisposeProvider<SendSmsUseCase>.internal(
+  sendSmsUseCase,
+  name: r'sendSmsUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sendSmsUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SendSmsUseCaseRef = AutoDisposeProviderRef<SendSmsUseCase>;
 String _$allSmsMessagesHash() => r'33e3b254c309e5fc556fb6b01a935cd4d1fa7687';
 
 /// See also [allSmsMessages].
@@ -497,6 +537,25 @@ class _MarkConversationAsReadProviderElement
       (origin as MarkConversationAsReadProvider).phoneNumber;
 }
 
+String _$smsSentResultStreamHash() =>
+    r'4016906d5a4320eb40a17b12716081f53e94ddf8';
+
+/// See also [smsSentResultStream].
+@ProviderFor(smsSentResultStream)
+final smsSentResultStreamProvider =
+    AutoDisposeStreamProvider<SmsSentResult>.internal(
+      smsSentResultStream,
+      name: r'smsSentResultStreamProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$smsSentResultStreamHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SmsSentResultStreamRef = AutoDisposeStreamProviderRef<SmsSentResult>;
 String _$smsConversationsHash() => r'2486d1378facda59c41a77438bcecb0aa3b84e10';
 
 /// See also [smsConversations].
@@ -516,5 +575,24 @@ final smsConversationsProvider =
 // ignore: unused_element
 typedef SmsConversationsRef =
     AutoDisposeStreamProviderRef<List<SmsMessageEntity>>;
+String _$smsSentStatusesHash() => r'1ea0eb5afe5a9279604605eba4053e7c19d52fd1';
+
+/// See also [SmsSentStatuses].
+@ProviderFor(SmsSentStatuses)
+final smsSentStatusesProvider =
+    AutoDisposeNotifierProvider<
+      SmsSentStatuses,
+      Map<String, SmsSentResult>
+    >.internal(
+      SmsSentStatuses.new,
+      name: r'smsSentStatusesProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$smsSentStatusesHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$SmsSentStatuses = AutoDisposeNotifier<Map<String, SmsSentResult>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
