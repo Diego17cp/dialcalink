@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:dialcalink/core/database/drift/tables/sync_events_table.dart' show SyncEntityType, SyncEventType;
@@ -31,6 +32,7 @@ class ReceiveSmsUseCase {
       sourceDeviceId: sourceDeviceId,
       isRead: false,
       contactName: contactName,
+      direction: SmsDirection.incoming,
     );
     final insertResult = await _smsRepository.insertMessage(message);
     if (insertResult.isFailure) {

@@ -24,6 +24,7 @@ mixin _$SmsMessageEntity {
   String get sourceDeviceId => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
   String? get contactName => throw _privateConstructorUsedError;
+  SmsDirection get direction => throw _privateConstructorUsedError;
 
   /// Create a copy of SmsMessageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -47,6 +48,7 @@ abstract class $SmsMessageEntityCopyWith<$Res> {
     String sourceDeviceId,
     bool isRead,
     String? contactName,
+    SmsDirection direction,
   });
 }
 
@@ -72,6 +74,7 @@ class _$SmsMessageEntityCopyWithImpl<$Res, $Val extends SmsMessageEntity>
     Object? sourceDeviceId = null,
     Object? isRead = null,
     Object? contactName = freezed,
+    Object? direction = null,
   }) {
     return _then(
       _value.copyWith(
@@ -103,6 +106,10 @@ class _$SmsMessageEntityCopyWithImpl<$Res, $Val extends SmsMessageEntity>
                 ? _value.contactName
                 : contactName // ignore: cast_nullable_to_non_nullable
                       as String?,
+            direction: null == direction
+                ? _value.direction
+                : direction // ignore: cast_nullable_to_non_nullable
+                      as SmsDirection,
           )
           as $Val,
     );
@@ -126,6 +133,7 @@ abstract class _$$SmsMessageEntityImplCopyWith<$Res>
     String sourceDeviceId,
     bool isRead,
     String? contactName,
+    SmsDirection direction,
   });
 }
 
@@ -150,6 +158,7 @@ class __$$SmsMessageEntityImplCopyWithImpl<$Res>
     Object? sourceDeviceId = null,
     Object? isRead = null,
     Object? contactName = freezed,
+    Object? direction = null,
   }) {
     return _then(
       _$SmsMessageEntityImpl(
@@ -181,6 +190,10 @@ class __$$SmsMessageEntityImplCopyWithImpl<$Res>
             ? _value.contactName
             : contactName // ignore: cast_nullable_to_non_nullable
                   as String?,
+        direction: null == direction
+            ? _value.direction
+            : direction // ignore: cast_nullable_to_non_nullable
+                  as SmsDirection,
       ),
     );
   }
@@ -197,6 +210,7 @@ class _$SmsMessageEntityImpl extends _SmsMessageEntity {
     required this.sourceDeviceId,
     required this.isRead,
     this.contactName,
+    required this.direction,
   }) : super._();
 
   @override
@@ -213,10 +227,12 @@ class _$SmsMessageEntityImpl extends _SmsMessageEntity {
   final bool isRead;
   @override
   final String? contactName;
+  @override
+  final SmsDirection direction;
 
   @override
   String toString() {
-    return 'SmsMessageEntity(id: $id, phoneNumber: $phoneNumber, content: $content, receivedAt: $receivedAt, sourceDeviceId: $sourceDeviceId, isRead: $isRead, contactName: $contactName)';
+    return 'SmsMessageEntity(id: $id, phoneNumber: $phoneNumber, content: $content, receivedAt: $receivedAt, sourceDeviceId: $sourceDeviceId, isRead: $isRead, contactName: $contactName, direction: $direction)';
   }
 
   @override
@@ -234,7 +250,9 @@ class _$SmsMessageEntityImpl extends _SmsMessageEntity {
                 other.sourceDeviceId == sourceDeviceId) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.contactName, contactName) ||
-                other.contactName == contactName));
+                other.contactName == contactName) &&
+            (identical(other.direction, direction) ||
+                other.direction == direction));
   }
 
   @override
@@ -247,6 +265,7 @@ class _$SmsMessageEntityImpl extends _SmsMessageEntity {
     sourceDeviceId,
     isRead,
     contactName,
+    direction,
   );
 
   /// Create a copy of SmsMessageEntity
@@ -270,6 +289,7 @@ abstract class _SmsMessageEntity extends SmsMessageEntity {
     required final String sourceDeviceId,
     required final bool isRead,
     final String? contactName,
+    required final SmsDirection direction,
   }) = _$SmsMessageEntityImpl;
   const _SmsMessageEntity._() : super._();
 
@@ -287,6 +307,8 @@ abstract class _SmsMessageEntity extends SmsMessageEntity {
   bool get isRead;
   @override
   String? get contactName;
+  @override
+  SmsDirection get direction;
 
   /// Create a copy of SmsMessageEntity
   /// with the given fields replaced by the non-null parameter values.

@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sms_message_entity.freezed.dart';
@@ -12,6 +13,7 @@ class SmsMessageEntity with _$SmsMessageEntity {
     required String sourceDeviceId,
     required bool isRead,
     String? contactName,
+    required SmsDirection direction,
   }) = _SmsMessageEntity;
 
   const SmsMessageEntity._();

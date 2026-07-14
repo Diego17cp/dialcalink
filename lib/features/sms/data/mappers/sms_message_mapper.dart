@@ -15,6 +15,7 @@ class SmsMessageMapper {
       sourceDeviceId: row.sourceDeviceId,
       isRead: row.isRead,
       contactName: row.contactName,
+      direction: row.direction,
     );
   }
 
@@ -29,6 +30,7 @@ class SmsMessageMapper {
       contactName: entity.contactName == null
         ? const Value.absent()
         : Value(entity.contactName),
+      direction: Value(entity.direction),
     );
   }
 }
