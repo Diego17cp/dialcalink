@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dialcalink/core/database/drift/app_database.dart';
 import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart';
+import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
 import 'package:dialcalink/core/identity/device_identity_service.dart';
 import 'package:dialcalink/core/network/websocket/client/gateway_ws_client.dart';
 import 'package:dialcalink/core/network/websocket/client/ws_connection_state.dart';
@@ -178,12 +179,14 @@ class ClientConnectionService {
     result.when(
       ok: (_) {
         debugPrint('[DIALCA][CLIENT-SVC] SMS guardado: ${payload.id}');
-        notificationService.showSmsNotification(
-          smsId: payload.id,
-          displayName: payload.contactName ?? payload.phoneNumber,
-          content: payload.content,
-          payload: payload.phoneNumber,
-        );
+        if (payload.direction == SmsDirection.incoming) {
+          notificationService.showSmsNotification(
+            smsId: payload.id,
+            displayName: payload.contactName ?? payload.phoneNumber,
+            content: payload.content,
+            payload: payload.phoneNumber,
+          );
+        }
         _client?.sendSyncAck(payload.id);
       },
       failure: (f) {

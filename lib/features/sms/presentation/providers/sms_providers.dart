@@ -106,12 +106,18 @@ class SmsSentStatuses extends _$SmsSentStatuses {
 @riverpod
 Stream<List<SmsMessageEntity>> smsConversations(Ref ref) {
   return ref.watch(smsRepositoryProvider).watchAllMessages().map((messages) {
-    final Map<String, SmsMessageEntity> groups = {};
+    final Map<String, List<SmsMessageEntity>> grouped = {};
     for (final msg in messages) {
-      if (!groups.containsKey(msg.phoneNumber)) {
-        groups[msg.phoneNumber] = msg;
-      }
+      grouped.putIfAbsent(msg.phoneNumber, () => []).add(msg);
     }
-    return groups.values.toList();
+    return grouped.values.map((group) {
+      final latest = group.first;
+      final resolvedName = group
+          .map((m) => m.contactName)
+          .firstWhere((n) => n != null, orElse: () => null);
+      return latest.contactName == resolvedName
+          ? latest
+          : latest.copyWith(contactName: resolvedName);
+    }).toList();
   });
 }

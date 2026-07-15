@@ -556,7 +556,7 @@ final smsSentResultStreamProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SmsSentResultStreamRef = AutoDisposeStreamProviderRef<SmsSentResult>;
-String _$smsConversationsHash() => r'2486d1378facda59c41a77438bcecb0aa3b84e10';
+String _$smsConversationsHash() => r'b28f7f16afbd10d4be7c14791fbab37fc7ab5f1f';
 
 /// See also [smsConversations].
 @ProviderFor(smsConversations)

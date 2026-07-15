@@ -484,7 +484,7 @@ class GatewayService {
           receivedAt: sms.receivedAt,
           sourceDeviceId: sms.sourceDeviceId,
           contactName: sms.contactName,
-          direction: SmsDirection.outgoing,
+          direction: sms.direction,
         ),
       );
     }
