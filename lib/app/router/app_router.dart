@@ -1,3 +1,4 @@
+import 'package:dialcalink/features/sms/presentation/screens/sms_new_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/app/ui/screens/splash_screen.dart';
@@ -124,6 +125,12 @@ GoRouter appRouter(Ref ref) {
                 path: '/client/sms',
                 builder: (context, state) => const SmsListScreen(),
                 routes: [
+                  GoRoute(
+                    name: 'sms_new',
+                    path: 'new',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (context, state) => const SmsNewScreen(),
+                  ),
                   GoRoute(
                     name: 'sms_conversation',
                     path: ':phoneNumber',

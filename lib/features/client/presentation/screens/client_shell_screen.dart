@@ -1,4 +1,5 @@
 import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
+import 'package:dialcalink/shared/secondary_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +60,15 @@ class _ClientShellScreenState extends ConsumerState<ClientShellScreen> {
           initialLocation: index == widget.navigationShell.currentIndex,
         ),
       ),
-      actions: const [ThemeTogglerButton()],
+      actions: [
+        const ThemeTogglerButton(),
+        if (currentTab.path.endsWith("/sms")) ...[
+          SecondaryIconButton(
+            icon: CupertinoIcons.plus_bubble_fill,
+            onTap: () => context.pushNamed('sms_new'),
+          )
+        ]
+      ],
       body: widget.navigationShell,
     );
   }
