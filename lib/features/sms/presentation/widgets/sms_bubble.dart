@@ -1,6 +1,4 @@
 import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
-import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
-import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:dialcalink/core/utils/ui_date_formatter.dart';
 import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
@@ -14,11 +12,7 @@ class SmsBubble extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final isOutgoing = sms.direction == SmsDirection.outgoing;
-
-    final statuses = ref.watch(smsSentStatusesProvider);
-    final status = statuses[sms.id];
-    
+    final isOutgoing = sms.direction == SmsDirection.outgoing;    
     return Align(
       alignment: isOutgoing ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -53,39 +47,17 @@ class SmsBubble extends ConsumerWidget {
               )
             ),
             const SizedBox(height: 4),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  formatRelativeTime(sms.receivedAt),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isOutgoing 
-                        ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
-                        : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6)
-                  ),
-                ),
-                if (isOutgoing) ...[
-                  const SizedBox(width: 4),
-                  _buildStatusIcon(theme, status),
-                ],
-              ],
-            )
+            Text(
+              formatRelativeTime(sms.receivedAt),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: isOutgoing 
+                    ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
+                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6)
+              ),
+            ),
           ]
         )
       )
     );
-  }
-  Widget _buildStatusIcon(ThemeData theme, SmsSentResult? status) {
-    if (status == null) {
-      return Icon(Icons.check, size: 14, color: theme.colorScheme.onPrimary.withValues(alpha: 0.5));
-    }
-    if (status.success) {
-      return Icon(Icons.done_all, size: 14, color: theme.colorScheme.onPrimary);
-    } else {
-      return Tooltip(
-        message: status.errorReason ?? 'Error al enviar',
-        child: Icon(Icons.error_outline, size: 14, color: theme.colorScheme.errorContainer),
-      );
-    }
   }
 }

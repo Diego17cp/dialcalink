@@ -26,6 +26,20 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
   @override
   Widget build(BuildContext context) {
     final messagesAsync = ref.watch(smsMessagesByPhoneNumberProvider(widget.phoneNumber));
+    ref.listen(smsSentResultStreamProvider, (prev, next) {
+      next.whenData((result) {
+        if (!result.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.errorReason ?? 'No se pudo enviar el mensaje'),
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      });
+    });
+
     return messagesAsync.when(
       loading: () => GlassScaffold(
         title: widget.phoneNumber,
@@ -39,7 +53,7 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
         body: Center(child: Text('Error al cargar mensajes: $err')),
       ),
       data: (messages) {
-        final contactName = messages.firstOrNull?.contactName;
+        final contactName = messages.map((m) => m.contactName).firstWhere((n) => n != null, orElse: () => null);
         final displayTitle = contactName ?? widget.phoneNumber;
         return GlassScaffold(
           title: displayTitle,
