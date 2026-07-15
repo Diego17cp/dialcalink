@@ -37,21 +37,21 @@ class GlassScaffold extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: scrollable ? 
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.only(
-                  top: appBarHeight + 16.0,
-                  left: 16,
-                  right: 16,
-                  bottom: 32,
-                ),
-                child: body,
-              )
-              : Padding(
-                  padding: EdgeInsets.only(top: appBarHeight),
-                  child: body,
-                ),
+            child: scrollable
+                ? SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      top: appBarHeight + 16.0,
+                      left: 16,
+                      right: 16,
+                      bottom: 32,
+                    ),
+                    child: body,
+                  )
+                : Padding(
+                    padding: EdgeInsets.only(top: appBarHeight),
+                    child: body,
+                  ),
           ),
           Positioned(
             top: 0,
@@ -68,7 +68,7 @@ class GlassScaffold extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(
                         color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.02 ,
+                          alpha: 0.02,
                         ),
                         width: 1,
                       ),
@@ -89,11 +89,12 @@ class GlassScaffold extends StatelessWidget {
                                 )
                               : const SizedBox.shrink(),
                         ),
-
                         Expanded(
                           child: Text(
                             title,
                             textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
@@ -102,15 +103,24 @@ class GlassScaffold extends StatelessWidget {
                             ),
                           ),
                         ),
-
-                        SizedBox(
-                          width: 42,
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minWidth: 42,
+                          ),
                           child: actions != null
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: actions!,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: actions!
+                                      .map(
+                                        (widget) => Padding(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: widget,
+                                        ),
+                                      )
+                                      .toList(),
                                 )
-                              : const SizedBox.shrink(),
+                              : const SizedBox(width: 42),
                         ),
                       ],
                     ),
