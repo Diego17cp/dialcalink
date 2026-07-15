@@ -39,6 +39,18 @@ class SyncRepositoryImpl implements SyncRepository {
   }
 
   @override
+  Future<Result<void>> markAsSyncedByEntity(String id) async {
+    try {
+      await _dao.markAsSyncedByEntity(id);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.failure(
+        DatabaseFailure('Error marcando evento $id como sincronizado', cause: e),
+      );
+    }
+  }
+
+  @override
   Future<Result<void>> markAsSynced(String id) async {
     try {
       await _dao.markAsSynced(id);

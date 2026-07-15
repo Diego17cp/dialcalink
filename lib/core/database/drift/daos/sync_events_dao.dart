@@ -33,17 +33,24 @@ class SyncEventsDao extends DatabaseAccessor<AppDatabase> with _$SyncEventsDaoMi
   Future<void> enqueueEvent(SyncEventsCompanion entry) {
     return into(syncEvents).insert(entry);
   }
-  Future<void> markAsSynced(String eventId) {
+  Future<void> markAsSyncedByEntity(String eventId) {
     return (update(syncEvents)..where((e) => e.id.equals(eventId))).write(
-      SyncEventsCompanion(
-        synced: const Value(true),
+      const SyncEventsCompanion(
+        synced: Value(true),
+      ),
+    );
+  }
+  Future<void> markAsSynced(String entityId) {
+    return (update(syncEvents)..where((e) => e.entityId.equals(entityId))).write(
+      const SyncEventsCompanion(
+        synced: Value(true),
       ),
     );
   }
   Future<void> markManyAsSynced(List<String> eventIds) {
     return db.transaction(() async {
       for (final id in eventIds) {
-        await markAsSynced(id);
+        await markAsSyncedByEntity(id);
       }
     });
   }
