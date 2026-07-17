@@ -27,6 +27,7 @@ class GatewayWsServer {
     required this.onSyncRequested,
     required this.onSyncAckReceived,
     required this.onSendSmsRequested,
+    required this.onSyncContactsRequested,
     this.onClientDisconnected,
     Duration pingInterval = const Duration(seconds: 20),
     Duration heartbeatTimeout = const Duration(seconds: 60),
@@ -48,6 +49,7 @@ class GatewayWsServer {
   final Future<void> Function(String eventId) onSyncAckReceived;
   final void Function()? onClientDisconnected;
   final Future<WsSmsSentPayload> Function(String to, String content) onSendSmsRequested;
+  final Future<WsContactsFoundPayload> Function() onSyncContactsRequested;
 
   HttpServer? _httpServer;
   WsClientSession? _connectedClient;
@@ -144,6 +146,8 @@ class GatewayWsServer {
         _logger.d('GatewayWsServer: Received pong from client');
       case WsMessageType.sendSms:
         await _handleSendSms(session, message.payload);
+      case WsMessageType.syncContacts:
+        await _handleSyncContacts(session, message.payload);
       default:
         _logger.w(
           'GatewayWsServer: Received unknown message type: ${message.type}',
@@ -232,6 +236,18 @@ class GatewayWsServer {
     final result = await onSendSmsRequested(payload.to, payload.content);
     session.send(
       WsMessage(type: WsMessageType.smsSent, payload: result).toJsonString()
+    );
+  }
+
+  Future<void> _handleSyncContacts(
+    WsClientSession session,
+    WsPayload payload,
+  ) async {
+    if (!session.isHandshakeComplete) return;
+    if (payload is! WsSyncContactsRequestPayload) return;
+    final result = await onSyncContactsRequested();
+    session.send(
+      WsMessage(type: WsMessageType.contactsFound, payload: result).toJsonString()
     );
   }
 

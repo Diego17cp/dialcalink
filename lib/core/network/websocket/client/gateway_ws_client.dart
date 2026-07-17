@@ -40,6 +40,11 @@ class WsSmsSentEvent extends WsIncomingEvent {
   final WsSmsSentPayload payload;
 }
 
+class WsContactsFoundEvent extends WsIncomingEvent {
+  const WsContactsFoundEvent(this.payload);
+  final WsContactsFoundPayload payload;
+}
+
 class GatewayWsClient {
   GatewayWsClient.forPairing({
     required this.ip,
@@ -236,6 +241,13 @@ class GatewayWsClient {
             WsSmsSentEvent(message.payload as WsSmsSentPayload),
           );
         }
+      case WsMessageType.contactsFound:
+        if (message.payload is WsContactsFoundPayload &&
+            !_eventController.isClosed) {
+          _eventController.add(
+            WsContactsFoundEvent(message.payload as WsContactsFoundPayload),
+          );
+        }
       default:
         _logger.d(
           'GatewayWsClient: Received unhandled message type: ${message.type}',
@@ -318,6 +330,15 @@ class GatewayWsClient {
       WsMessage(
         type: WsMessageType.sendSms,
         payload: WsSendSmsPayload(to: to, content: content),
+      ),
+    );
+  }
+
+  void sendSyncContactsRequest() {
+    _send(
+      const WsMessage(
+        type: WsMessageType.syncContacts,
+        payload: WsSyncContactsRequestPayload(),
       ),
     );
   }
