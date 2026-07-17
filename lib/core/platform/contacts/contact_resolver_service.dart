@@ -51,6 +51,22 @@ class ContactResolverService {
       return null;
     }
   }
+  Future<List<Contact>> getContacts() async {
+    final hasPermission = await _permissionsService.hasPermission();
+    if (!hasPermission) {
+      _logger.w('No permission to access contacts. Cannot get contacts.');
+      return [];
+    }
+    try {
+      final contacts = await FlutterContacts.getAll(
+        properties: const {ContactProperty.name, ContactProperty.phone},
+      );
+      return contacts;
+    } catch (e) {
+      _logger.e('Error while getting contacts: $e');
+      return [];
+    }
+  }
   void clearCache() {
     _cache.clear();
   }
