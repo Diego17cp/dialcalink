@@ -158,6 +158,10 @@ class ClientConnectionService {
         await _applySyncResponse(payload);
       case WsSmsSentEvent(payload: final payload):
         await _handleSmsSent(payload);
+      case WsContactsFoundEvent(payload: final payload):
+        _logger.i('Contactos recibidos: ${payload.contacts.length}');
+        await uiBridge.emitContactsReceived(payload.contacts);
+        break;
     }
   }
 
@@ -277,6 +281,10 @@ class ClientConnectionService {
       case 'disconnect_requested':
         _logger.i('ClientConnectionService: desconectando...');
         await _disconnect();
+      case 'sync_contacts_requested':
+        _logger.i('ClientConnectionService: solicitando sincronización de contacts');
+        _client?.sendSyncContactsRequest();
+        break;
     }
   }
 

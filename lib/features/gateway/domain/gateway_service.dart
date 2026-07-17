@@ -101,6 +101,7 @@ class GatewayService {
       onSyncAckReceived: _handleSyncAck,
       onClientDisconnected: _handleClientDisconnected,
       onSendSmsRequested: _handleSendSmsRequest,
+      onSyncContactsRequested: _handleSyncContactsRequest,
     );
     final startResult = await _wsServer!.start();
     if (startResult is GatewayWsServerFailed) {
@@ -530,6 +531,20 @@ class GatewayService {
 
   Future<void> _handleSyncAck(String eventId) async {
     await syncRepository.markAsSynced(eventId);
+  }
+
+  Future<WsContactsFoundPayload> _handleSyncContactsRequest() async {
+    final contacts = await contactResolverService.getContacts();
+    final dtos = <WsContactDto>[];
+
+    for (final contact in contacts) {
+      final name = contact.displayName;
+      for (final phone in contact.phones) {
+        dtos.add(WsContactDto(name: name ?? '', number: phone.number));
+      }
+    }
+    _logger.i('GatewayService: Enviando ${dtos.length} contactos al cliente');
+    return WsContactsFoundPayload(contacts: dtos);
   }
 }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_contacts_found_payload.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 
@@ -76,6 +77,9 @@ class ClientUiBridge {
   final _sendSmsCommandController = StreamController<SendSmsCommand>.broadcast();
   Stream<SendSmsCommand> get sendSmsCommands => _sendSmsCommandController.stream;
 
+  final _contactsController = StreamController<List<WsContactDto>>.broadcast();
+  Stream<List<WsContactDto>> get contacts => _contactsController.stream;
+
   void startListeningFromUi() {
     _subscription?.cancel();
     _subscription = _eventChannel.receiveBroadcastStream().listen(
@@ -85,20 +89,30 @@ class ClientUiBridge {
         if (type == 'connection_state_changed') {
           final stateStr = raw['state'] as String? ?? 'disconnected';
           final gatewayName = raw['gatewayName'] as String?;
-          _stateController.add(
-            ClientConnectionStateUpdate(
-              state: ClientConnectionStateBridgeX.fromString(stateStr),
-              gatewayName: gatewayName,
-            ),
-          );
+          if (!_stateController.isClosed) {
+            _stateController.add(
+              ClientConnectionStateUpdate(
+                state: ClientConnectionStateBridgeX.fromString(stateStr),
+                gatewayName: gatewayName,
+              ),
+            );
+          }
         } else if (type == 'sms_sent_result') {
-          _smsSentController.add(
-            SmsSentResult(
-              id: raw['id'] as String ?? '',
-              success: raw['success'] as bool ?? false,
-              errorReason: raw['errorReason'] as String?,
-            ),
-          );
+          if (!_smsSentController.isClosed) {
+            _smsSentController.add(
+              SmsSentResult(
+                id: raw['id'] as String ?? '',
+                success: raw['success'] as bool ?? false,
+                errorReason: raw['errorReason'] as String?,
+              ),
+            );
+          }
+        } else if (type == 'contacts_received') {
+          final List<dynamic> contactsRaw = raw['contacts'] as List? ?? [];
+          final contacts = contactsRaw.map((c) => WsContactDto.fromJson(Map<String, dynamic>.from(c))).toList();          
+          if (!_contactsController.isClosed) {
+            _contactsController.add(contacts);
+          }
         }
       },
       onError: (Object e) {
@@ -140,6 +154,14 @@ class ClientUiBridge {
     }
   }
 
+  Future<void> requestSyncContacts() async {
+    try {
+      await _methodChannel.invokeMethod('syncContacts');
+    } on PlatformException catch (e) {
+      _logger.e('ClientUiBridge: error solicitando sincronizacion de contactos', error: e);
+    }
+  }
+
   Future<void> emitConnectionState(
     ClientConnectionStateBridge state, {
     String? gatewayName,
@@ -173,6 +195,16 @@ class ClientUiBridge {
     }
   }
 
+  Future<void> emitContactsReceived(List<WsContactDto> contacts) async {
+    try {
+      await _serviceControlChannel.invokeMethod('emitContactsReceived', {
+        'contacts': contacts.map((c) => c.toJson()).toList()
+      });
+    } catch (e) {
+      _logger.e('ClientUiBridge: error emitiendo contactos a la UI', error: e);
+    }
+  }
+
   StreamSubscription? _commandSubscription;
   final _commandController = StreamController<String>.broadcast();
 
@@ -188,12 +220,16 @@ class ClientUiBridge {
             if (raw is! Map) return;
             final type = raw['type'] as String?;
             if (type == 'send_sms_requested') {
-              _sendSmsCommandController.add(SendSmsCommand(
-                to: raw['to'] as String? ?? '',
-                content: raw['content'] as String? ?? '',
-              ));
+              if (!_sendSmsCommandController.isClosed) {
+                _sendSmsCommandController.add(SendSmsCommand(
+                  to: raw['to'] as String? ?? '',
+                  content: raw['content'] as String? ?? '',
+                ));
+              }
             } else if (type != null) {
-              _commandController.add(type);
+              if (!_commandController.isClosed) {
+                _commandController.add(type);
+              }
             }
           },
           onError: (Object e) {
@@ -209,5 +245,6 @@ class ClientUiBridge {
     _commandController.close();
     _smsSentController.close();
     _sendSmsCommandController.close();
+    _contactsController.close();
   }
 }
