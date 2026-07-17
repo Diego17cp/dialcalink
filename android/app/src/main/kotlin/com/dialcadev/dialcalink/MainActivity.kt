@@ -111,6 +111,12 @@ class MainActivity : FlutterActivity() {
                     startService(serviceIntent)
                     result.success(null)
                 }
+                "syncContacts" -> {
+                    val serviceIntent = Intent(this, ClientForegroundService::class.java)
+                    serviceIntent.action = "SYNC_CONTACTS"
+                    startService(serviceIntent)
+                    result.success(null)
+                }   
                 else -> result.notImplemented()
             }
         }

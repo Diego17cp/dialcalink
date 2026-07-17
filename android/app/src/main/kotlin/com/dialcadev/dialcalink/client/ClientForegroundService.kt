@@ -63,6 +63,13 @@ class ClientForegroundService : Service() {
                     "content" to content
                 )) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
             }
+            "SYNC_CONTACTS" -> {
+                Log.i(TAG, "Enviando comando sync_contacts_requested")
+                serviceSink?.success(mapOf(
+                    "type" to "sync_contacts_requested"
+                )) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+            }
+            
         }
         return START_STICKY
     }
@@ -166,6 +173,15 @@ class ClientForegroundService : Service() {
                         )
                         if (ClientUiBridgeChannel.uiEventSink != null) ClientUiBridgeChannel.uiEventSink?.success(payload)
                         else Log.w(TAG, "sms_sent_result perdido: UI no suscrita ($id)")
+                        result.success(null)
+                    }
+                    "emitContactsReceived" -> {
+                        val contacts = call.argument<List<Map<String, Any>>>("contacts")
+                        val payload = mapOf(
+                            "type" to "contacts_received",
+                            "contacts" to contacts
+                        )
+                        ClientUiBridgeChannel.uiEventSink?.success(payload)
                         result.success(null)
                     }
                     else -> result.notImplemented()
