@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/network/websocket/messages/payloads/ws_payloads.dart';
 import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
 import 'package:dialcalink/core/platform/client/providers/client_ui_bridge_provider.dart';
 import 'package:dialcalink/core/platform/gateway/providers/gateway_control_bridge_provider.dart';
@@ -120,4 +121,39 @@ Stream<List<SmsMessageEntity>> smsConversations(Ref ref) {
           : latest.copyWith(contactName: resolvedName);
     }).toList();
   });
+}
+
+@riverpod
+Stream<List<WsContactDto>> syncedContactsStream(Ref ref) {
+  final bridge = ref.watch(clientUiBridgeProvider);
+  return bridge.contacts;
+}
+
+@riverpod
+class SmsContactSearchQuery extends _$SmsContactSearchQuery {
+  @override
+  String build() => '';
+  void update(String query) => state = query;
+}
+
+@riverpod
+List<WsContactDto> filteredContacts(Ref ref) {
+  final contactsAsync = ref.watch(syncedContactsStreamProvider);
+  final query = ref.watch(smsContactSearchQueryProvider).toLowerCase();
+
+  final allContacts = contactsAsync.valueOrNull ?? [];
+
+  if (query.isEmpty) return [];
+
+  return allContacts.where((c) {
+    return c.name.toLowerCase().contains(query) || c.number.toLowerCase().contains(query);
+  }).toList();
+}
+
+@riverpod
+class SelectedRecipient extends _$SelectedRecipient {
+  @override
+  WsContactDto? build() => null;
+  
+  void select(WsContactDto? contact) => state = contact;
 }

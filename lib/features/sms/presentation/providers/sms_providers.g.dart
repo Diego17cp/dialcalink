@@ -575,6 +575,44 @@ final smsConversationsProvider =
 // ignore: unused_element
 typedef SmsConversationsRef =
     AutoDisposeStreamProviderRef<List<SmsMessageEntity>>;
+String _$syncedContactsStreamHash() =>
+    r'78d0ec216e1125bdb48627ec89866fa7eb1be480';
+
+/// See also [syncedContactsStream].
+@ProviderFor(syncedContactsStream)
+final syncedContactsStreamProvider =
+    AutoDisposeStreamProvider<List<WsContactDto>>.internal(
+      syncedContactsStream,
+      name: r'syncedContactsStreamProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$syncedContactsStreamHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SyncedContactsStreamRef =
+    AutoDisposeStreamProviderRef<List<WsContactDto>>;
+String _$filteredContactsHash() => r'8b41aac2193b5ce34b71f56299292e3566e37062';
+
+/// See also [filteredContacts].
+@ProviderFor(filteredContacts)
+final filteredContactsProvider =
+    AutoDisposeProvider<List<WsContactDto>>.internal(
+      filteredContacts,
+      name: r'filteredContactsProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$filteredContactsHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef FilteredContactsRef = AutoDisposeProviderRef<List<WsContactDto>>;
 String _$smsSentStatusesHash() => r'1ea0eb5afe5a9279604605eba4053e7c19d52fd1';
 
 /// See also [SmsSentStatuses].
@@ -594,5 +632,38 @@ final smsSentStatusesProvider =
     );
 
 typedef _$SmsSentStatuses = AutoDisposeNotifier<Map<String, SmsSentResult>>;
+String _$smsContactSearchQueryHash() =>
+    r'31c3a005f4a295e8ee32596100b5045612f95316';
+
+/// See also [SmsContactSearchQuery].
+@ProviderFor(SmsContactSearchQuery)
+final smsContactSearchQueryProvider =
+    AutoDisposeNotifierProvider<SmsContactSearchQuery, String>.internal(
+      SmsContactSearchQuery.new,
+      name: r'smsContactSearchQueryProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$smsContactSearchQueryHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$SmsContactSearchQuery = AutoDisposeNotifier<String>;
+String _$selectedRecipientHash() => r'027af3cdbed069acccd549ec8c2daab35085fa51';
+
+/// See also [SelectedRecipient].
+@ProviderFor(SelectedRecipient)
+final selectedRecipientProvider =
+    AutoDisposeNotifierProvider<SelectedRecipient, WsContactDto?>.internal(
+      SelectedRecipient.new,
+      name: r'selectedRecipientProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$selectedRecipientHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$SelectedRecipient = AutoDisposeNotifier<WsContactDto?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
