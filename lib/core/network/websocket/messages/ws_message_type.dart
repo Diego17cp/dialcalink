@@ -8,6 +8,7 @@ enum WsMessageType {
   syncResponse,
   ping,
   sendSms,
+  contactsFound,
 
   // Client -> Gateway
   handshake,
@@ -15,6 +16,8 @@ enum WsMessageType {
   syncAck,
   pong,
   smsSent,
+  searchContacts,
+  syncContacts,
 
   unknown,
 }
@@ -34,6 +37,9 @@ extension WsMessageTypeX on WsMessageType {
     WsMessageType.pong: 'pong',
     WsMessageType.smsSent: 'sms_sent',
     WsMessageType.sendSms: 'send_sms',
+    WsMessageType.contactsFound: 'contacts_found',
+    WsMessageType.searchContacts: 'search_contacts',
+    WsMessageType.syncContacts: 'sync_contacts',
   };
 
   String toJsonValue() => _toJson[this] ?? 'unknown';

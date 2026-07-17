@@ -14,6 +14,11 @@ import 'ws_sync_ack_payload.dart';
 import 'ws_unknown_payload.dart';
 import 'ws_send_sms_payload.dart';
 import 'ws_sms_sent_payload.dart';
+import 'ws_contacts_found_payload.dart';
+import 'ws_search_contacts_payload.dart';
+import 'ws_sync_contacts_request_payload.dart';
+
+
 
 export 'ws_handshake_payload.dart';
 export 'ws_handshake_ok_payload.dart';
@@ -29,6 +34,9 @@ export 'ws_ping_payload.dart';
 export 'ws_pong_payload.dart';
 export 'ws_send_sms_payload.dart';
 export 'ws_sms_sent_payload.dart';
+export 'ws_contacts_found_payload.dart';
+export 'ws_search_contacts_payload.dart';
+export 'ws_sync_contacts_request_payload.dart';
 
 abstract class WsPayload {
   const WsPayload();
@@ -51,6 +59,9 @@ abstract class WsPayload {
       WsMessageType.unknown => const WsUnknownPayload(),
       WsMessageType.sendSms => WsSendSmsPayload.fromJson(json),
       WsMessageType.smsSent => WsSmsSentPayload.fromJson(json),
+      WsMessageType.contactsFound => WsContactsFoundPayload.fromJson(json),
+      WsMessageType.searchContacts => WsSearchContactsPayload.fromJson(json),
+      WsMessageType.syncContacts => WsSyncContactsRequestPayload.fromJson(json),
     };
   }
 }
