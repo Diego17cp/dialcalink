@@ -12,6 +12,8 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.EventChannel
 import android.util.Log
+import androidx.core.content.FileProvider
+import java.io.File
 
 class MainActivity : FlutterActivity() {
     companion object {
@@ -133,6 +135,58 @@ class MainActivity : FlutterActivity() {
                     ClientUiBridgeChannel.uiEventSink = null
                 }
             })
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "com.dialcadev.dialcalink/apk_installer"
+        ).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "installApk" -> {
+                    val path = call.argument<String>("path")
+                    if (path.isNullOrEmpty()) {
+                        result.success(mapOf(
+                            "success" to false,
+                            "error" to "Missing path"
+                        ))
+                        return@setMethodCallHandler
+                    }
+                    try {
+                        val apkFile = File(path)
+                        val apkUri = FileProvider.getUriForFile(
+                            this, "$packageName.fileprovider", apkFile
+                        )
+                        val installIntent = Intent(Intent.ACTION_VIEW).apply {
+                            setDataAndType(apkUri, "application/vnd.android.package-archive")
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        startActivity(installIntent)
+                        result.success(mapOf(
+                            "success" to true,
+                        ))
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error instalando APK", e)
+                        result.success(mapOf(
+                            "success" to false,
+                            "error" to e.message
+                        ))
+                    }
+                }
+                "canRequestInstallPackages" -> {
+                    val canInstall = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) packageManager.canRequestPackageInstalls() else true
+                    result.success(canInstall)
+                }
+                "openInstallPermissionSettings" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val intent = Intent(
+                            android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                            android.net.Uri.parse("package:$packageName")
+                        )
+                        startActivity(intent)
+                    }
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
     }
 
     private fun startGatewayService() {
