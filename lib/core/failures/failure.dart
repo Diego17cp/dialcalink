@@ -22,3 +22,11 @@ class IntegrityFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure(super.message, {super.cause});
 }
+
+class NetworkFailure extends Failure {
+  const NetworkFailure(super.message, {super.cause});
+}
+
+class PlatformFailure extends Failure {
+  const PlatformFailure(super.message, {super.cause});
+}
