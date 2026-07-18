@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+const _locale = 'es';
+
 String formatRelativeTime(DateTime? dateTime) {
   if (dateTime == null) return '';
   final now = DateTime.now();
@@ -12,12 +14,12 @@ String formatRelativeTime(DateTime? dateTime) {
   } else if (difference.inHours < 24) {
     final startOfToday = DateTime(now.year, now.month, now.day);
     if (dateTime.isAfter(startOfToday)) {
-      return DateFormat('h:mm a').format(dateTime);
+      return DateFormat('h:mm a', _locale).format(dateTime);
     }
     return 'Ayer';
   } else if (difference.inDays < 7) {
-    return DateFormat('EEEE').format(dateTime);
+    return DateFormat('EEEE', _locale).format(dateTime);
   } else {
-    return DateFormat('MMM d').format(dateTime);
+    return DateFormat('MMM d', _locale).format(dateTime);
   }
 }

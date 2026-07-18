@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dialcalink/core/utils/ui_date_formatter.dart';
 import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/empty_sms_list.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/sms_card.dart';
@@ -23,17 +22,12 @@ class SmsListScreen extends ConsumerWidget {
           itemCount: messages.length,
           itemBuilder: (context, index) {
             final sms = messages[index];
-            return SmsCard(
-              sms: sms,
-              formattedTime: formatRelativeTime(sms.receivedAt),
-            );
+            return SmsCard(sms: sms);
           },
         );
       },
       error: (error, stackTrace) {
-        return Center(
-          child: Text('Error: $error'),
-        );
+        return Center(child: Text('Error: $error'));
       },
       loading: () => ListView.builder(
         padding: const EdgeInsets.all(16),

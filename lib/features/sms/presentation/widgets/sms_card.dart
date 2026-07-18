@@ -1,3 +1,4 @@
+import 'package:dialcalink/shared/relative_time_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,9 +7,8 @@ import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart'
 
 class SmsCard extends StatelessWidget {
   final SmsMessageEntity sms;
-  final String formattedTime;
 
-  const SmsCard({super.key, required this.sms, required this.formattedTime});
+  const SmsCard({super.key, required this.sms});
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +69,8 @@ class SmsCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Text(
-                          formattedTime,
+                        RelativeTimeText(
+                          dateTime: sms.receivedAt,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: sms.isRead
                               ? theme.colorScheme.onSurfaceVariant

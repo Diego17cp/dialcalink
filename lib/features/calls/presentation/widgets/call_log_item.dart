@@ -1,7 +1,7 @@
+import 'package:dialcalink/shared/relative_time_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dialcalink/core/utils/duration_formatter.dart';
-import 'package:dialcalink/core/utils/ui_date_formatter.dart';
 import 'package:dialcalink/features/calls/domain/entities/call_log_entity.dart';
 import 'package:dialcalink/core/database/drift/tables/call_logs_table.dart';
 
@@ -63,8 +63,8 @@ class CallLogItem extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Text(
-                          formatRelativeTime(call.endedAt ?? call.startedAt),
+                        RelativeTimeText(
+                          dateTime: call.endedAt ?? call.startedAt,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),

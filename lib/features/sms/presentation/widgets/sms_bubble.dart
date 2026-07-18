@@ -1,6 +1,6 @@
 import 'package:dialcalink/core/database/drift/tables/sms_messages_table.dart';
+import 'package:dialcalink/shared/relative_time_text.dart';
 import 'package:flutter/material.dart';
-import 'package:dialcalink/core/utils/ui_date_formatter.dart';
 import 'package:dialcalink/features/sms/domain/entities/sms_message_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,8 +47,8 @@ class SmsBubble extends ConsumerWidget {
               )
             ),
             const SizedBox(height: 4),
-            Text(
-              formatRelativeTime(sms.receivedAt),
+            RelativeTimeText(
+              dateTime: sms.receivedAt,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: isOutgoing 
                     ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
