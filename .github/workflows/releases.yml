@@ -1,0 +1,54 @@
+name: Build and Release APK
+
+on:
+    push:
+        tags:
+            - "v*.*.*"
+
+permissions:
+    contents: write
+
+jobs:
+    build-and-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Java
+              uses: actions/setup-java@v4
+              with:
+                distribution: "temurin"
+                java-version: "17"
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                flutter-version: "3.38.5"
+                channel: "stable"
+
+            - name: Install Dependencies
+              run: flutter pub get
+
+            - name: Run build_runner (codegen)
+              run: flutter pub run build_runner build --delete-conflicting-outputs
+
+            - name: Build APK (release)
+              run: flutter build apk --release
+
+            - name: Extract version from tag
+              id: version
+              run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+            - name: Rename APK
+              run: |
+                mkdir -p release
+                cp build/app/outputs/flutter-apk/app-release.apk \
+                    release/dialcalink-${{ steps.version.outputs.version }}.apk
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: release/dialcalink-${{ steps.version.outputs.version }}.apk
+                  generate_release_notes: true
+                  tag_name: ${{ github.ref }}
