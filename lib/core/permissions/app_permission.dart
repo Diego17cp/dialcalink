@@ -39,6 +39,12 @@ enum AppPermission {
     title: 'Notificaciones',
     description: 'Permite recibir alertas de SMS y llamadas entrantes.',
     rolesRequired: {AppRole.gateway, AppRole.client},
+  ),
+  readCallLog(
+    permission: Permission.phone,
+    title: 'Historial de llamadas',
+    description: 'Necesario para detectar llamadas entrantes en el Gateway.',
+    rolesRequired: {AppRole.gateway},
   );
 
   const AppPermission({
@@ -67,6 +73,8 @@ enum AppPermission {
         return CupertinoIcons.qrcode;
       case AppPermission.notifications:
         return CupertinoIcons.bell_fill;
+      case AppPermission.readCallLog:
+        return CupertinoIcons.clock_fill;
     }
   }
 }
