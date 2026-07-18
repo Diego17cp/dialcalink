@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/app/app.dart';
 import 'package:dialcalink/core/identity/providers/device_identity_provider.dart';
 import 'package:dialcalink/features/gateway/presentation/providers/gateway_service_provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('es', null);
   final container = ProviderContainer();
   final identityService = await container.read(deviceIdentityServiceProvider.future);
   await identityService.ensureBootstrapped();
