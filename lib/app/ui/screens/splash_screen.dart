@@ -1,36 +1,48 @@
-import 'package:flutter/material.dart';
+import 'package:dialcalink/app/router/app_router.dart';
+import 'package:dialcalink/app/ui/widgets/loading_screen.dart';
+import 'package:dialcalink/app/ui/widgets/update_confirmation_dialog.dart';
+import 'package:dialcalink/core/updates/providers/update_providers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-class SplashScreen extends ConsumerWidget {
+
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return const LoadingScreen();
-  }
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class LoadingScreen extends ConsumerWidget {
-  const LoadingScreen({super.key});
+class _SplashScreenState extends ConsumerState<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUpdates();
+  }
+
+  void _checkUpdates() {
+    ref
+        .read(updateAvailableProvider.future)
+        .then((available) {
+          if (available) {
+            final globalContext = rootNavigatorKey.currentContext;
+            if (globalContext != null && globalContext.mounted) {
+              showCupertinoDialog(
+                context: globalContext,
+                barrierDismissible: false,
+                builder: (dialogContext) => const UpdateConfirmationDialog(),
+              );
+            }
+          }
+        })
+        .catchError((error) {
+          debugPrint(
+            '[DIALCA][UPDATE] Error al verificar actualizaciones: $error',
+          );
+        });
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              isDark
-                  ? 'assets/images/dialcalink_icon_white.png'
-                  : 'assets/images/dialcalink_icon_black.png',
-              width: 150,
-            ),
-          ],
-        ),
-      ),
-    );
+  Widget build(BuildContext context) {
+    return const LoadingScreen();
   }
 }

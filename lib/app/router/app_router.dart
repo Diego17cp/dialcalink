@@ -21,7 +21,7 @@ import 'package:go_router/go_router.dart';
 
 part 'app_router.g.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 @riverpod
 GoRouter appRouter(Ref ref) {
@@ -33,7 +33,7 @@ GoRouter appRouter(Ref ref) {
 
   return GoRouter(
     initialLocation: '/splash',
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     refreshListenable: refreshNotifier,
     redirect: (context, state) {
@@ -128,13 +128,13 @@ GoRouter appRouter(Ref ref) {
                   GoRoute(
                     name: 'sms_new',
                     path: 'new',
-                    parentNavigatorKey: _rootNavigatorKey,
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const SmsNewScreen(),
                   ),
                   GoRoute(
                     name: 'sms_conversation',
                     path: ':phoneNumber',
-                    parentNavigatorKey: _rootNavigatorKey,
+                    parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) {
                       final phone = state.pathParameters['phoneNumber'] ?? '';
                       return SmsConversationScreen(phoneNumber: phone);
