@@ -295,11 +295,13 @@ class GatewayService {
     debugPrint('[DIALCA][BACK] Llamada saliente a: ${event.phoneNumber}');
     _lastRingingPhoneNumber = event.phoneNumber;
 
+    final contactName = await contactResolverService.resolveContactName(event.phoneNumber);
+
     final result = await registerIncomingCallUseCase.call(
       phoneNumber: event.phoneNumber,
       callType: CallType.outgoing,
       sourceDeviceId: sourceDeviceId,
-      contactName: null,
+      contactName: contactName,
       startedAt: event.startedAt,
     );
 
@@ -312,7 +314,7 @@ class GatewayService {
             startedAt: event.startedAt,
             sourceDeviceId: sourceDeviceId,
             callType: CallType.outgoing,
-            contactName: null,
+            contactName: contactName,
           ),
         );
       },

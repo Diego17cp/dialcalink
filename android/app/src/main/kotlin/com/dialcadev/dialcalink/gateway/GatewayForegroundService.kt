@@ -22,6 +22,12 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugins.GeneratedPluginRegistrant
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import android.provider.CallLog
+import android.os.Handler
+import android.os.Looper
 
 class GatewayForegroundService : Service() {
     companion object {
@@ -40,6 +46,8 @@ class GatewayForegroundService : Service() {
 
     private var lastCallState: String? = null
     private var lastCallNumber: String? = null
+
+    private val handler = Handler(Looper.getMainLooper())
 
     private val smsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -80,11 +88,11 @@ class GatewayForegroundService : Service() {
                 }
                 TelephonyManager.EXTRA_STATE_OFFHOOK -> {
                     if (lastCallState != TelephonyManager.EXTRA_STATE_RINGING) {
-                        emitEvent(mapOf(
-                            "type" to "call_outgoing",
-                            "phoneNumber" to (number ?: "unknown"),
-                            "startedAtMillis" to System.currentTimeMillis(),
-                        ))
+                        if (!number.isNullOrBlank()) {
+                            emitOutgoingCallEvent(number)
+                        } else {
+                            resolveOutgoingNumberWithRetry()
+                        }
                     }
                 }
                 TelephonyManager.EXTRA_STATE_IDLE -> {
@@ -104,10 +112,6 @@ class GatewayForegroundService : Service() {
                     lastCallState = null
                     lastCallNumber = null
                 }
-                // EXTRA_STATE_OFFHOOK (llamada en curso, contestada) se
-                // ignora deliberadamente: el documento tecnico solo
-                // contempla deteccion de llamadas entrantes/finalizadas,
-                // no el estado "en curso" como evento propio.
                 else -> return
             }
             if (state != TelephonyManager.EXTRA_STATE_IDLE) {
@@ -311,5 +315,52 @@ class GatewayForegroundService : Service() {
     private fun emitEvent(data: Map<String, Any?>) {
         Log.d(TAG, "emitEvent: $data")
         eventSink?.success(data)
+    }
+    private fun resolveOutgoingNumberWithRetry(attempt: Int = 0) {
+        val delays = longArrayOf(250, 500, 900, 1500)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+            emitOutgoingCallEvent("unknown")
+            return
+        }
+        queryLatestOutgoingNumber()?.let {
+            emitOutgoingCallEvent(it)
+            return
+        }
+        if (attempt >= delays.size - 1) {
+            Log.w(TAG, "No se pudo resolver numero saliente tras ${delays.size} intentos")
+            emitOutgoingCallEvent("unknown")
+            return
+        }
+        handler.postDelayed({ resolveOutgoingNumberWithRetry(attempt + 1) }, delays[attempt])
+    }
+    private fun queryLatestOutgoingNumber(): String? {
+        return try {
+            contentResolver.query(
+                CallLog.Calls.CONTENT_URI,
+                arrayOf(CallLog.Calls.NUMBER, CallLog.Calls.DATE),
+                "${CallLog.Calls.TYPE} = ?",
+                arrayOf(CallLog.Calls.OUTGOING_TYPE.toString()),
+                "${CallLog.Calls.DATE} DESC LIMIT 1"
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val date = cursor.getLong(cursor.getColumnIndexOrThrow(CallLog.Calls.DATE))
+                    if (System.currentTimeMillis() - date <= 10_000) {
+                        return cursor.getString(cursor.getColumnIndexOrThrow(CallLog.Calls.NUMBER))
+                    }
+                }
+                null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error consultando CallLog", e)
+            null
+        }
+    }
+    private fun emitOutgoingCallEvent(number: String) {
+        lastCallNumber = number
+        emitEvent(mapOf(
+            "type" to "call_outgoing",
+            "phoneNumber" to number,
+            "startedAtMillis" to System.currentTimeMillis()
+        ))
     }
 }
