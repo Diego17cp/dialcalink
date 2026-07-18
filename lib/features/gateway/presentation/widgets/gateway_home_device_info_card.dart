@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/network/discovery/gateway_ip_refresher_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(gatewayIpRefresherProvider);
     final localDeviceIdentity = ref.watch(localDeviceIdentityProvider).value;
     final localDeviceIp = ref.watch(gatewayIpProvider).value;
     final homeState = ref.watch(gatewayHomeNotifierProvider);

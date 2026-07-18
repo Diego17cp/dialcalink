@@ -97,7 +97,7 @@ final updateAvailableProvider = AutoDisposeFutureProvider<bool>.internal(
 // ignore: unused_element
 typedef UpdateAvailableRef = AutoDisposeFutureProviderRef<bool>;
 String _$updateFlowControllerHash() =>
-    r'db3eee13c672417c007bfc48af420d6606f7f46e';
+    r'36e3934696713980b44d00e7d58a5d9285b094e5';
 
 /// See also [UpdateFlowController].
 @ProviderFor(UpdateFlowController)
