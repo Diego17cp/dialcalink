@@ -68,9 +68,9 @@ class GlassScaffold extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(
                         color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.02,
+                          alpha: 0.15,
                         ),
-                        width: 1,
+                        width: 0.5,
                       ),
                     ),
                   ),
