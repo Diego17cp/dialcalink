@@ -1,3 +1,4 @@
+import 'package:dialcalink/app/ui/widgets/update_check_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/app/layouts/glass_scaffold.dart';
@@ -19,6 +20,8 @@ class GatewayHomeScreen extends ConsumerWidget {
       actions: const [ThemeTogglerButton()],
       body: Column(
         children: [
+          const UpdateCheckButton(),
+          const SizedBox(height: 12),
           const GatewayHomeHeaderStatus(),
           const SizedBox(height: 24),
           const GatewayHomeScanCard(),

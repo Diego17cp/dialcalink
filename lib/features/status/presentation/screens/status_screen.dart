@@ -1,3 +1,4 @@
+import 'package:dialcalink/app/ui/widgets/update_check_button.dart';
 import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
 import 'package:dialcalink/core/platform/client/providers/client_connection_state_provider.dart';
 import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
@@ -31,6 +32,8 @@ class StatusScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const UpdateCheckButton(),
+          const SizedBox(height: 12),
           StatusCard(connectionState: connectionState),
           const SizedBox(height: 24),
           Text(
