@@ -11,7 +11,11 @@ const Duration kPairingTokenMaxAge = Duration(minutes: 5);
 // Client
 
 class ConfirmPairingUseCase {
-  ConfirmPairingUseCase(this._pairingRepository, this._deviceRepository, {this.onPairingConfirmed});
+  ConfirmPairingUseCase(
+    this._pairingRepository,
+    this._deviceRepository, {
+    this.onPairingConfirmed,
+  });
 
   final PairingRepository _pairingRepository;
   final DeviceRepository _deviceRepository;
@@ -22,7 +26,7 @@ class ConfirmPairingUseCase {
     if (age > kPairingTokenMaxAge) {
       return Result.failure(
         const PairingTokenExpiredFailure(
-          'The pairing token has expired. Please generate a new one and try again.',
+          'El token de emparejamiento ha expirado. Por favor, genere uno nuevo e intente nuevamente.',
         ),
       );
     }
@@ -35,7 +39,7 @@ class ConfirmPairingUseCase {
       return Result.failure(
         PairingRejectedByGatewayFailure(
           verifiedAttempt.rejectionReason ??
-              'The pairing attempt was rejected by the Gateway.',
+              'El intento de emparejamiento fue rechazado por el Gateway.',
         ),
       );
     }

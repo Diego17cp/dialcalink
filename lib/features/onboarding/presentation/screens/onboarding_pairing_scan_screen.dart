@@ -82,16 +82,46 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
             bottom: 40,
             left: 20,
             right: 20,
-            child: PairingStatusCard(
-              phase: state.phase,
-              errorMessage: state.failure?.message,
-            )
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (state.phase == ClientPairingPhase.failed) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () => ref
+                          .read(clientPairingNotifierProvider.notifier)
+                          .retry(),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(CupertinoIcons.refresh, size: 18),
+                          SizedBox(width: 8),
+                          Text('Intente nuevamente'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+                PairingStatusCard(
+                  phase: state.phase,
+                  errorMessage: state.failure?.message,
+                ),
+              ],
+            ),
           ),
-          if (isLinked) 
-            Container(
-              color: Colors.black87,
-              child: const PairingSuccessView(),
-            )
+          if (isLinked)
+            Container(color: Colors.black87, child: const PairingSuccessView()),
         ],
       ),
     );

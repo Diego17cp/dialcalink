@@ -63,8 +63,8 @@ class WebSocketPairingConnectionChecker implements PairingConnectionChecker {
     timeoutTimer = Timer(_verifyTimeout, () {
       finish(
         Result.failure(
-          PairingConnectionFailure(
-            'Verification timed out after $_verifyTimeout',
+          const PairingConnectionFailure(
+            'No se pudo establecer conexión con el dispositivo. Verifica que ambos celulares estén conectados a la misma red WiFi.',
           ),
         ),
       );
