@@ -576,12 +576,12 @@ final smsConversationsProvider =
 typedef SmsConversationsRef =
     AutoDisposeStreamProviderRef<List<SmsMessageEntity>>;
 String _$syncedContactsStreamHash() =>
-    r'78d0ec216e1125bdb48627ec89866fa7eb1be480';
+    r'1fd94c6dcee0035472658e2611a8f5121a656468';
 
 /// See also [syncedContactsStream].
 @ProviderFor(syncedContactsStream)
 final syncedContactsStreamProvider =
-    AutoDisposeStreamProvider<List<WsContactDto>>.internal(
+    StreamProvider<List<WsContactDto>>.internal(
       syncedContactsStream,
       name: r'syncedContactsStreamProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -593,8 +593,7 @@ final syncedContactsStreamProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef SyncedContactsStreamRef =
-    AutoDisposeStreamProviderRef<List<WsContactDto>>;
+typedef SyncedContactsStreamRef = StreamProviderRef<List<WsContactDto>>;
 String _$filteredContactsHash() => r'8b41aac2193b5ce34b71f56299292e3566e37062';
 
 /// See also [filteredContacts].

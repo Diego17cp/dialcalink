@@ -4,6 +4,7 @@ import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dar
 import 'package:dialcalink/features/sms/presentation/widgets/new_sms_textarea.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/search_contact_input_field.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/suggestions_contact.dart';
+import 'package:dialcalink/features/sms/presentation/widgets/suggestions_contact_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,12 +27,15 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
     _messageController.dispose();
     super.dispose();
   }
-  
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(clientUiBridgeProvider).requestSyncContacts();
+      final contacts = ref.read(syncedContactsStreamProvider).valueOrNull;
+      if (contacts == null || contacts.isEmpty) {
+        ref.read(clientUiBridgeProvider).requestSyncContacts();
+      }
     });
   }
 
@@ -44,7 +48,11 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
 
     if (targetNumber.isEmpty || content.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, indica el número de teléfono y el contenido del mensaje'))
+        const SnackBar(
+          content: Text(
+            'Por favor, indica el número de teléfono y el contenido del mensaje',
+          ),
+        ),
       );
       return;
     }
@@ -52,14 +60,18 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
     setState(() => _isSending = true);
 
     try {
-      await ref.read(clientUiBridgeProvider).requestSendSms(targetNumber, content);
+      await ref
+          .read(clientUiBridgeProvider)
+          .requestSendSms(targetNumber, content);
 
       if (mounted) {
         context.pushReplacement('/client/sms/$targetNumber');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isSending = false);
@@ -71,36 +83,68 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
     final theme = Theme.of(context);
     final contacts = ref.watch(filteredContactsProvider);
     final selectedContact = ref.watch(selectedRecipientProvider);
+    final contactsAsync = ref.watch(syncedContactsStreamProvider);
+    final showSkeleton =
+        contactsAsync.isLoading &&
+        (contactsAsync.valueOrNull == null ||
+            contactsAsync.valueOrNull!.isEmpty);
+
     return GlassScaffold(
       onBackTap: () => context.pop(),
       title: 'Nuevo SMS',
       body: Column(
         children: [
-          SearchContactInputField(controller: _recipientController),
-          if (selectedContact == null && contacts.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Sugerencias",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: theme.colorScheme.onSurface,
+          if (!showSkeleton)
+            SearchContactInputField(controller: _recipientController),
+          if (selectedContact == null) ...[
+            if (showSkeleton) ...[
+              const SizedBox(height: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Cargando contactos...",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                ...contacts.map((contact) => SuggestionsContact(
-                  contact: contact,
-                  onTap: () {
-                    ref.read(selectedRecipientProvider.notifier).select(contact);
-                    _recipientController.text = contact.name;
-                    ref.read(smsContactSearchQueryProvider.notifier).update('');
-                  },
-                )),
-              ],
-            ),
+                  const SizedBox(height: 8),
+                  const SuggestionsContactSkeleton(),
+                ],
+              ),
+            ] else if (contacts.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Sugerencias",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ...contacts.map(
+                    (contact) => SuggestionsContact(
+                      contact: contact,
+                      onTap: () {
+                        ref
+                            .read(selectedRecipientProvider.notifier)
+                            .select(contact);
+                        _recipientController.text = contact.name;
+                        ref
+                            .read(smsContactSearchQueryProvider.notifier)
+                            .update('');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
           const SizedBox(height: 16),
           NewSmsTextarea(

@@ -123,7 +123,7 @@ Stream<List<SmsMessageEntity>> smsConversations(Ref ref) {
   });
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<List<WsContactDto>> syncedContactsStream(Ref ref) {
   final bridge = ref.watch(clientUiBridgeProvider);
   return bridge.contacts;
