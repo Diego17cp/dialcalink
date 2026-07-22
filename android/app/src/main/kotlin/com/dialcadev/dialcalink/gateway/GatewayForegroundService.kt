@@ -53,18 +53,17 @@ class GatewayForegroundService : Service() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
             val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-            for (message in messages) {
-                val sender = message.displayOriginatingAddress ?: continue
-                val content = message.displayMessageBody ?: ""
-                emitEvent(
-                    mapOf(
-                        "type" to "sms_received",
-                        "phoneNumber" to sender,
-                        "content" to content,
-                        "receivedAtMillis" to System.currentTimeMillis()
-                    )
+            if (messages.isEmpty()) return
+            val sender = messages[0].displayOriginatingAddress ?: return
+            val fullBody = messages.joinToString(separator = "") { it.displayMessageBody ?: "" }
+            emitEvent(
+                mapOf(
+                    "type" to "sms_received",
+                    "phoneNumber" to sender,
+                    "content" to fullBody,
+                    "receivedAtMillis" to System.currentTimeMillis()
                 )
-            }
+            )
         }
     }
     private val phoneStateReceiver = object : BroadcastReceiver() {
