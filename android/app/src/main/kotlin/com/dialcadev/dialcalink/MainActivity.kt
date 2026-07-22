@@ -103,6 +103,12 @@ class MainActivity : FlutterActivity() {
                     startService(serviceIntent)
                     result.success(null)
                 }
+                "clearNotifications" -> {
+                    val serviceIntent = Intent(this, ClientForegroundService::class.java)
+                    serviceIntent.action = "CLEAR_NOTIFICATIONS"
+                    startService(serviceIntent)
+                    result.success(null)
+                }
                 "sendSms" -> {
                     val to = call.argument<String>("to") ?: ""
                     val content = call.argument<String>("content") ?: ""

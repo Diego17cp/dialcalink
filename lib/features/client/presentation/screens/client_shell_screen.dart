@@ -1,4 +1,5 @@
 import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
+import 'package:dialcalink/core/platform/client/providers/client_ui_bridge_provider.dart';
 import 'package:dialcalink/shared/secondary_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,14 +18,31 @@ class ClientShellScreen extends ConsumerStatefulWidget {
   ConsumerState<ClientShellScreen> createState() => _ClientShellScreenState();
 }
 
-class _ClientShellScreenState extends ConsumerState<ClientShellScreen> {
+class _ClientShellScreenState extends ConsumerState<ClientShellScreen>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _ensureClientServiceRunning();
+      ref.read(clientUiBridgeProvider).requestClearNotifications();
     });
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ref.read(clientUiBridgeProvider).requestClearNotifications();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   Future<void> _ensureClientServiceRunning() async {
     final linked = ref.read(linkedDevicesProvider).valueOrNull;
     if (linked == null || linked.isEmpty) return;
@@ -35,10 +53,13 @@ class _ClientShellScreenState extends ConsumerState<ClientShellScreen> {
         await bridge.startClientService();
         debugPrint('[DIALCA] ClientForegroundService arrancado desde shell');
       } catch (e) {
-        debugPrint('[DIALCA] Error al arrancar ClientForegroundService desde shell: $e');
+        debugPrint(
+          '[DIALCA] Error al arrancar ClientForegroundService desde shell: $e',
+        );
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(linkedDevicesProvider, (prev, next) {
@@ -66,8 +87,8 @@ class _ClientShellScreenState extends ConsumerState<ClientShellScreen> {
           SecondaryIconButton(
             icon: CupertinoIcons.plus_bubble_fill,
             onTap: () => context.pushNamed('sms_new'),
-          )
-        ]
+          ),
+        ],
       ],
       body: widget.navigationShell,
     );

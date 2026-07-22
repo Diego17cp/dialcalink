@@ -278,12 +278,18 @@ class ClientConnectionService {
         await _disconnect();
         _logger.i('ClientConnectionService: desconectado, ahora conectando...');
         await _connectToGateway();
+        break;
       case 'disconnect_requested':
         _logger.i('ClientConnectionService: desconectando...');
         await _disconnect();
+        break;
       case 'sync_contacts_requested':
         _logger.i('ClientConnectionService: solicitando sincronización de contacts');
         _client?.sendSyncContactsRequest();
+        break;
+      case 'clear_notifications_requested':
+        _logger.i('ClientConnectionService: solicitando limpieza de notificaciones');
+        await notificationService.clearAllNotifications();
         break;
     }
   }

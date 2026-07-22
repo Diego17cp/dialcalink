@@ -162,6 +162,14 @@ class ClientUiBridge {
     }
   }
 
+  Future<void> requestClearNotifications() async {
+    try {
+      await _methodChannel.invokeListMethod('clearNotifications');
+    } on PlatformException catch (e) {
+      _logger.e('ClientUiBridge: Error solicitando limpieza de notificaciones', error: e);
+    }
+  }
+
   Future<void> emitConnectionState(
     ClientConnectionStateBridge state, {
     String? gatewayName,

@@ -177,4 +177,13 @@ class NotificationService {
     if (sms) _smsGroupLines.clear();
     if (calls) _callsGroupLines.clear();
   }
+
+  Future<void> clearAllNotifications() async {
+    if (!_initialized) return;
+
+    _logger.i('Limpiando todas las notificaciones');
+    await _plugin.cancelAll();
+    resetGroupedHistory();
+    _logger.i('Todas las notificaciones limpiadas');
+  }
 }

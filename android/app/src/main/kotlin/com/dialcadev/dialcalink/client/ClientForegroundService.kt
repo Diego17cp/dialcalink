@@ -53,6 +53,10 @@ class ClientForegroundService : Service() {
                 Log.i(TAG, "Enviando comando disconnect_requested")
                 serviceSink?.success(mapOf("type" to "disconnect_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
             }
+            "CLEAR_NOTIFICATIONS" -> {
+                Log.i(TAG, "Enviando comando clear_notifications_requested")
+                serviceSink?.success(mapOf("type" to "clear_notifications_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+            }
             "SEND_SMS" -> {
                 val to = intent.getStringExtra("to") ?: ""
                 val content = intent.getStringExtra("content") ?: ""
