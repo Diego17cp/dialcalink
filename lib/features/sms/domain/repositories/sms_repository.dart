@@ -12,4 +12,5 @@ abstract class SmsRepository {
   Future<Result<SmsMessageEntity>> findById(String id);
   Future<int> countByDateAndId(DateTime date, String id);
   Stream<int> watchCountByDateAndId(DateTime date, String id);
+  Future<Result<void>> deleteMessagesByPhoneNumber(String phoneNumber);
 }

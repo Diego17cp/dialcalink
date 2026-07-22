@@ -612,6 +612,129 @@ final filteredContactsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FilteredContactsRef = AutoDisposeProviderRef<List<WsContactDto>>;
+String _$deleteConversationHash() =>
+    r'7f0803e9daaeaa697e91bfde3a9d478e04cdfd56';
+
+/// See also [deleteConversation].
+@ProviderFor(deleteConversation)
+const deleteConversationProvider = DeleteConversationFamily();
+
+/// See also [deleteConversation].
+class DeleteConversationFamily extends Family<AsyncValue<Result<void>>> {
+  /// See also [deleteConversation].
+  const DeleteConversationFamily();
+
+  /// See also [deleteConversation].
+  DeleteConversationProvider call(String phoneNumber) {
+    return DeleteConversationProvider(phoneNumber);
+  }
+
+  @override
+  DeleteConversationProvider getProviderOverride(
+    covariant DeleteConversationProvider provider,
+  ) {
+    return call(provider.phoneNumber);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'deleteConversationProvider';
+}
+
+/// See also [deleteConversation].
+class DeleteConversationProvider
+    extends AutoDisposeFutureProvider<Result<void>> {
+  /// See also [deleteConversation].
+  DeleteConversationProvider(String phoneNumber)
+    : this._internal(
+        (ref) => deleteConversation(ref as DeleteConversationRef, phoneNumber),
+        from: deleteConversationProvider,
+        name: r'deleteConversationProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$deleteConversationHash,
+        dependencies: DeleteConversationFamily._dependencies,
+        allTransitiveDependencies:
+            DeleteConversationFamily._allTransitiveDependencies,
+        phoneNumber: phoneNumber,
+      );
+
+  DeleteConversationProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.phoneNumber,
+  }) : super.internal();
+
+  final String phoneNumber;
+
+  @override
+  Override overrideWith(
+    FutureOr<Result<void>> Function(DeleteConversationRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DeleteConversationProvider._internal(
+        (ref) => create(ref as DeleteConversationRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        phoneNumber: phoneNumber,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Result<void>> createElement() {
+    return _DeleteConversationProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DeleteConversationProvider &&
+        other.phoneNumber == phoneNumber;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, phoneNumber.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin DeleteConversationRef on AutoDisposeFutureProviderRef<Result<void>> {
+  /// The parameter `phoneNumber` of this provider.
+  String get phoneNumber;
+}
+
+class _DeleteConversationProviderElement
+    extends AutoDisposeFutureProviderElement<Result<void>>
+    with DeleteConversationRef {
+  _DeleteConversationProviderElement(super.provider);
+
+  @override
+  String get phoneNumber => (origin as DeleteConversationProvider).phoneNumber;
+}
+
 String _$smsSentStatusesHash() => r'1ea0eb5afe5a9279604605eba4053e7c19d52fd1';
 
 /// See also [SmsSentStatuses].

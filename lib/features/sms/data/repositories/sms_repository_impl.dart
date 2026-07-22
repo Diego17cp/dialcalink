@@ -103,4 +103,16 @@ class SmsRepositoryImpl implements SmsRepository {
       throw DatabaseFailure('Error observando conteo de mensajes para fecha $date y id $id', cause: e);
     }
   }
+
+  @override
+  Future<Result<void>> deleteMessagesByPhoneNumber(String phoneNumber) async {
+    try {
+      await _dao.deleteMessagesByPhoneNumber(phoneNumber);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.failure(
+        DatabaseFailure('Error eliminando mensajes de $phoneNumber', cause: e),
+      );
+    } 
+  }
 }

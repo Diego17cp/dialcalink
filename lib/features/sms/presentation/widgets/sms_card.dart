@@ -1,3 +1,4 @@
+import 'package:dialcalink/features/sms/presentation/widgets/delete_conversation_dialog.dart';
 import 'package:dialcalink/shared/relative_time_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,17 @@ class SmsCard extends StatelessWidget {
         ),
       ),
       child: InkWell(
-        onTap: () =>
-            context.pushNamed('sms_conversation', pathParameters: {'phoneNumber': sms.phoneNumber}),
+        onTap: () => context.pushNamed(
+          'sms_conversation',
+          pathParameters: {'phoneNumber': sms.phoneNumber},
+        ),
+        onLongPress: () => showCupertinoDialog(
+          context: context,
+          builder: (_) => DeleteConversationDialog(
+            displayName: sms.displayName,
+            phoneNumber: sms.phoneNumber,
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -62,8 +72,10 @@ class SmsCard extends StatelessWidget {
                           child: Text(
                             sms.displayName,
                             style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: sms.isRead ? FontWeight.w600 : FontWeight.w900,
-                              color: theme.colorScheme.onSurface
+                              fontWeight: sms.isRead
+                                  ? FontWeight.w600
+                                  : FontWeight.w900,
+                              color: theme.colorScheme.onSurface,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -73,9 +85,11 @@ class SmsCard extends StatelessWidget {
                           dateTime: sms.receivedAt,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: sms.isRead
-                              ? theme.colorScheme.onSurfaceVariant
-                              : theme.colorScheme.primary,
-                            fontWeight: sms.isRead ? FontWeight.normal : FontWeight.bold,
+                                ? theme.colorScheme.onSurfaceVariant
+                                : theme.colorScheme.primary,
+                            fontWeight: sms.isRead
+                                ? FontWeight.normal
+                                : FontWeight.bold,
                           ),
                         ),
                       ],
@@ -87,7 +101,9 @@ class SmsCard extends StatelessWidget {
                         color: theme.colorScheme.onSurfaceVariant.withValues(
                           alpha: sms.isRead ? 0.7 : 1.0,
                         ),
-                        fontWeight: sms.isRead ? FontWeight.normal : FontWeight.w500
+                        fontWeight: sms.isRead
+                            ? FontWeight.normal
+                            : FontWeight.w500,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -108,10 +124,10 @@ class SmsCard extends StatelessWidget {
                         color: theme.colorScheme.primary.withValues(alpha: 0.3),
                         blurRadius: 4,
                         spreadRadius: 1,
-                      )
-                    ]
+                      ),
+                    ],
                   ),
-                )
+                ),
             ],
           ),
         ),

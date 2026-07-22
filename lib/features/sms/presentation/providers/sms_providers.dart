@@ -157,3 +157,6 @@ class SelectedRecipient extends _$SelectedRecipient {
   
   void select(WsContactDto? contact) => state = contact;
 }
+
+@riverpod
+Future<Result<void>> deleteConversation(Ref ref, String phoneNumber) => ref.watch(smsRepositoryProvider).deleteMessagesByPhoneNumber(phoneNumber);

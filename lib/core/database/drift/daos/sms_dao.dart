@@ -85,4 +85,8 @@ class SmsDao extends DatabaseAccessor<AppDatabase> with _$SmsDaoMixin {
       );
     return query.map((row) => row.read(smsMessages.id.count()) ?? 0).watchSingle();
   }
+
+  Future<int> deleteMessagesByPhoneNumber(String phoneNumber) {
+    return (delete(smsMessages)..where((t) => t.phoneNumber.equals(phoneNumber))).go();
+  }
 }
