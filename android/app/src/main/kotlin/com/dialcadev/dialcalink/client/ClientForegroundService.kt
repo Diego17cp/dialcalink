@@ -35,6 +35,8 @@ class ClientForegroundService : Service() {
 
     private var pendingConnectionState: Map<String, Any?>? = null
 
+    private var pendingCommand: Map<String, Any?>? = null
+
     override fun onCreate() {
         super.onCreate()
         Log.i(TAG, "onCreate")
@@ -47,31 +49,31 @@ class ClientForegroundService : Service() {
         when (intent?.action) {
             "RECONNECT" -> {
                 Log.i(TAG, "Enviando comando reconnect_requested")
-                serviceSink?.success(mapOf("type" to "reconnect_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+                sendCommand(mapOf("type" to "reconnect_requested"))
             }
             "DISCONNECT" -> {
                 Log.i(TAG, "Enviando comando disconnect_requested")
-                serviceSink?.success(mapOf("type" to "disconnect_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+                sendCommand(mapOf("type" to "disconnect_requested"))
             }
             "CLEAR_NOTIFICATIONS" -> {
                 Log.i(TAG, "Enviando comando clear_notifications_requested")
-                serviceSink?.success(mapOf("type" to "clear_notifications_requested")) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+                sendCommand(mapOf("type" to "clear_notifications_requested"))
             }
             "SEND_SMS" -> {
                 val to = intent.getStringExtra("to") ?: ""
                 val content = intent.getStringExtra("content") ?: ""
                 Log.i(TAG, "Enviando comando send_sms_requested a $to")
-                serviceSink?.success(mapOf(
+                sendCommand(mapOf(
                     "type" to "send_sms_requested",
                     "to" to to,
                     "content" to content
-                )) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+                ))
             }
             "SYNC_CONTACTS" -> {
                 Log.i(TAG, "Enviando comando sync_contacts_requested")
-                serviceSink?.success(mapOf(
+                sendCommand(mapOf(
                     "type" to "sync_contacts_requested"
-                )) ?: Log.e(TAG, "NO SE PUDO ENVIAR COMANDO: serviceSink ES NULL!")
+                ))
             }
             
         }
@@ -135,6 +137,10 @@ class ClientForegroundService : Service() {
                 override fun onListen(arguments: Any?, sink: EventChannel.EventSink?) {
                     serviceSink = sink
                     Log.i(TAG, "Service EventChannel: Dart se suscribio a eventos")
+                    pendingCommand?.let {
+                        sink?.success(it)
+                        pendingCommand = null
+                    }
                 }
                 override fun onCancel(arguments: Any?) {
                     serviceSink = null
@@ -197,5 +203,12 @@ class ClientForegroundService : Service() {
             pendingConnectionState = null
         }
         flutterEngine = engine
+    }
+    private fun sendCommand(payload: Map<String, Any?>) {
+        if (serviceSink != null) serviceSink?.success(payload)
+        else {
+            Log.w(TAG, "serviceSink es null, guardando comando pendiente: $payload")
+            pendingCommand = payload
+        }
     }
 }
