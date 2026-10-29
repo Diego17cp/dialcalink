@@ -1,13 +1,15 @@
 name: dialcalink
 description: "DialcaLink -  Gateway telefonico Android via red local (SMS + Llamadas)"
 publish_to: 'none'
-version: 1.1.4+6
+version: 1.1.5+7
 
 environment:
   sdk: ^3.10.4
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   drift: ^2.20.0
   drift_flutter: ^0.2.0
@@ -35,7 +37,7 @@ dependencies:
   device_info_plus: ^11.3.3
   flutter_contacts: ^2.1.0
   google_fonts: ^8.1.0
-  intl: ^0.20.3
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +51,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/images/
