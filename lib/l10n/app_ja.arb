@@ -26,7 +26,7 @@
   "onboardingWelcomeSubtitle": "2 台の Android デバイスを接続して、電話のアクティビティを一元管理します。",
   "onboardingWelcomeHowWorksTitle": "仕組み",
   "onboardingWelcomeHowWorksText": "SIM カードを搭載したデバイスが、ローカル Wi-Fi ネットワーク経由で SMS と通話情報を共有します。メインデバイスはリアルタイムで受信します。",
-  "onboardingWelcomeInfo": "情報はローカルネットワーク内に保持されます。外部サーバーは使用しません。",
+  "onboardingWelcomeInfo": "あなたの情報はローカルネットワーク内に保持されます。\n外部サーバーは使用しません。",
   "onboardingRoleTitle": "DialcaLink へようこそ",
   "onboardingRoleSubtitle1": "このデバイスの使用方法を選択してください。",
   "onboardingRoleSubtitle2": "この設定は後から変更できます。",

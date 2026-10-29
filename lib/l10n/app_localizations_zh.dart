@@ -91,7 +91,7 @@ class AppLocalizationsZh extends AppLocalizations {
       '装有 SIM 卡的设备通过本地 Wi-Fi 网络共享短信和通话信息，主设备可实时接收。';
 
   @override
-  String get onboardingWelcomeInfo => '你的信息仅保留在本地网络中。我们不使用外部服务器。';
+  String get onboardingWelcomeInfo => '你的信息仅保留在本地网络中。\n我们不会使用外部服务器。';
 
   @override
   String get onboardingRoleTitle => '欢迎使用 DialcaLink';

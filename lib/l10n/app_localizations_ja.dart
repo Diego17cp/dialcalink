@@ -92,7 +92,8 @@ class AppLocalizationsJa extends AppLocalizations {
       'SIM カードを搭載したデバイスが、ローカル Wi-Fi ネットワーク経由で SMS と通話情報を共有します。メインデバイスはリアルタイムで受信します。';
 
   @override
-  String get onboardingWelcomeInfo => '情報はローカルネットワーク内に保持されます。外部サーバーは使用しません。';
+  String get onboardingWelcomeInfo =>
+      'あなたの情報はローカルネットワーク内に保持されます。\n外部サーバーは使用しません。';
 
   @override
   String get onboardingRoleTitle => 'DialcaLink へようこそ';

@@ -27,7 +27,7 @@
   "onboardingWelcomeSubtitle": "Connect two Android devices to centralize all your phone activity.",
   "onboardingWelcomeHowWorksTitle": "How does it work?",
   "onboardingWelcomeHowWorksText": "The device with the SIM card shares SMS messages and calls over your local Wi-Fi network. Your primary device receives them in real time.",
-  "onboardingWelcomeInfo": "Your information stays within your local network. We don't use external servers.",
+  "onboardingWelcomeInfo": "Your information stays within your local\nnetwork. We do not use external servers.",
   "onboardingRoleTitle": "Welcome to DialcaLink",
   "onboardingRoleSubtitle1": "Choose how you'll use this device.",
   "onboardingRoleSubtitle2": "You can change this setting later.",

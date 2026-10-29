@@ -273,7 +273,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingWelcomeInfo.
   ///
   /// In es, this message translates to:
-  /// **'Tu información permanece dentrode tu red local. No utilizamos servidores externos.'**
+  /// **'Tu información permanece dentro de tu red\nlocal. No utilizamos servidores externos.'**
   String get onboardingWelcomeInfo;
 
   /// No description provided for @onboardingRoleTitle.

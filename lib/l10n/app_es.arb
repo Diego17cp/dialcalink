@@ -29,7 +29,7 @@
   "onboardingWelcomeSubtitle": "Conecta dos dispositivos Android para centralizar toda tu actividad telefónica.",
   "onboardingWelcomeHowWorksTitle": "¿Cómo funciona?",
   "onboardingWelcomeHowWorksText": "El dispositivo con SIM comparte SMS y llamadas mediante tu red Wi-Fi local. Tu dispositivo principal recibe en tiempo real.",
-  "onboardingWelcomeInfo": "Tu información permanece dentrode tu red local. No utilizamos servidores externos.",
+  "onboardingWelcomeInfo": "Tu información permanece dentro de tu red\nlocal. No utilizamos servidores externos.",
 
   "onboardingRoleTitle": "Bienvenido a DialcaLink",
   "onboardingRoleSubtitle1": "Selecciona cómo utilizarás este dispositivo.",

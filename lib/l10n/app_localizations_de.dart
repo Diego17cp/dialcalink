@@ -93,7 +93,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get onboardingWelcomeInfo =>
-      'Deine Daten bleiben in deinem lokalen Netzwerk. Wir verwenden keine externen Server.';
+      'Deine Informationen bleiben innerhalb deines lokalen\nNetzwerks. Wir verwenden keine externen Server.';
 
   @override
   String get onboardingRoleTitle => 'Willkommen bei DialcaLink';
