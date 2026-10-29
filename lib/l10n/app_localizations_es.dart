@@ -129,6 +129,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Para continuar, necesitamos que otorgues los permisos necesarios para el correcto funcionamiento de la aplicación.';
 
   @override
+  String get onboardingPermissionsManualGrant =>
+      'Ir a Ajustes para permitir manualmente';
+
+  @override
   String get permissionSMSTitle => 'Mensajes SMS';
 
   @override
@@ -171,7 +175,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Permite recibir alertas de SMS y llamadas entrantes.';
 
   @override
-  String get permissionPhoneHistoryTitle => 'Historialde llamadas';
+  String get permissionPhoneHistoryTitle => 'Historial de llamadas';
 
   @override
   String get permissionPhoneHistoryDescription =>

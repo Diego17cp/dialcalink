@@ -41,6 +41,7 @@
 
   "onboardingPermissionsTitle": "Permisos necesarios",
   "onboardingPermissionsSubtitle": "Para continuar, necesitamos que otorgues los permisos necesarios para el correcto funcionamiento de la aplicación.",
+  "onboardingPermissionsManualGrant": "Ir a Ajustes para permitir manualmente",
 
   "permissionSMSTitle": "Mensajes SMS",
   "permissionSMSDescription": "Necesario para detectar SMS entrantes en el Gateway.",
@@ -54,7 +55,7 @@
   "permissionCameraDescription": "Necesario para escanear el código QR de vinculación.",
   "permissionNotificationsTitle": "Notificaciones",
   "permissionNotificationsDescription": "Permite recibir alertas de SMS y llamadas entrantes.",
-  "permissionPhoneHistoryTitle": "Historialde llamadas",
+  "permissionPhoneHistoryTitle": "Historial de llamadas",
   "permissionPhoneHistoryDescription": "Necesario para detectar llamadas entrantes en el Gateway.",
 
   "onboardingPairingTitle": "Vincular dispositivo",

@@ -127,6 +127,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'To continue, please grant the permissions required for the app to work properly.';
 
   @override
+  String get onboardingPermissionsManualGrant =>
+      'Go to Settings to grant permission manually';
+
+  @override
   String get permissionSMSTitle => 'SMS messages';
 
   @override

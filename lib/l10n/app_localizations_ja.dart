@@ -124,6 +124,9 @@ class AppLocalizationsJa extends AppLocalizations {
       '続行するには、アプリを正常に動作させるために必要な権限を許可してください。';
 
   @override
+  String get onboardingPermissionsManualGrant => '設定に移動して手動で権限を許可する';
+
+  @override
   String get permissionSMSTitle => 'SMS メッセージ';
 
   @override

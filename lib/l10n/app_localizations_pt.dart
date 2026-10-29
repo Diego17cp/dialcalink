@@ -128,6 +128,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Para continuar, conceda as permissões necessárias para o funcionamento correto do aplicativo.';
 
   @override
+  String get onboardingPermissionsManualGrant =>
+      'Ir às Configurações para conceder a permissão manualmente';
+
+  @override
   String get permissionSMSTitle => 'Mensagens SMS';
 
   @override

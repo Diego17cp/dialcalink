@@ -129,6 +129,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Pour continuer, veuillez accorder les autorisations nécessaires au bon fonctionnement de l’application.';
 
   @override
+  String get onboardingPermissionsManualGrant =>
+      'Accéder aux paramètres pour autoriser manuellement';
+
+  @override
   String get permissionSMSTitle => 'Messages SMS';
 
   @override

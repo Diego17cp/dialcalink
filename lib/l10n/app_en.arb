@@ -37,6 +37,7 @@
   "onboardingRoleGatewayRCardInfo": "Share SMS messages and calls with your primary device",
   "onboardingPermissionsTitle": "Required permissions",
   "onboardingPermissionsSubtitle": "To continue, please grant the permissions required for the app to work properly.",
+  "onboardingPermissionsManualGrant": "Go to Settings to grant permission manually",
   "permissionSMSTitle": "SMS messages",
   "permissionSMSDescription": "Required to detect incoming SMS messages on the Gateway.",
   "permissionPhoneTitle": "Phone status",

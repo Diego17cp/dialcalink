@@ -36,6 +36,7 @@
   "onboardingRoleGatewayRCardInfo": "メインデバイスと SMS および通話情報を共有します",
   "onboardingPermissionsTitle": "必要な権限",
   "onboardingPermissionsSubtitle": "続行するには、アプリを正常に動作させるために必要な権限を許可してください。",
+  "onboardingPermissionsManualGrant": "設定に移動して手動で権限を許可する",
   "permissionSMSTitle": "SMS メッセージ",
   "permissionSMSDescription": "ゲートウェイで受信 SMS を検出するために必要です。",
   "permissionPhoneTitle": "電話の状態",

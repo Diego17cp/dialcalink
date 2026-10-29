@@ -330,6 +330,12 @@ abstract class AppLocalizations {
   /// **'Para continuar, necesitamos que otorgues los permisos necesarios para el correcto funcionamiento de la aplicación.'**
   String get onboardingPermissionsSubtitle;
 
+  /// No description provided for @onboardingPermissionsManualGrant.
+  ///
+  /// In es, this message translates to:
+  /// **'Ir a Ajustes para permitir manualmente'**
+  String get onboardingPermissionsManualGrant;
+
   /// No description provided for @permissionSMSTitle.
   ///
   /// In es, this message translates to:
@@ -405,7 +411,7 @@ abstract class AppLocalizations {
   /// No description provided for @permissionPhoneHistoryTitle.
   ///
   /// In es, this message translates to:
-  /// **'Historialde llamadas'**
+  /// **'Historial de llamadas'**
   String get permissionPhoneHistoryTitle;
 
   /// No description provided for @permissionPhoneHistoryDescription.

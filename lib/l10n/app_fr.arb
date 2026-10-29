@@ -37,6 +37,7 @@
   "onboardingRoleGatewayRCardInfo": "Partagez les SMS et les appels avec votre appareil principal",
   "onboardingPermissionsTitle": "Autorisations nécessaires",
   "onboardingPermissionsSubtitle": "Pour continuer, veuillez accorder les autorisations nécessaires au bon fonctionnement de l’application.",
+  "onboardingPermissionsManualGrant": "Accéder aux paramètres pour autoriser manuellement",
   "permissionSMSTitle": "Messages SMS",
   "permissionSMSDescription": "Nécessaire pour détecter les SMS entrants sur le Gateway.",
   "permissionPhoneTitle": "État du téléphone",

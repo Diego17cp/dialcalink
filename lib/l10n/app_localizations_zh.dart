@@ -121,6 +121,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPermissionsSubtitle => '要继续使用，请授予应用正常运行所需的权限。';
 
   @override
+  String get onboardingPermissionsManualGrant => '前往设置以手动授予权限';
+
+  @override
   String get permissionSMSTitle => '短信';
 
   @override

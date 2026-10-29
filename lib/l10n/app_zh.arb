@@ -36,6 +36,7 @@
   "onboardingRoleGatewayRCardInfo": "与主设备共享短信和通话信息",
   "onboardingPermissionsTitle": "所需权限",
   "onboardingPermissionsSubtitle": "要继续使用，请授予应用正常运行所需的权限。",
+  "onboardingPermissionsManualGrant": "前往设置以手动授予权限",
   "permissionSMSTitle": "短信",
   "permissionSMSDescription": "用于检测网关设备收到的短信。",
   "permissionPhoneTitle": "电话状态",
