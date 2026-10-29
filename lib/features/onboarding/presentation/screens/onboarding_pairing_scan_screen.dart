@@ -1,3 +1,4 @@
+import 'package:dialcalink/features/pairing/presentation/widgets/manual_code_pairing_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +35,18 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
           .read(clientPairingNotifierProvider.notifier)
           .onCodeScanned(barcode!.rawValue!);
     }
+  }
+
+  void _showManualPairingSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const ManualCodePairingSheet(),
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+    );
   }
 
   @override
@@ -74,7 +87,10 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 48),
+                GlassIconButton(
+                  icon: CupertinoIcons.keyboard,
+                  onTap: _showManualPairingSheet,
+                ),
               ],
             ),
           ),

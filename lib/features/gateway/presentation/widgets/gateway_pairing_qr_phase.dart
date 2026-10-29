@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dialcalink/features/gateway/presentation/widgets/gateway_pairing_pin.dart';
+import 'package:dialcalink/features/pairing/data/services/udp_discovery_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,7 @@ class GatewayPairingQrPhase extends ConsumerStatefulWidget {
 
 class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
   final TextEditingController _ipController = TextEditingController();
+  final _udpDiscovery = UdpDiscoveryService();
 
   @override
   void initState() {
@@ -46,6 +49,7 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
   @override
   void dispose() {
     _ipController.dispose();
+    _udpDiscovery.stop();
     super.dispose();
   }
 
@@ -54,10 +58,21 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
     final pairingState = ref.watch(gatewayPairingNotifierProvider);
     final theme = Theme.of(context);
 
-    ref.listen<GatewayPairingState>(gatewayPairingNotifierProvider, (prev, next) {
-      if (next.phase == GatewayPairingPhase.showingQr && next.payload != null && next.payload?.pairingToken != prev?.payload?.pairingToken) {
+    ref.listen<GatewayPairingState>(gatewayPairingNotifierProvider, (
+      prev,
+      next,
+    ) {
+      if (next.phase == GatewayPairingPhase.showingQr &&
+          next.payload != null &&
+          next.payload?.pairingToken != prev?.payload?.pairingToken) {
         final bridge = ref.read(gatewayUiBridgeProvider);
         bridge.sendPairingToken(next.payload!.pairingToken);
+        _udpDiscovery.startGatewayResponder(
+          deviceName: next.payload!.deviceName,
+          deviceId: next.payload!.deviceId,
+          ip: next.payload!.ip,
+          port: next.payload!.port,
+        );
       }
     });
 
@@ -129,7 +144,9 @@ class _GeneratingPhase extends StatelessWidget {
                 child: Icon(
                   CupertinoIcons.qrcode,
                   size: 100,
-                  color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                  color: theme.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.5,
+                  ),
                 ),
               ),
             );
@@ -187,6 +204,7 @@ class _QrPhase extends StatelessWidget {
           'Listo para escanear',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
+        GatewayPairingPin(pin: jsonDecode(payloadJson)['pairingToken']),
       ],
     );
   }
@@ -250,7 +268,8 @@ class _ManualIpPhase extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: () => controller.text.isEmpty ? null : onSubmitted(controller.text),
+              onPressed: () =>
+                  controller.text.isEmpty ? null : onSubmitted(controller.text),
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: theme.colorScheme.primary,
@@ -278,7 +297,11 @@ class _ErrorPhase extends StatelessWidget {
       key: const ValueKey('error'),
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(CupertinoIcons.exclamationmark_circle_fill, color: Colors.red, size: 60),
+        const Icon(
+          CupertinoIcons.exclamationmark_circle_fill,
+          color: Colors.red,
+          size: 60,
+        ),
         const SizedBox(height: 16),
         Text(
           message,

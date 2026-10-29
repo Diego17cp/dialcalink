@@ -2,6 +2,7 @@ import 'package:dialcalink/core/failures/pairing_failure.dart';
 import 'package:dialcalink/core/failures/result.dart';
 import 'package:dialcalink/core/network/discovery/local_network_info_service.dart';
 import 'package:dialcalink/core/network/discovery/network_info_result.dart';
+import 'package:dialcalink/core/utils/pin_generator.dart';
 import 'package:dialcalink/features/pairing/domain/value_objects/pairing_payload.dart';
 import 'package:uuid/uuid.dart';
 
@@ -43,7 +44,8 @@ class GenerateGatewayPairingPayloadUseCase {
       deviceName: gatewayDeviceName,
       ip: ip,
       port: kGatewayWebSocketPort,
-      pairingToken: _uuid.v4(),
+      // pairingToken: _uuid.v4(),
+      pairingToken: PinGenerator.generate6DigitPin(),
       generatedAt: DateTime.now(),
     );
     return Result.ok(payload);
