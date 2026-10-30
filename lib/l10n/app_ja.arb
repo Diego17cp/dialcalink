@@ -157,5 +157,13 @@
   "clientStatusForgotDialogInfo": "接続が解除されます。SMS と通話を受信するには、デバイスを再度ペアリングする必要があります。",
   "clientStatusForgotDialogBtnCancel": "キャンセル",
   "clientStatusForgotDialogBtnForgot": "登録解除",
-  "appTitle": "DialcaLink"
+  "appTitle": "DialcaLink",
+  "clientStatusGatewayStatusTitle": "Gatewayサービスの状態",
+  "clientStatusGatewayReady": "接続済み",
+  "clientStatusGatewayConnecting": "接続中...",
+  "clientStatusGatewayReconnecting": "再接続中...",
+  "clientStatusGatewayRejected": "ペアリングが失われました",
+  "clientStatusGatewayDisconnected": "切断済み",
+  "clientStatusGatewayConnected": "認証中...",
+  "clientStatusGatewayError": "接続エラー"
 }

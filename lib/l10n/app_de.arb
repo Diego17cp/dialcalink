@@ -157,5 +157,13 @@
   "clientStatusForgotDialogTitle": "Gateway vergessen?",
   "clientStatusForgotDialogInfo": "Die Verbindung geht verloren. Du musst das Gerät erneut koppeln, um SMS und Anrufe zu empfangen.",
   "clientStatusForgotDialogBtnCancel": "Abbrechen",
-  "clientStatusForgotDialogBtnForgot": "Vergessen"
+  "clientStatusForgotDialogBtnForgot": "Vergessen",
+  "clientStatusGatewayStatusTitle": "Gateway-Dienststatus",
+  "clientStatusGatewayReady": "Verbunden",
+  "clientStatusGatewayConnecting": "Verbindung wird hergestellt...",
+  "clientStatusGatewayReconnecting": "Verbindung wird wiederhergestellt...",
+  "clientStatusGatewayRejected": "Kopplung verloren",
+  "clientStatusGatewayDisconnected": "Getrennt",
+  "clientStatusGatewayConnected": "Authentifizierung läuft...",
+  "clientStatusGatewayError": "Verbindungsfehler"
 }

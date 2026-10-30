@@ -157,5 +157,13 @@
   "clientStatusForgotDialogInfo": "连接将断开。你需要重新配对设备才能接收短信和通话信息。",
   "clientStatusForgotDialogBtnCancel": "取消",
   "clientStatusForgotDialogBtnForgot": "忘记",
-  "appTitle": "DialcaLink"
+  "appTitle": "DialcaLink",
+  "clientStatusGatewayStatusTitle": "Gateway 服务状态",
+  "clientStatusGatewayReady": "已连接",
+  "clientStatusGatewayConnecting": "正在连接...",
+  "clientStatusGatewayReconnecting": "正在重新连接...",
+  "clientStatusGatewayRejected": "配对已丢失",
+  "clientStatusGatewayDisconnected": "已断开连接",
+  "clientStatusGatewayConnected": "正在验证身份...",
+  "clientStatusGatewayError": "连接错误"
 }

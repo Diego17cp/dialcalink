@@ -498,4 +498,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => '登録解除';
+
+  @override
+  String get clientStatusGatewayStatusTitle => 'Gatewayサービスの状態';
+
+  @override
+  String get clientStatusGatewayReady => '接続済み';
+
+  @override
+  String get clientStatusGatewayConnecting => '接続中...';
+
+  @override
+  String get clientStatusGatewayReconnecting => '再接続中...';
+
+  @override
+  String get clientStatusGatewayRejected => 'ペアリングが失われました';
+
+  @override
+  String get clientStatusGatewayDisconnected => '切断済み';
+
+  @override
+  String get clientStatusGatewayConnected => '認証中...';
+
+  @override
+  String get clientStatusGatewayError => '接続エラー';
 }

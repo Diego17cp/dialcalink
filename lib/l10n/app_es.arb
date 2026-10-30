@@ -178,5 +178,15 @@
   "clientStatusForgotDialogTitle": "¿Olvidar Gateway?",
   "clientStatusForgotDialogInfo": "Se perderá la conexión y tendrás que vincularlo nuevamente para recibir SMS y llamadas.",
   "clientStatusForgotDialogBtnCancel": "Cancelar",
-  "clientStatusForgotDialogBtnForgot": "Olvidar"
+  "clientStatusForgotDialogBtnForgot": "Olvidar",
+
+  "clientStatusGatewayStatusTitle": "Estado del Servicio del Gateway",
+  "clientStatusGatewayReady": "Conectado",
+  "clientStatusGatewayConnecting": "Conectando...",
+  "clientStatusGatewayReconnecting": "Reconectando...",
+  "clientStatusGatewayRejected": "Vínculo perdido",
+  "clientStatusGatewayDisconnected": "Desconectado",
+  "clientStatusGatewayConnected": "Autenticando...",
+  "clientStatusGatewayError": "Error de conexión"
+  
 }

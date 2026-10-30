@@ -486,4 +486,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => '忘记';
+
+  @override
+  String get clientStatusGatewayStatusTitle => 'Gateway 服务状态';
+
+  @override
+  String get clientStatusGatewayReady => '已连接';
+
+  @override
+  String get clientStatusGatewayConnecting => '正在连接...';
+
+  @override
+  String get clientStatusGatewayReconnecting => '正在重新连接...';
+
+  @override
+  String get clientStatusGatewayRejected => '配对已丢失';
+
+  @override
+  String get clientStatusGatewayDisconnected => '已断开连接';
+
+  @override
+  String get clientStatusGatewayConnected => '正在验证身份...';
+
+  @override
+  String get clientStatusGatewayError => '连接错误';
 }

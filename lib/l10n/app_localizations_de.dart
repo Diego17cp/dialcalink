@@ -538,4 +538,29 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => 'Vergessen';
+
+  @override
+  String get clientStatusGatewayStatusTitle => 'Gateway-Dienststatus';
+
+  @override
+  String get clientStatusGatewayReady => 'Verbunden';
+
+  @override
+  String get clientStatusGatewayConnecting => 'Verbindung wird hergestellt...';
+
+  @override
+  String get clientStatusGatewayReconnecting =>
+      'Verbindung wird wiederhergestellt...';
+
+  @override
+  String get clientStatusGatewayRejected => 'Kopplung verloren';
+
+  @override
+  String get clientStatusGatewayDisconnected => 'Getrennt';
+
+  @override
+  String get clientStatusGatewayConnected => 'Authentifizierung läuft...';
+
+  @override
+  String get clientStatusGatewayError => 'Verbindungsfehler';
 }

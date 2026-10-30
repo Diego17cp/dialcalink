@@ -526,4 +526,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => 'Forget';
+
+  @override
+  String get clientStatusGatewayStatusTitle => 'Gateway Service Status';
+
+  @override
+  String get clientStatusGatewayReady => 'Connected';
+
+  @override
+  String get clientStatusGatewayConnecting => 'Connecting...';
+
+  @override
+  String get clientStatusGatewayReconnecting => 'Reconnecting...';
+
+  @override
+  String get clientStatusGatewayRejected => 'Pairing lost';
+
+  @override
+  String get clientStatusGatewayDisconnected => 'Disconnected';
+
+  @override
+  String get clientStatusGatewayConnected => 'Authenticating...';
+
+  @override
+  String get clientStatusGatewayError => 'Connection error';
 }

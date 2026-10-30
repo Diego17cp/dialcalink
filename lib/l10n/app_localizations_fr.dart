@@ -536,4 +536,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => 'Oublier';
+
+  @override
+  String get clientStatusGatewayStatusTitle => 'État du service Gateway';
+
+  @override
+  String get clientStatusGatewayReady => 'Connecté';
+
+  @override
+  String get clientStatusGatewayConnecting => 'Connexion en cours...';
+
+  @override
+  String get clientStatusGatewayReconnecting => 'Reconnexion en cours...';
+
+  @override
+  String get clientStatusGatewayRejected => 'Association perdue';
+
+  @override
+  String get clientStatusGatewayDisconnected => 'Déconnecté';
+
+  @override
+  String get clientStatusGatewayConnected => 'Authentification en cours...';
+
+  @override
+  String get clientStatusGatewayError => 'Erreur de connexion';
 }

@@ -1055,6 +1055,54 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Olvidar'**
   String get clientStatusForgotDialogBtnForgot;
+
+  /// No description provided for @clientStatusGatewayStatusTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Estado del Servicio del Gateway'**
+  String get clientStatusGatewayStatusTitle;
+
+  /// No description provided for @clientStatusGatewayReady.
+  ///
+  /// In es, this message translates to:
+  /// **'Conectado'**
+  String get clientStatusGatewayReady;
+
+  /// No description provided for @clientStatusGatewayConnecting.
+  ///
+  /// In es, this message translates to:
+  /// **'Conectando...'**
+  String get clientStatusGatewayConnecting;
+
+  /// No description provided for @clientStatusGatewayReconnecting.
+  ///
+  /// In es, this message translates to:
+  /// **'Reconectando...'**
+  String get clientStatusGatewayReconnecting;
+
+  /// No description provided for @clientStatusGatewayRejected.
+  ///
+  /// In es, this message translates to:
+  /// **'Vínculo perdido'**
+  String get clientStatusGatewayRejected;
+
+  /// No description provided for @clientStatusGatewayDisconnected.
+  ///
+  /// In es, this message translates to:
+  /// **'Desconectado'**
+  String get clientStatusGatewayDisconnected;
+
+  /// No description provided for @clientStatusGatewayConnected.
+  ///
+  /// In es, this message translates to:
+  /// **'Autenticando...'**
+  String get clientStatusGatewayConnected;
+
+  /// No description provided for @clientStatusGatewayError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error de conexión'**
+  String get clientStatusGatewayError;
 }
 
 class _AppLocalizationsDelegate

@@ -535,4 +535,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get clientStatusForgotDialogBtnForgot => 'Olvidar';
+
+  @override
+  String get clientStatusGatewayStatusTitle =>
+      'Estado del Servicio del Gateway';
+
+  @override
+  String get clientStatusGatewayReady => 'Conectado';
+
+  @override
+  String get clientStatusGatewayConnecting => 'Conectando...';
+
+  @override
+  String get clientStatusGatewayReconnecting => 'Reconectando...';
+
+  @override
+  String get clientStatusGatewayRejected => 'Vínculo perdido';
+
+  @override
+  String get clientStatusGatewayDisconnected => 'Desconectado';
+
+  @override
+  String get clientStatusGatewayConnected => 'Autenticando...';
+
+  @override
+  String get clientStatusGatewayError => 'Error de conexión';
 }

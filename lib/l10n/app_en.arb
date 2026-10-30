@@ -157,5 +157,13 @@
   "clientStatusForgotDialogTitle": "Forget Gateway?",
   "clientStatusForgotDialogInfo": "The connection will be lost, and you'll need to pair again to receive SMS messages and calls.",
   "clientStatusForgotDialogBtnCancel": "Cancel",
-  "clientStatusForgotDialogBtnForgot": "Forget"
+  "clientStatusForgotDialogBtnForgot": "Forget",
+  "clientStatusGatewayStatusTitle": "Gateway Service Status",
+  "clientStatusGatewayReady": "Connected",
+  "clientStatusGatewayConnecting": "Connecting...",
+  "clientStatusGatewayReconnecting": "Reconnecting...",
+  "clientStatusGatewayRejected": "Pairing lost",
+  "clientStatusGatewayDisconnected": "Disconnected",
+  "clientStatusGatewayConnected": "Authenticating...",
+  "clientStatusGatewayError": "Connection error"
 }
