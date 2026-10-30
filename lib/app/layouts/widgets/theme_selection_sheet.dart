@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ class ThemeSelectionSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeAsync = ref.watch(themeControllerProvider);
+    final l10n = context.l10n;
     final currentTheme = themeAsync.when(
       data: (mode) => mode,
       loading: () => ThemeMode.system,
@@ -41,7 +43,7 @@ class ThemeSelectionSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Aspecto de la aplicación',
+            l10n.appTheme,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -50,7 +52,7 @@ class ThemeSelectionSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           _ThemeOption(
-            title: 'Sistema',
+            title: l10n.themeSystem,
             icon: CupertinoIcons.device_phone_portrait,
             isSelected: currentTheme == ThemeMode.system,
             onTap: () {
@@ -61,7 +63,7 @@ class ThemeSelectionSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           _ThemeOption(
-            title: 'Claro',
+            title: l10n.themeLight,
             icon: CupertinoIcons.sun_min,
             isSelected: currentTheme == ThemeMode.light,
             onTap: () {
@@ -72,7 +74,7 @@ class ThemeSelectionSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           _ThemeOption(
-            title: 'Oscuro',
+            title: l10n.themeDark,
             icon: CupertinoIcons.moon,
             isSelected: currentTheme == ThemeMode.dark,
             onTap: () {

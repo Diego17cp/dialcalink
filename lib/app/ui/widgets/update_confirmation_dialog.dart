@@ -1,5 +1,6 @@
 import 'package:dialcalink/app/router/app_router.dart';
 import 'package:dialcalink/app/ui/widgets/update_progress_dialog.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,19 +9,18 @@ class UpdateConfirmationDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     return CupertinoAlertDialog(
-      title: const Text('Actualización Disponible'),
-      content: const Text(
-        'Hay una nueva versión de DialcaLink disponible. ¿Deseas descargarla e instalarla ahora?',
-      ),
+      title: Text(l10n.updateDialogTitle),
+      content: Text(l10n.updateDialogSubtitle),
       actions: [
         CupertinoDialogAction(
-          child: const Text('Más tarde'),
+          child: Text(l10n.updateDialogLaterBtn),
           onPressed: () => Navigator.of(context).pop(),
         ),
         CupertinoDialogAction(
           isDefaultAction: true,
-          child: const Text('Actualizar'),
+          child: Text(l10n.updateDialogUpdate),
           onPressed: () {
             Navigator.of(context).pop();
             final globalContext = rootNavigatorKey.currentContext;

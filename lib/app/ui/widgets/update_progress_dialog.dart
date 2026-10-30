@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/updates/providers/update_providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _UpdateProgressDialogState extends ConsumerState<UpdateProgressDialog> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(updateFlowControllerProvider);
+    final l10n = context.l10n;
 
     if (state.step == UpdateFlowStep.readyToInstall && !_isPopped) {
       _isPopped = true;
@@ -57,11 +59,11 @@ class _UpdateProgressDialogState extends ConsumerState<UpdateProgressDialog> {
       });
     }
 
-    String statusText = 'Descargando actualización...';
+    String statusText = l10n.updateProgressDownloading;
     Widget progressWidget = const CupertinoActivityIndicator();
 
     if (state.step == UpdateFlowStep.downloading) {
-      statusText = 'Descargando ${(state.progress * 100).toStringAsFixed(0)}%';
+      statusText = '${l10n.updateProgressDownloadingPercent} ${(state.progress * 100).toStringAsFixed(0)}%';
       progressWidget = Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: ClipRRect(
@@ -76,15 +78,15 @@ class _UpdateProgressDialogState extends ConsumerState<UpdateProgressDialog> {
         ),
       );
     } else if (state.step == UpdateFlowStep.installing) {
-      statusText = 'Preparando instalación...';
+      statusText = l10n.updateProgressInstalling;
     } else if (state.step == UpdateFlowStep.error) {
-      statusText = state.errorMessage ?? 'Ocurrió un error inesperado.';
+      statusText = state.errorMessage ?? l10n.unknownError;
       return CupertinoAlertDialog(
-        title: const Text('Error de actualización'),
+        title: Text(l10n.updateProgressError),
         content: Text(statusText),
         actions: [
           CupertinoDialogAction(
-            child: const Text('Cerrar'),
+            child: Text(l10n.updateProgressCloseBtn),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
@@ -92,7 +94,7 @@ class _UpdateProgressDialogState extends ConsumerState<UpdateProgressDialog> {
     }
 
     return CupertinoAlertDialog(
-      title: const Text('Actualizando DialcaLink'),
+      title: Text(l10n.updateProgressUpdating),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

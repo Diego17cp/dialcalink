@@ -1,4 +1,5 @@
 import 'package:dialcalink/app/ui/widgets/update_confirmation_dialog.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/updates/providers/update_providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,11 @@ class _UpdateCheckButtonState extends ConsumerState<UpdateCheckButton> {
         );
       } else {
         final info = await PackageInfo.fromPlatform();
-        _showSnack('Ya tienes la última versión ${info.version}.');
+        _showSnack('${context.l10n.updateAlreadyLastVersion} ${info.version}.');
       }
     } catch (e) {
       if (mounted) {
-        _showSnack('No se pudo verificar. Revisa tu conexión a internet.');
+        _showSnack(context.l10n.updateConnectionError);
       }
     } finally {
       if (mounted) setState(() => _checking = false);
@@ -57,6 +58,7 @@ class _UpdateCheckButtonState extends ConsumerState<UpdateCheckButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final cachedAvailable =
         ref.watch(updateAvailableProvider).valueOrNull ?? false;
 
@@ -85,10 +87,10 @@ class _UpdateCheckButtonState extends ConsumerState<UpdateCheckButton> {
               ),
         label: Text(
           _checking
-              ? 'Buscando...'
+              ? l10n.updateSearching
               : cachedAvailable
-              ? 'Hay una actualización disponible'
-              : 'Buscar actualizaciones',
+              ? l10n.updateAvailableVersion
+              : l10n.searchUpdates,
         ),
       ),
     );
