@@ -282,7 +282,7 @@ class GatewayForegroundService : Service() {
                     pendingPairingToken?.let { token ->
                         Log.i(TAG, "Emitiendo token pendiente: $token")
                         sink?.success(mapOf(
-                            "type" to "pair ing_token_updated",
+                            "type" to "pairing_token_updated",
                             "token" to token
                         ))
                         pendingPairingToken = null

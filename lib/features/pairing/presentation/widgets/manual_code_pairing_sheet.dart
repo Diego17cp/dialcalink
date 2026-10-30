@@ -73,7 +73,7 @@ class _ManualCodePairingSheetState
       deviceId: _selectedGateway?.deviceId ?? 'manual',
       deviceName: _selectedGateway?.deviceName ?? 'Gateway',
       ip: ip,
-      port: _selectedGateway?.port ?? 8080,
+      port: _selectedGateway?.port ?? 8888,
       pairingToken: pin,
       generatedAt: DateTime.now(),
     );

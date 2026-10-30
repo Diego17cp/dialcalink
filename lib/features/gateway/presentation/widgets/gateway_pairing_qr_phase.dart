@@ -24,11 +24,25 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
   final TextEditingController _ipController = TextEditingController();
   final _udpDiscovery = UdpDiscoveryService();
 
+  void _syncPairingToken(GatewayPairingState state) {
+    if (state.phase == GatewayPairingPhase.showingQr && state.payload != null) {
+      final bridge = ref.read(gatewayUiBridgeProvider);
+      bridge.sendPairingToken(state.payload!.pairingToken);
+      _udpDiscovery.startGatewayResponder(
+        deviceName: state.payload!.deviceName,
+        deviceId: state.payload!.deviceId,
+        ip: state.payload!.ip,
+        port: state.payload!.port,
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _maybeGenerate();
+      _syncPairingToken(ref.read(gatewayPairingNotifierProvider));
     });
   }
 
@@ -65,14 +79,7 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
       if (next.phase == GatewayPairingPhase.showingQr &&
           next.payload != null &&
           next.payload?.pairingToken != prev?.payload?.pairingToken) {
-        final bridge = ref.read(gatewayUiBridgeProvider);
-        bridge.sendPairingToken(next.payload!.pairingToken);
-        _udpDiscovery.startGatewayResponder(
-          deviceName: next.payload!.deviceName,
-          deviceId: next.payload!.deviceId,
-          ip: next.payload!.ip,
-          port: next.payload!.port,
-        );
+        _syncPairingToken(next);
       }
     });
 

@@ -28,7 +28,7 @@ class DiscoveredGateway {
       ip: (json['ip'] as String?)?.isNotEmpty == true
           ? json['ip'] as String
           : senderIp,
-      port: json['port'] as int? ?? 8080,
+      port: json['port'] as int? ?? 8888,
       deviceName: json['deviceName'] as String? ?? 'Dispositivo Gateway',
       deviceId: json['deviceId'] as String? ?? '',
     );
