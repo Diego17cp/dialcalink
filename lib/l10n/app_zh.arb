@@ -21,6 +21,7 @@
   "clientLow": "客户端",
   "gatewayUp": "网关",
   "gatewayLow": "网关",
+  "unknown": "未知",
   "onboardingWelcomeBadge": "欢迎",
   "onboardingWelcomeTitle": "在同一处接收短信和来电",
   "onboardingWelcomeSubtitle": "连接两台 Android 设备，集中管理所有电话活动。",

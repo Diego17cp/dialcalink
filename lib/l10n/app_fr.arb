@@ -22,6 +22,7 @@
   "clientLow": "client",
   "gatewayUp": "Gateway",
   "gatewayLow": "gateway",
+  "unknown": "Inconnu",
   "onboardingWelcomeBadge": "Bienvenue",
   "onboardingWelcomeTitle": "Recevez vos SMS et appels au même endroit",
   "onboardingWelcomeSubtitle": "Connectez deux appareils Android pour centraliser toute votre activité téléphonique.",

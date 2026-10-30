@@ -75,6 +75,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get gatewayLow => '网关';
 
   @override
+  String get unknown => '未知';
+
+  @override
   String get onboardingWelcomeBadge => '欢迎';
 
   @override

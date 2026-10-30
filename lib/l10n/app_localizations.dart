@@ -240,6 +240,12 @@ abstract class AppLocalizations {
   /// **'gateway'**
   String get gatewayLow;
 
+  /// No description provided for @unknown.
+  ///
+  /// In es, this message translates to:
+  /// **'Desconocido'**
+  String get unknown;
+
   /// No description provided for @onboardingWelcomeBadge.
   ///
   /// In es, this message translates to:

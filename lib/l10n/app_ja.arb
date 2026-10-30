@@ -21,6 +21,7 @@
   "clientLow": "クライアント",
   "gatewayUp": "ゲートウェイ",
   "gatewayLow": "ゲートウェイ",
+  "unknown": "不明",
   "onboardingWelcomeBadge": "ようこそ",
   "onboardingWelcomeTitle": "SMS と通話を 1 か所で受信",
   "onboardingWelcomeSubtitle": "2 台の Android デバイスを接続して、電話のアクティビティを一元管理します。",

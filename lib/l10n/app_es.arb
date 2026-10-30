@@ -23,6 +23,7 @@
   "clientLow": "cliente",
   "gatewayUp": "Gateway",
   "gatewayLow": "gateway",
+  "unknown": "Desconocido",
 
   "onboardingWelcomeBadge": "Bienvenido",
   "onboardingWelcomeTitle": "Recibe tus SMS y llamadas en un solo lugar",

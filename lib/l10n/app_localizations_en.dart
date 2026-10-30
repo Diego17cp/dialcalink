@@ -75,6 +75,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gatewayLow => 'gateway';
 
   @override
+  String get unknown => 'Unknown';
+
+  @override
   String get onboardingWelcomeBadge => 'Welcome';
 
   @override
