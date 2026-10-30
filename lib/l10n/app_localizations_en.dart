@@ -228,7 +228,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingPairingPINSheetLabelGatewayDetected =>
-      'Gateway IP address';
+      'Gateway detected';
+
+  @override
+  String get onboardingPairingPINSheetLabelGatewayIP => 'Gateway IP address';
 
   @override
   String get onboardingPairingPINSheetLabelGatewayHint =>

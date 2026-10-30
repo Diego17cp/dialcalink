@@ -507,8 +507,14 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPairingPINSheetLabelGatewayDetected.
   ///
   /// In es, this message translates to:
-  /// **'IP del Gateway'**
+  /// **'Gateway detectado'**
   String get onboardingPairingPINSheetLabelGatewayDetected;
+
+  /// No description provided for @onboardingPairingPINSheetLabelGatewayIP.
+  ///
+  /// In es, this message translates to:
+  /// **'IP del Gateway'**
+  String get onboardingPairingPINSheetLabelGatewayIP;
 
   /// No description provided for @onboardingPairingPINSheetLabelGatewayHint.
   ///

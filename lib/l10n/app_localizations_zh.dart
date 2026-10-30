@@ -209,7 +209,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPairingPINSheetSearching => '正在网络中搜索网关…';
 
   @override
-  String get onboardingPairingPINSheetLabelGatewayDetected => '网关 IP 地址';
+  String get onboardingPairingPINSheetLabelGatewayDetected => '已检测到 Gateway';
+
+  @override
+  String get onboardingPairingPINSheetLabelGatewayIP => '网关 IP 地址';
 
   @override
   String get onboardingPairingPINSheetLabelGatewayHint =>

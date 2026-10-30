@@ -229,7 +229,11 @@ class AppLocalizationsPt extends AppLocalizations {
       'Procurando um Gateway na rede...';
 
   @override
-  String get onboardingPairingPINSheetLabelGatewayDetected => 'IP do Gateway';
+  String get onboardingPairingPINSheetLabelGatewayDetected =>
+      'Gateway detectado';
+
+  @override
+  String get onboardingPairingPINSheetLabelGatewayIP => 'IP do Gateway';
 
   @override
   String get onboardingPairingPINSheetLabelGatewayHint =>

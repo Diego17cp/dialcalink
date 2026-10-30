@@ -213,7 +213,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingPairingPINSheetSearching => 'ネットワーク上のゲートウェイを検索中…';
 
   @override
-  String get onboardingPairingPINSheetLabelGatewayDetected => 'ゲートウェイの IP アドレス';
+  String get onboardingPairingPINSheetLabelGatewayDetected => 'Gatewayを検出しました';
+
+  @override
+  String get onboardingPairingPINSheetLabelGatewayIP => 'ゲートウェイの IP アドレス';
 
   @override
   String get onboardingPairingPINSheetLabelGatewayHint =>
