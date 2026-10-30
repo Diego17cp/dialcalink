@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 
 class GatewayPairingPin extends StatelessWidget {
@@ -8,12 +9,13 @@ class GatewayPairingPin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Column(
       children: [
         const SizedBox(height: 16),
-        const Text(
-          "O vincula ingresando este código en el cliente:",
-          style: TextStyle(fontSize: 14, color: Colors.grey),
+        Text(
+          l10n.gatewayPairPINHint,
+          style: const TextStyle(fontSize: 14, color: Colors.grey),
         ),
         const SizedBox(height: 8),
         Container(

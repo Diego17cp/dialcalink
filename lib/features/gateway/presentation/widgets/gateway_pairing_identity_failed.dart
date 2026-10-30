@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,8 @@ class GatewayPairingIdentityFailed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -17,14 +20,14 @@ class GatewayPairingIdentityFailed extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'No se pudo obtener la identidad del dispositivo.',
+          l10n.onboardingGatewayErrorNoIdentity,
           style: theme.textTheme.titleLarge?.copyWith(
             color: theme.colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Por favor, vuelva a intentarlo.',
+          l10n.attemptAgain,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),

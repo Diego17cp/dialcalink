@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,8 @@ class GatewayHomeStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final title = type == GatewayHomeStatCardType.messages ? 'Mensajes' : 'Llamadas';
+    final l10n = context.l10n;
+    final title = type == GatewayHomeStatCardType.messages ? l10n.gatewayStatMessagesTitle : l10n.gatewayStatCallsTitle;
     final icon = type == GatewayHomeStatCardType.messages ? CupertinoIcons.chat_bubble_2 : CupertinoIcons.phone;
     return Card(
       elevation: 0,
@@ -56,7 +58,7 @@ class GatewayHomeStatCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '$count hoy',
+              '$count ${l10n.gatewayStatTodayLow}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,

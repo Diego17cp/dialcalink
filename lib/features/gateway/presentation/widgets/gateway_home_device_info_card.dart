@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/network/discovery/gateway_ip_refresher_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     ref.watch(gatewayIpRefresherProvider);
     final localDeviceIdentity = ref.watch(localDeviceIdentityProvider).value;
     final localDeviceIp = ref.watch(gatewayIpProvider).value;
@@ -24,39 +26,39 @@ class GatewayHomeDeviceInfoCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Información del Dispositivo',
+            l10n.gatewayDeviceInfo,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
           if (localDeviceIdentity != null) ...[
             GatewayHomeDeviceInfoItem(
-              title: 'Nombre del Dispositivo',
+              title: l10n.gatewayDeviceInfoName,
               value: localDeviceIdentity.name,
               icon: CupertinoIcons.device_phone_portrait,
             ),
             if (localDeviceIp != null &&
                 localDeviceIp is NetworkInfoResolved) ...[
               GatewayHomeDeviceInfoItem(
-                title: 'IP del Dispositivo',
+                title: l10n.gatewayDeviceInfoIP,
                 value: localDeviceIp.ip,
                 icon: Icons.router,
               ),
             ] else ...[
-              const GatewayHomeDeviceInfoItem(
-                title: 'IP del Dispositivo',
-                value: 'No disponible',
+              GatewayHomeDeviceInfoItem(
+                title: l10n.gatewayDeviceInfoIP,
+                value: l10n.gatewayDeviceInfoNotIP,
                 icon: CupertinoIcons.wifi_slash,
               ),
             ],
             GatewayHomeDeviceInfoItem(
-              title: 'Activo desde',
+              title: l10n.gatewayDeviceInfoStartedFrom,
               value: homeState.serviceStartedAt != null
                   ? formatDateTime(homeState.serviceStartedAt)
-                  : 'No Iniciado',
+                  : l10n.gatewayDeviceInfoNotStarted,
               icon: CupertinoIcons.clock,
             ),
             GatewayHomeDeviceInfoItem(
-              title: 'Tiempo de actividad',
+              title: l10n.gatewayDeviceInfoActivityTime,
               value: formatDuration(uptime),
               icon: CupertinoIcons.hourglass,
             ),

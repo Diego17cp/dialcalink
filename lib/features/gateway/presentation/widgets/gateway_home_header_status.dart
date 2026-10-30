@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ class GatewayHomeHeaderStatus extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gatewayHomeNotifierProvider);
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     final isRunning = state.serviceStatus == GatewayServiceStatus.on;
     final isConnected = state.isClientConnected;
@@ -23,23 +25,22 @@ class GatewayHomeHeaderStatus extends ConsumerWidget {
       : const AsyncValue.data(null);
 
     Color statusColor = AppColors.disconnected;
-    String statusTitle = 'Servicio apagado';
-    String statusSubtitle = 'El gateway no está procesando datos.';
+    String statusTitle = l10n.gatewayStatusTitleDisconnected;
+    String statusSubtitle = l10n.gatewayStatusSubtitleDisconnected;
     IconData statusIcon = CupertinoIcons.power;
 
     if (isRunning) {
       if (isConnected) {
         statusColor = AppColors.connected;
-        statusTitle = 'Gateway Conectado';
-        final deviceName = connectedDeviceAsync.valueOrNull?.deviceName ?? clientId ?? 'desconocido';
+        statusTitle = l10n.gatewayStatusTitleConnected;
+        final deviceName = connectedDeviceAsync.valueOrNull?.deviceName ?? clientId ?? l10n.unknown;
         statusSubtitle =
-            'Sincronizando con $deviceName.';
+            '${l10n.gatewayStatusSubtitleConnected} $deviceName.';
         statusIcon = CupertinoIcons.arrow_2_circlepath;
       } else {
         statusColor = AppColors.connecting;
-        statusTitle = 'Esperando Cliente...';
-        statusSubtitle =
-            'El gateway está activo pero no hay clientes conectados.';
+        statusTitle = l10n.gatewayStatusTitleConnecting;
+        statusSubtitle = l10n.gatewayStatusSubtitleConnecting;
         statusIcon = CupertinoIcons.dot_radiowaves_left_right;
       }
     }
@@ -88,7 +89,7 @@ class GatewayHomeHeaderStatus extends ConsumerWidget {
                     .read(gatewayHomeNotifierProvider.notifier)
                     .toggleService(),
                 label: Text(
-                  isRunning ? 'Detener Servicio' : 'Iniciar Servicio',
+                  isRunning ? l10n.stopService : l10n.startService,
                 ),
                 icon:
                     state.serviceStatus == GatewayServiceStatus.starting ||

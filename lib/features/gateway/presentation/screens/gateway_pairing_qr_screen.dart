@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +23,7 @@ class _GatewayPairingQrScreenState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final localDeviceIdentity = ref.watch(localDeviceIdentityProvider).value;
     final pairingState = ref.watch(gatewayPairingNotifierProvider);
 
@@ -29,7 +31,7 @@ class _GatewayPairingQrScreenState
 
     return GlassScaffold(
       onBackTap: canGoBack ? () => context.pop() : null,
-      title: 'Vincular Dispositivo',
+      title: l10n.clientStatusSync,
       body: Column(
         children: [
           Container(
@@ -46,7 +48,7 @@ class _GatewayPairingQrScreenState
           ),
           const SizedBox(height: 32),
           Text(
-            'Casi listo para conectar',
+            l10n.gatewayPairTitle,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
@@ -56,7 +58,7 @@ class _GatewayPairingQrScreenState
           ),
           const SizedBox(height: 8),
           Text(
-            'Abre DialcaLink en tu dispositivo principal y escanea el código QR.',
+            l10n.gatewayPairSubtitle,
             style: TextStyle(fontSize: 13, color: theme.colorScheme.onSurface),
             textAlign: TextAlign.center,
           ),
@@ -80,7 +82,7 @@ class _GatewayPairingQrScreenState
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text('Hecho'),
+                  child: Text(l10n.gatewayBtnDone),
                 ),
               ),
               const SizedBox(height: 12),
@@ -111,12 +113,12 @@ class _GatewayPairingQrScreenState
                       ),
                       foregroundColor: theme.colorScheme.tertiary,
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(CupertinoIcons.refresh, size: 18),
-                        SizedBox(width: 8),
-                        Text('Generar nuevo código'),
+                        const Icon(CupertinoIcons.refresh, size: 18),
+                        const SizedBox(width: 8),
+                        Text(l10n.gatewayBtnGenerateCode),
                       ],
                     ),
                   ),

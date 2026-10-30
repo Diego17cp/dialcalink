@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ class GatewayHomeScanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Card(
       elevation: 0,
       color: theme.colorScheme.surfaceContainerHighest,
@@ -37,7 +39,7 @@ class GatewayHomeScanCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Vincular Dispositivo',
+                l10n.clientStatusSync,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -46,7 +48,7 @@ class GatewayHomeScanCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Muestra el código QR en el otro dispositivo para vincularlo con este.',
+                l10n.gatewayShowQRSubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,

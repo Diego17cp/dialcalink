@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/features/gateway/presentation/widgets/gateway_pairing_pin.dart';
 import 'package:dialcalink/features/pairing/data/services/udp_discovery_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,7 +58,6 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
   Widget build(BuildContext context) {
     final pairingState = ref.watch(gatewayPairingNotifierProvider);
     final theme = Theme.of(context);
-
     ref.listen<GatewayPairingState>(gatewayPairingNotifierProvider, (
       prev,
       next,
@@ -78,11 +78,11 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: _buildPhaseContent(pairingState, theme),
+      child: _buildPhaseContent(pairingState, theme, context),
     );
   }
 
-  Widget _buildPhaseContent(GatewayPairingState state, ThemeData theme) {
+  Widget _buildPhaseContent(GatewayPairingState state, ThemeData theme, BuildContext context) {
     switch (state.phase) {
       case GatewayPairingPhase.idle:
       case GatewayPairingPhase.generating:
@@ -107,7 +107,7 @@ class _GatewayPairingQrPhaseState extends ConsumerState<GatewayPairingQrPhase> {
         );
       case GatewayPairingPhase.error:
         return _ErrorPhase(
-          message: state.failure?.message ?? 'Ocurrió un error inesperado',
+          message: state.failure?.message ?? context.l10n.unknownError,
           onRetry: () {
             ref.read(gatewayPairingNotifierProvider.notifier).reset();
             _maybeGenerate();
@@ -168,6 +168,7 @@ class _QrPhase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       key: const ValueKey('showingQr'),
       mainAxisSize: MainAxisSize.min,
@@ -200,9 +201,9 @@ class _QrPhase extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
-          'Listo para escanear',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        Text(
+          l10n.gatewayPairReadyToScan,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         GatewayPairingPin(pin: jsonDecode(payloadJson)['pairingToken']),
       ],
@@ -219,6 +220,7 @@ class _ManualIpPhase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Padding(
       key: const ValueKey('manualIp'),
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -234,17 +236,17 @@ class _ManualIpPhase extends StatelessWidget {
                 color: AppColors.warning.withValues(alpha: 0.5),
               ),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(
+                const Icon(
                   CupertinoIcons.exclamationmark_triangle_fill,
                   color: AppColors.warning,
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'No se pudo detectar la IP de tu red local automáticamente. Por favor ingrésala manualmente.',
-                    style: TextStyle(fontSize: 13),
+                    l10n.gatewayPairNoIP,
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
               ],
@@ -254,8 +256,8 @@ class _ManualIpPhase extends StatelessWidget {
           TextField(
             controller: controller,
             decoration: InputDecoration(
-              labelText: 'Dirección IP del dispositivo',
-              hintText: 'Ej: 192.168.1.15',
+              labelText: l10n.gatewayDeviceInfoIP,
+              hintText: l10n.onboardingPairingPINSheetLabelGatewayHint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -275,7 +277,7 @@ class _ManualIpPhase extends StatelessWidget {
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,
               ),
-              child: const Text('Generar QR con IP manual'),
+              child: Text(l10n.gatewayPairGenerateManual),
             ),
           ),
           const SizedBox(height: 32),

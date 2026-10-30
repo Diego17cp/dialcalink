@@ -1,4 +1,5 @@
 import 'package:dialcalink/app/ui/widgets/update_check_button.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/app/layouts/glass_scaffold.dart';
@@ -13,10 +14,11 @@ class GatewayHomeScreen extends ConsumerWidget {
   const GatewayHomeScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final messagesCountAsync = ref.watch(messagesTodayCountProvider);
     final callsCountAsync = ref.watch(callsTodayCountProvider);
     return GlassScaffold(
-      title: 'DialcaLink Gateway',
+      title: l10n.gatewayHomeAppbarTitle,
       actions: const [ThemeTogglerButton()],
       body: Column(
         children: [
