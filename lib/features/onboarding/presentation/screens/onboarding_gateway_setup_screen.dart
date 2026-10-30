@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,10 +43,11 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
   void _toggleIdentityExpanded() =>
       setState(() => isIdentityExpanded = !isIdentityExpanded);
   Future<void> _onFinishSetup(bool permissionsGranted) async {
+    final l10n = context.l10n;
     if (!permissionsGranted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, conceda todos los permisos requeridos.'),
+        SnackBar(
+          content: Text(l10n.onboardingGatewaySetupGrantPermissionsError),
         ),
       );
       return;
@@ -58,9 +60,10 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
     try {
       await bridge.startService();
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _step = GatewaySetupStep.error;
-        _errorMessage = 'Error al iniciar el servicio de Gateway: $e';
+        _errorMessage = '${context.l10n.onboardingGatewaySetupError} $e';
       });
       return;
     }
@@ -74,8 +77,7 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
     } else {
       setState(() {
         _step = GatewaySetupStep.error;
-        _errorMessage =
-            'No se pudo confirmar que el servicio de Gateway esté en ejecución.';
+        _errorMessage = context.l10n.onboardingGatewayInactive;
       });
     }
   }
@@ -96,30 +98,33 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
       _step == GatewaySetupStep.starting ||
       _step == GatewaySetupStep.confirming;
 
-  String get _statusMessage => switch (_step) {
+  String get _statusMessage { 
+    final l10n = context.l10n;
+    return switch (_step) {
     GatewaySetupStep.idle => '',
-    GatewaySetupStep.starting => 'Iniciando servicio Gateway...',
-    GatewaySetupStep.confirming => 'Verificando que el servicio esté activo...',
-    GatewaySetupStep.error => _errorMessage ?? 'Error desconocido',
-  };
+    GatewaySetupStep.starting => l10n.onboardingGatewayStarting,
+    GatewaySetupStep.confirming => l10n.onboardingGatewayConfirming,
+    GatewaySetupStep.error => _errorMessage ?? l10n.unknownError,
+  };}
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final identityAsync = ref.watch(localDeviceIdentityProvider);
+    final l10n = context.l10n;
 
     return GlassScaffold(
       onBackTap: () => context.pop(),
-      title: 'Configurar Gateway',
+      title: l10n.onboardingGatewaySetupAppbarTitle,
       body: SafeArea(
         child: identityAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) =>
-              Center(child: Text('Error al cargar identidad: $err')),
+              Center(child: Text('${l10n.onboardingGatewayErrorIdentity} $err')),
           data: (identity) {
             if (identity == null) {
-              return const Center(
-                child: Text('No se encontró identidad del dispositivo.'),
+              return Center(
+                child: Text(l10n.onboardingGatewayErrorNoIdentity),
               );
             }
             final appRole = identity.role == DeviceRole.gateway
@@ -132,7 +137,7 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
             return permissionsGrantedAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, _) =>
-                  Center(child: Text('Error al verificar permisos: $err')),
+                  Center(child: Text('${l10n.onboardingGatewayErrorPermissionsError} $err')),
               data: (permissionsGranted) {
                 final hotspotStatus = ref.watch(gatewayIpProvider).valueOrNull;
                 final canContinue =
@@ -157,7 +162,7 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      'Preparar el dispositivo como Gateway',
+                      l10n.onboardingGatewaySetupTitle,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
@@ -167,7 +172,7 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Configure su dispositivo para actuar como un punto de enlace de comunicación.',
+                      l10n.onboardingGatewaySetupSubtitle,
                       style: TextStyle(
                         fontSize: 14,
                         color: theme.colorScheme.onSurface.withValues(
@@ -300,12 +305,12 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
                                   strokeWidth: 2.5,
                                 ),
                               )
-                            : const Row(
+                            : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Activar Gateway'),
-                                  SizedBox(width: 8),
-                                  Icon(CupertinoIcons.bolt_fill, size: 16),
+                                  Text(l10n.onboardingGatewaySetupBtnActivate),
+                                  const SizedBox(width: 8),
+                                  const Icon(CupertinoIcons.bolt_fill, size: 16),
                                 ],
                               ),
                       ),
@@ -316,7 +321,7 @@ class _GatewaySetupScreenState extends ConsumerState<GatewaySetupScreen> {
                         child: TextButton.icon(
                           onPressed: () => _onFinishSetup(permissionsGranted),
                           icon: const Icon(Icons.refresh_rounded, size: 18),
-                          label: const Text('Intentar de nuevo'),
+                          label: Text(l10n.attemptAgain),
                         ),
                       ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dialcalink/core/database/drift/tables/devices_table.dart';
@@ -18,21 +19,22 @@ class DeviceRoleSelectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isSelected = selectedRole == role;
+    final l10n  = context.l10n;
 
     final config = {
       DeviceRole.client: {
-        'title': 'Dispositivo Principal',
-        'subtitle': 'Recibe SMS y notificaciones de llamadas desde otro teléfono.',
-        'badge': 'Cliente',
+        'title': l10n.onboardingRoleClientCardTitle,
+        'subtitle': l10n.onboardingRoleClientCardInfo,
+        'badge': l10n.clientUp,
         'badgeColor': theme.colorScheme.primary,
         'icon': CupertinoIcons.device_phone_portrait,
         'iconColor': theme.colorScheme.primary,
         'iconBg': theme.colorScheme.primary.withValues(alpha: 0.1),
       },
       DeviceRole.gateway: {
-        'title': 'Dispositivo con SIM',
-        'subtitle': 'Comparte SMS y llamadas con tu dispositivo principal.',
-        'badge': 'Gateway',
+        'title': l10n.onboardingRoleGatewayCardTitle,
+        'subtitle': l10n.onboardingRoleGatewayRCardInfo,
+        'badge': l10n.gatewayUp,
         'badgeColor': theme.colorScheme.secondary,
         'icon': Icons.sim_card,
         'iconColor': theme.colorScheme.secondary,

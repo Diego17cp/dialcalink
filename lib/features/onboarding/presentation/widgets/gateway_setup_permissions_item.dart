@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 
 class GatewaySetupPermissionsItem extends StatelessWidget {
@@ -10,6 +11,7 @@ class GatewaySetupPermissionsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return ListTile(
       leading: Container(
         padding: const EdgeInsets.all(4),
@@ -30,7 +32,7 @@ class GatewaySetupPermissionsItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        'Permisos concedidos',
+        l10n.onboardingGatewaySetupPermissionsGranted,
         style: theme.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.bold,
           color: theme.colorScheme.onSurface,
@@ -38,8 +40,8 @@ class GatewaySetupPermissionsItem extends StatelessWidget {
       ),
       subtitle: Text(
         permissionsGranted
-            ? 'SMS, Llamadas y Estado de Red aprobados.'
-            : 'Faltan autorizar permisos requeridos por el rol.',
+            ? l10n.onboardingGatewaySetupPermissionsGrantedSubtitle
+            : l10n.onboardingGatewaySetupPermissionsNotGrantedSubtitle,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurfaceVariant,
         ),

@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dialcalink/features/pairing/presentation/providers/client_pairing_state.dart';
@@ -11,25 +12,26 @@ class PairingStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     IconData icon = CupertinoIcons.qrcode_viewfinder;
-    String title = 'Buscando código QR';
-    String subtitle = 'Apunta al código QR para iniciar el emparejamiento.';
+    String title = l10n.pairingStatusSearchingTitle;
+    String subtitle = l10n.pairingStatusSearchingSubtitle;
     Color color = theme.colorScheme.primary;
 
     if (phase == ClientPairingPhase.verifying) {
       icon = CupertinoIcons.arrow_2_circlepath;
-      title = 'Verificando...';
-      subtitle = 'Validando conexión con el dispositivo.';
+      title = l10n.pairingStatusVerifyingTitle;
+      subtitle = l10n.pairingStatusVerifyingSubtitle;
     } else if (phase == ClientPairingPhase.invalidQr) {
       icon = CupertinoIcons.xmark_circle;
-      title = 'Código QR inválido';
-      subtitle = 'Este QR no es de un DialcaLink válido.';
+      title = l10n.pairingStatusInvalidQRTitle;
+      subtitle = l10n.pairingStatusInvalidQRSubtitle;
       color = theme.colorScheme.error;
     } else if (phase == ClientPairingPhase.failed) {
       icon = CupertinoIcons.exclamationmark_triangle;
-      title = 'Error de emparejamiento';
-      subtitle = errorMessage ?? 'Ocurrió un error durante el emparejamiento.';
+      title = l10n.pairingStatusFailedTitle;
+      subtitle = errorMessage ?? l10n.pairingStatusFailedSubtitle;
       color = theme.colorScheme.error;
     }
 

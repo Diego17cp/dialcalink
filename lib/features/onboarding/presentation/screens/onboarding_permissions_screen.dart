@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,9 +68,10 @@ class _OnboardingPermissionsScreenState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return GlassScaffold(
       onBackTap: () => context.pop(),
-      title: 'Permisos',
+      title: l10n.permissions,
       body: Column(
         children: [
           Container(
@@ -86,7 +88,7 @@ class _OnboardingPermissionsScreenState
           ),
           const SizedBox(height: 32),
           Text(
-            'Permisos necesarios',
+            l10n.onboardingPermissionsTitle,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
@@ -96,7 +98,7 @@ class _OnboardingPermissionsScreenState
           ),
           const SizedBox(height: 8),
           Text(
-            'Para continuar, necesitamos que otorgues los permisos necesarios para el correcto funcionamiento de la aplicación.',
+            l10n.onboardingPermissionsSubtitle,
             style: TextStyle(fontSize: 13, color: theme.colorScheme.onSurface),
             textAlign: TextAlign.center,
           ),
@@ -149,7 +151,7 @@ class _OnboardingPermissionsScreenState
                     ),
                   ),
                   title: Text(
-                    permission.title,
+                    permission.getTitle(context),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       letterSpacing: -0.2,
@@ -158,7 +160,7 @@ class _OnboardingPermissionsScreenState
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      permission.description,
+                      permission.getDescription(context),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                         height: 1.2,
@@ -195,12 +197,12 @@ class _OnboardingPermissionsScreenState
                       backgroundColor: theme.colorScheme.primary,
                       foregroundColor: theme.colorScheme.onPrimary,
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Continuar'),
-                        SizedBox(width: 8),
-                        Icon(CupertinoIcons.arrowtriangle_right_fill, size: 16),
+                        Text(l10n.continueLbl),
+                        const SizedBox(width: 8),
+                        const Icon(CupertinoIcons.arrowtriangle_right_fill, size: 16),
                       ],
                     ),
                   ),
@@ -227,12 +229,12 @@ class _OnboardingPermissionsScreenState
                               strokeWidth: 2,
                             ),
                           )
-                        : const Row(
+                        : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Solicitar permisos'),
-                              SizedBox(width: 8),
-                              Icon(
+                              Text(l10n.requestPermissions),
+                              const SizedBox(width: 8),
+                              const Icon(
                                 CupertinoIcons.arrowtriangle_right_fill,
                                 size: 16,
                               ),
@@ -244,7 +246,7 @@ class _OnboardingPermissionsScreenState
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: _openSettings,
-                  child: const Text('Ir a Ajustes para permitir manualmente'),
+                  child: Text(l10n.onboardingPermissionsManualGrant),
                 ),
               ],
             ],

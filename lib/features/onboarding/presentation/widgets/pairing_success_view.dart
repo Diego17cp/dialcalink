@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widget_previews.dart';
@@ -20,6 +21,7 @@ class PairingSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,9 +50,9 @@ class PairingSuccessView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
-            '¡Emparejamiento exitoso!',
-            style: TextStyle(
+          Text(
+            l10n.pairingSuccessTitle,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -61,7 +63,7 @@ class PairingSuccessView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Tu dispositivo ahora está sincronizado con el Gateway. Redirigiendo...',
+              l10n.pairingSuccessSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.6),

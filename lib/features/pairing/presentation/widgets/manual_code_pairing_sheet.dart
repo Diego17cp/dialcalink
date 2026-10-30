@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +64,7 @@ class _ManualCodePairingSheetState
 
     if (ip.isEmpty || pin.length < 6) {
       setState(() {
-        _errorMessage = 'Ingresa la IP y el PIN de 6 dígitos.';
+        _errorMessage = context.l10n.onboardingPairingPINSheetErrorMessage;
       });
       return;
     }
@@ -86,6 +87,7 @@ class _ManualCodePairingSheetState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
+    final l10n = context.l10n;
 
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -132,9 +134,9 @@ class _ManualCodePairingSheetState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Vincular con Código',
-                    style: TextStyle(
+                  Text(
+                    l10n.onboardingPairingPINSheetTitle,
+                    style: const TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.2,
@@ -146,7 +148,7 @@ class _ManualCodePairingSheetState
                         CupertinoIcons.arrow_clockwise,
                         size: 18,
                       ),
-                      tooltip: 'Reintentar búsqueda',
+                      tooltip: l10n.onboardingPairingPINSheetReattempt,
                       onPressed: _startSearch,
                     ),
                 ],
@@ -162,18 +164,18 @@ class _ManualCodePairingSheetState
                     color: primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 16,
                         height: 16,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Buscando Gateway en la red...',
-                          style: TextStyle(fontSize: 13, color: Colors.white70),
+                          l10n.onboardingPairingPINSheetSearching,
+                          style: const TextStyle(fontSize: 13, color: Colors.white70),
                         ),
                       ),
                     ],
@@ -201,7 +203,7 @@ class _ManualCodePairingSheetState
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Gateway detectado',
+                    labelText: l10n.onboardingPairingPINSheetLabelGatewayDetected,
                     prefixIcon: const Icon(
                       CupertinoIcons.device_phone_portrait,
                     ),
@@ -225,8 +227,8 @@ class _ManualCodePairingSheetState
                     }
                   },
                   decoration: InputDecoration(
-                    labelText: 'IP del Gateway',
-                    hintText: '192.168.43.1 o 192.168.1.X',
+                    labelText: l10n.onboardingPairingPINSheetLabelGatewayIP,
+                    hintText: l10n.onboardingPairingPINSheetLabelGatewayHint,
                     prefixIcon: const Icon(CupertinoIcons.wifi),
                     filled: true,
                     fillColor: Colors.black.withValues(alpha: 0.15),
@@ -253,7 +255,7 @@ class _ManualCodePairingSheetState
                   letterSpacing: 8,
                 ),
                 decoration: InputDecoration(
-                  labelText: 'PIN de 6 dígitos',
+                  labelText: l10n.onboardingPairingPINSheetLabelPIN,
                   counterText: '',
                   prefixIcon: const Icon(CupertinoIcons.lock),
                   filled: true,
@@ -309,9 +311,9 @@ class _ManualCodePairingSheetState
                 ),
                 onPressed: _onConnectPressed,
                 icon: const Icon(CupertinoIcons.link),
-                label: const Text(
-                  'Vincular Dispositivo',
-                  style: TextStyle(fontSize: 15),
+                label: Text(
+                  l10n.onboardingPairingPINSheetBtnPair,
+                  style: const TextStyle(fontSize: 15),
                 ),
               ),
             ],

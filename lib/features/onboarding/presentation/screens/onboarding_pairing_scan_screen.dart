@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/features/pairing/presentation/widgets/manual_code_pairing_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,7 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(clientPairingNotifierProvider);
+    final l10n = context.l10n;
     final isLinked = state.phase == ClientPairingPhase.linked;
 
     if (isLinked && !_hasNavigated) {
@@ -76,11 +78,11 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
                   icon: CupertinoIcons.back,
                   onTap: () => context.pop(),
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Vincular dispositivo',
+                    l10n.onboardingPairingTitle,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -118,12 +120,12 @@ class _PairingScanScreenState extends ConsumerState<PairingScanScreen> {
                       onPressed: () => ref
                           .read(clientPairingNotifierProvider.notifier)
                           .retry(),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(CupertinoIcons.refresh, size: 18),
-                          SizedBox(width: 8),
-                          Text('Intente nuevamente'),
+                          const Icon(CupertinoIcons.refresh, size: 18),
+                          const SizedBox(width: 8),
+                          Text(l10n.attemptAgain),
                         ],
                       ),
                     ),

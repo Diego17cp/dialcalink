@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:dialcalink/core/identity/device_identity_service.dart';
 
@@ -16,6 +17,7 @@ class GatewaySetupDeviceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return InkWell(
       borderRadius: const BorderRadius.only(
         bottomLeft: Radius.circular(24),
@@ -38,14 +40,14 @@ class GatewaySetupDeviceItem extends StatelessWidget {
               ),
             ),
             title: Text(
-              'Dispositivo configurado',
+              l10n.onboardingGatewaySetupDeviceConfigured,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onSurface,
               ),
             ),
             subtitle: Text(
-              'Configuraciones base listas.',
+              l10n.onboardingGatewaySetupDeviceConfiguredSubtitle,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -78,7 +80,7 @@ class GatewaySetupDeviceItem extends StatelessWidget {
                   children: [
                     _IdentityRow(
                       icon: Icons.devices_outlined,
-                      label: 'Nombre',
+                      label: l10n.name,
                       value: identity.name,
                     ),
                     const Padding(
@@ -87,7 +89,7 @@ class GatewaySetupDeviceItem extends StatelessWidget {
                     ),
                     _IdentityRow(
                       icon: Icons.fingerprint_rounded,
-                      label: 'ID Único',
+                      label: l10n.uniqueID,
                       value: identity.id,
                     ),
                     const Padding(
@@ -96,7 +98,7 @@ class GatewaySetupDeviceItem extends StatelessWidget {
                     ),
                     _IdentityRow(
                       icon: Icons.admin_panel_settings_outlined,
-                      label: 'Rol',
+                      label: l10n.role,
                       value: identity.role.name.toUpperCase(),
                     ),
                   ],

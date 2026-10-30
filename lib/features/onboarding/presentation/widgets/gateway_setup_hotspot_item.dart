@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dialcalink/core/network/discovery/local_network_info_provider.dart';
@@ -9,12 +10,13 @@ class GatewaySetupHotspotItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final hotspotAsync = ref.watch(gatewayIpProvider);
 
     return hotspotAsync.when(
-      loading: () => const ListTile(
-        leading: CircularProgressIndicator(),
-        title: Text('Verificando Hotspot...'),
+      loading: () => ListTile(
+        leading: const CircularProgressIndicator(),
+        title: Text(l10n.onboardingGatewaySetupHotspotVerifying),
       ),
       error: (err, _) => ListTile(
         leading: const Icon(Icons.error, color: Colors.red),
@@ -25,13 +27,13 @@ class GatewaySetupHotspotItem extends ConsumerWidget {
         final String subtitle;
         
         if (result is NetworkInfoResolved) {
-          subtitle = 'Punto de acceso activo en: ${result.ip}';
+          subtitle = '${l10n.onboardingGatewaySetupHotspotResolved} ${result.ip}';
         } else if (result is NetworkInfoNotConnected) {
-          subtitle = 'Hotspot desactivado. Por favor, actívelo.';
+          subtitle = l10n.onboardingGatewaySetupHotspotNotConnected;
         } else if (result is NetworkInfoPermissionDenied) {
-          subtitle = 'Faltan permisos de ubicación para detectar la red.';
+          subtitle = l10n.onboardingGatewaySetupHotspotNotPermission;
         } else {
-          subtitle = 'No se pudo detectar el Hotspot.';
+          subtitle = l10n.onboardingGatewaySetupHotspotNot;
         }
 
         return ListTile(
@@ -50,7 +52,7 @@ class GatewaySetupHotspotItem extends ConsumerWidget {
             ),
           ),
           title: Text(
-            'Hotspot (Punto de Acceso)',
+            l10n.onboardingGatewaySetupHotspot,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -64,7 +66,7 @@ class GatewaySetupHotspotItem extends ConsumerWidget {
           trailing: IconButton(
             icon: const Icon(Icons.refresh_rounded),
             onPressed: () => ref.invalidate(gatewayIpProvider),
-            tooltip: 'Reintentar',
+            tooltip: l10n.attemptAgain,
           ),
         );
       },

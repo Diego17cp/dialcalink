@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = context.l10n;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -26,14 +28,14 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   Badge(
-                    label: const Text('Bienvenido'),
+                    label: Text(l10n.onboardingWelcomeBadge),
                     backgroundColor: theme.colorScheme.secondary,
                     textColor: theme.colorScheme.secondaryContainer,
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Recibe tus SMS y llamadas en un solo lugar',
+                    l10n.onboardingWelcomeTitle,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -43,7 +45,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Conecta dos dispositivos Android para centralizar toda tu actividad telefónica.',
+                    l10n.onboardingWelcomeSubtitle,
                     style: TextStyle(
                       fontSize: 10,
                       color: theme.colorScheme.onSurfaceVariant,
@@ -69,7 +71,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                             children: [
                               Icon(CupertinoIcons.link, color: theme.colorScheme.primary, size: 20),
                               Text(
-                                '¿Cómo funciona?',
+                                l10n.onboardingWelcomeHowWorksTitle,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -80,7 +82,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'El dispositivo con SIM comparte SMS y llamadas mediante tu red Wi-Fi local. Tu dispositivo principal recibe en tiempo real.',
+                            l10n.onboardingWelcomeInfo,
                             style: TextStyle(
                               fontSize: 12,
                               color: theme.colorScheme.onSurface,
@@ -107,8 +109,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                         children: [
                           Icon(CupertinoIcons.shield, color: theme.colorScheme.primary, size: 20),
                           Text(
-                            'Tu información permanece dentro de tu red\nlocal. '
-                            'No utilizamos servidores externos.',
+                            l10n.onboardingWelcomeInfo,
                             style: TextStyle(
                               fontSize: 10,
                               color: theme.colorScheme.onSurface,
@@ -128,7 +129,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                         backgroundColor: theme.colorScheme.primary,
                         foregroundColor: theme.colorScheme.onPrimary,
                       ),
-                      child: const Text('Comenzar'),
+                      child: Text(l10n.start),
                     ),
                   ),
                 ],

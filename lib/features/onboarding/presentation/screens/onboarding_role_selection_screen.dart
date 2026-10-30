@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,6 +39,7 @@ class _OnboardingRoleSelectionScreenState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
@@ -55,7 +57,7 @@ class _OnboardingRoleSelectionScreenState
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Bienvenido a DialcaLink',
+                    l10n.onboardingRoleTitle,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -65,7 +67,7 @@ class _OnboardingRoleSelectionScreenState
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Selecciona cómo utilizarás este dispositivo.',
+                    l10n.onboardingRoleSubtitle1,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
@@ -75,7 +77,7 @@ class _OnboardingRoleSelectionScreenState
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'Podrás cambiar esta configuración más adelante.',
+                    l10n.onboardingRoleSubtitle2,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 10,
@@ -105,12 +107,12 @@ class _OnboardingRoleSelectionScreenState
                         backgroundColor: theme.colorScheme.primary,
                         foregroundColor: theme.colorScheme.onPrimary,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Continuar'),
-                          SizedBox(width: 8),
-                          Icon(CupertinoIcons.arrowtriangle_right_fill, size: 16),
+                          Text(l10n.continueLbl),
+                          const SizedBox(width: 8),
+                          const Icon(CupertinoIcons.arrowtriangle_right_fill, size: 16),
                         ],
                       ),
                     ),

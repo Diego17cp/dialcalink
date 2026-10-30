@@ -1,63 +1,71 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 
 enum AppPermission {
   receiveSms(
     permission: Permission.sms,
-    title: 'Mensajes SMS',
-    description: 'Necesario para detectar SMS entrantes en el Gateway.',
     rolesRequired: {AppRole.gateway},
   ),
   readPhoneState(
     permission: Permission.phone,
-    title: 'Estado del teléfono',
-    description: 'Necesario para detectar llamadas entrantes en el Gateway.',
     rolesRequired: {AppRole.gateway},
   ),
   contacts(
     permission: Permission.contacts,
-    title: 'Contactos',
-    description: 'Permite mostrar nombres en vez de números en SMS y llamadas.',
     rolesRequired: {AppRole.gateway},
   ),
   location(
     permission: Permission.locationWhenInUse,
-    title: 'Ubicación (red Wi-Fi)',
-    description:
-        'Android requiere este permiso para detectar la IP de la red Wi-Fi activa.',
     rolesRequired: {AppRole.gateway, AppRole.client},
   ),
   camera(
     permission: Permission.camera,
-    title: 'Cámara',
-    description: 'Necesario para escanear el código QR de vinculación.',
     rolesRequired: {AppRole.client},
   ),
   notifications(
     permission: Permission.notification,
-    title: 'Notificaciones',
-    description: 'Permite recibir alertas de SMS y llamadas entrantes.',
     rolesRequired: {AppRole.gateway, AppRole.client},
   ),
   readCallLog(
     permission: Permission.phone,
-    title: 'Historial de llamadas',
-    description: 'Necesario para detectar llamadas entrantes en el Gateway.',
     rolesRequired: {AppRole.gateway},
   );
 
   const AppPermission({
     required this.permission,
-    required this.title,
-    required this.description,
     required this.rolesRequired,
   });
 
   final Permission permission;
-  final String title;
-  final String description;
   final Set<AppRole> rolesRequired;
+
+  String getTitle(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (this) {
+      AppPermission.receiveSms => l10n.permissionSMSTitle,
+      AppPermission.readPhoneState => l10n.permissionPhoneTitle,
+      AppPermission.contacts => l10n.permissionContactsTitle,
+      AppPermission.location => l10n.permissionLocationTitle,
+      AppPermission.camera => l10n.permissionCameraTitle,
+      AppPermission.notifications => l10n.permissionNotificationsTitle,
+      AppPermission.readCallLog => l10n.permissionPhoneHistoryTitle,
+    };
+  }
+
+  String getDescription(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (this) {
+      AppPermission.receiveSms => l10n.permissionSMSDescription,
+      AppPermission.readPhoneState => l10n.permissionPhoneDescription,
+      AppPermission.contacts => l10n.permissionContactsDescription,
+      AppPermission.location => l10n.permissionLocationDescription,
+      AppPermission.camera => l10n.permissionCameraDescription,
+      AppPermission.notifications => l10n.permissionNotificationsDescription,
+      AppPermission.readCallLog => l10n.permissionPhoneHistoryDescription,
+    };
+  }
 
   IconData get icon {
     switch (this) {
