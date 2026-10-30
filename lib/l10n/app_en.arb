@@ -167,5 +167,20 @@
   "clientStatusGatewayRejected": "Pairing lost",
   "clientStatusGatewayDisconnected": "Disconnected",
   "clientStatusGatewayConnected": "Authenticating...",
-  "clientStatusGatewayError": "Connection error"
+  "clientStatusGatewayError": "Connection error",
+  "updateAlreadyLastVersion": "You're already on the latest version",
+  "updateConnectionError": "Could not check for updates. Check your internet connection.",
+  "updateSearching": "Searching...",
+  "updateAvailableVersion": "An update is available",
+  "updateSearch": "Check for updates",
+  "updateDialogTitle": "Update Available",
+  "updateDialogSubtitle": "A new version of DialcaLink is available. Would you like to download and install it now?",
+  "updateDialogLaterBtn": "Later",
+  "updateDialogUpdate": "Update",
+  "updateProgressDownloading": "Downloading update...",
+  "updateProgressDownloadingPercent": "Downloading",
+  "updateProgressInstalling": "Preparing installation...",
+  "updateProgressError": "Update error",
+  "updateProgressCloseBtn": "Close",
+  "updateProgressUpdating": "Updating DialcaLink"
 }

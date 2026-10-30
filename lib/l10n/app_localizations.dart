@@ -1115,6 +1115,96 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Error de conexión'**
   String get clientStatusGatewayError;
+
+  /// No description provided for @updateAlreadyLastVersion.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya tienes la última versión'**
+  String get updateAlreadyLastVersion;
+
+  /// No description provided for @updateConnectionError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo verificar. Revisa tu conexión a internet.'**
+  String get updateConnectionError;
+
+  /// No description provided for @updateSearching.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscando...'**
+  String get updateSearching;
+
+  /// No description provided for @updateAvailableVersion.
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una actualización disponible'**
+  String get updateAvailableVersion;
+
+  /// No description provided for @updateSearch.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar actualizaciones'**
+  String get updateSearch;
+
+  /// No description provided for @updateDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualización Disponible'**
+  String get updateDialogTitle;
+
+  /// No description provided for @updateDialogSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una nueva versión de DialcaLink disponible. ¿Deseas descargarla e instalarla ahora?'**
+  String get updateDialogSubtitle;
+
+  /// No description provided for @updateDialogLaterBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Más tarde'**
+  String get updateDialogLaterBtn;
+
+  /// No description provided for @updateDialogUpdate.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get updateDialogUpdate;
+
+  /// No description provided for @updateProgressDownloading.
+  ///
+  /// In es, this message translates to:
+  /// **'Descargando actualización...'**
+  String get updateProgressDownloading;
+
+  /// No description provided for @updateProgressDownloadingPercent.
+  ///
+  /// In es, this message translates to:
+  /// **'Descargando'**
+  String get updateProgressDownloadingPercent;
+
+  /// No description provided for @updateProgressInstalling.
+  ///
+  /// In es, this message translates to:
+  /// **'Preparando instalación...'**
+  String get updateProgressInstalling;
+
+  /// No description provided for @updateProgressError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error de actualización'**
+  String get updateProgressError;
+
+  /// No description provided for @updateProgressCloseBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrar'**
+  String get updateProgressCloseBtn;
+
+  /// No description provided for @updateProgressUpdating.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizando DialcaLink'**
+  String get updateProgressUpdating;
 }
 
 class _AppLocalizationsDelegate

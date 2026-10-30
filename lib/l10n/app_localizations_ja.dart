@@ -528,4 +528,50 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clientStatusGatewayError => '接続エラー';
+
+  @override
+  String get updateAlreadyLastVersion => 'すでに最新バージョンを使用しています';
+
+  @override
+  String get updateConnectionError => '更新を確認できませんでした。インターネット接続を確認してください。';
+
+  @override
+  String get updateSearching => '検索中...';
+
+  @override
+  String get updateAvailableVersion => '利用可能なアップデートがあります';
+
+  @override
+  String get updateSearch => 'アップデートを確認';
+
+  @override
+  String get updateDialogTitle => 'アップデートがあります';
+
+  @override
+  String get updateDialogSubtitle =>
+      'DialcaLinkの新しいバージョンが利用可能です。今すぐダウンロードしてインストールしますか？';
+
+  @override
+  String get updateDialogLaterBtn => '後で';
+
+  @override
+  String get updateDialogUpdate => 'アップデート';
+
+  @override
+  String get updateProgressDownloading => 'アップデートをダウンロード中...';
+
+  @override
+  String get updateProgressDownloadingPercent => 'ダウンロード中';
+
+  @override
+  String get updateProgressInstalling => 'インストールを準備中...';
+
+  @override
+  String get updateProgressError => 'アップデートエラー';
+
+  @override
+  String get updateProgressCloseBtn => '閉じる';
+
+  @override
+  String get updateProgressUpdating => 'DialcaLinkを更新中';
 }

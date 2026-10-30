@@ -516,4 +516,49 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clientStatusGatewayError => '连接错误';
+
+  @override
+  String get updateAlreadyLastVersion => '你已使用最新版本';
+
+  @override
+  String get updateConnectionError => '无法检查更新。请检查你的互联网连接。';
+
+  @override
+  String get updateSearching => '正在搜索...';
+
+  @override
+  String get updateAvailableVersion => '有可用更新';
+
+  @override
+  String get updateSearch => '检查更新';
+
+  @override
+  String get updateDialogTitle => '发现新版本';
+
+  @override
+  String get updateDialogSubtitle => 'DialcaLink 有新版本可用。是否立即下载并安装？';
+
+  @override
+  String get updateDialogLaterBtn => '稍后';
+
+  @override
+  String get updateDialogUpdate => '更新';
+
+  @override
+  String get updateProgressDownloading => '正在下载更新...';
+
+  @override
+  String get updateProgressDownloadingPercent => '正在下载';
+
+  @override
+  String get updateProgressInstalling => '正在准备安装...';
+
+  @override
+  String get updateProgressError => '更新错误';
+
+  @override
+  String get updateProgressCloseBtn => '关闭';
+
+  @override
+  String get updateProgressUpdating => '正在更新 DialcaLink';
 }

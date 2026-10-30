@@ -167,5 +167,20 @@
   "clientStatusGatewayRejected": "ペアリングが失われました",
   "clientStatusGatewayDisconnected": "切断済み",
   "clientStatusGatewayConnected": "認証中...",
-  "clientStatusGatewayError": "接続エラー"
+  "clientStatusGatewayError": "接続エラー",
+  "updateAlreadyLastVersion": "すでに最新バージョンを使用しています",
+  "updateConnectionError": "更新を確認できませんでした。インターネット接続を確認してください。",
+  "updateSearching": "検索中...",
+  "updateAvailableVersion": "利用可能なアップデートがあります",
+  "updateSearch": "アップデートを確認",
+  "updateDialogTitle": "アップデートがあります",
+  "updateDialogSubtitle": "DialcaLinkの新しいバージョンが利用可能です。今すぐダウンロードしてインストールしますか？",
+  "updateDialogLaterBtn": "後で",
+  "updateDialogUpdate": "アップデート",
+  "updateProgressDownloading": "アップデートをダウンロード中...",
+  "updateProgressDownloadingPercent": "ダウンロード中",
+  "updateProgressInstalling": "インストールを準備中...",
+  "updateProgressError": "アップデートエラー",
+  "updateProgressCloseBtn": "閉じる",
+  "updateProgressUpdating": "DialcaLinkを更新中"
 }

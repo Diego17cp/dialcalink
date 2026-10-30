@@ -567,4 +567,51 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get clientStatusGatewayError => 'Erro de conexão';
+
+  @override
+  String get updateAlreadyLastVersion => 'Você já tem a versão mais recente';
+
+  @override
+  String get updateConnectionError =>
+      'Não foi possível verificar. Verifique sua conexão com a internet.';
+
+  @override
+  String get updateSearching => 'Buscando...';
+
+  @override
+  String get updateAvailableVersion => 'Há uma atualização disponível';
+
+  @override
+  String get updateSearch => 'Verificar atualizações';
+
+  @override
+  String get updateDialogTitle => 'Atualização disponível';
+
+  @override
+  String get updateDialogSubtitle =>
+      'Uma nova versão do DialcaLink está disponível. Deseja baixá-la e instalá-la agora?';
+
+  @override
+  String get updateDialogLaterBtn => 'Mais tarde';
+
+  @override
+  String get updateDialogUpdate => 'Atualizar';
+
+  @override
+  String get updateProgressDownloading => 'Baixando atualização...';
+
+  @override
+  String get updateProgressDownloadingPercent => 'Baixando';
+
+  @override
+  String get updateProgressInstalling => 'Preparando instalação...';
+
+  @override
+  String get updateProgressError => 'Erro na atualização';
+
+  @override
+  String get updateProgressCloseBtn => 'Fechar';
+
+  @override
+  String get updateProgressUpdating => 'Atualizando o DialcaLink';
 }

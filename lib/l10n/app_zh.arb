@@ -167,5 +167,20 @@
   "clientStatusGatewayRejected": "配对已丢失",
   "clientStatusGatewayDisconnected": "已断开连接",
   "clientStatusGatewayConnected": "正在验证身份...",
-  "clientStatusGatewayError": "连接错误"
+  "clientStatusGatewayError": "连接错误",
+  "updateAlreadyLastVersion": "你已使用最新版本",
+  "updateConnectionError": "无法检查更新。请检查你的互联网连接。",
+  "updateSearching": "正在搜索...",
+  "updateAvailableVersion": "有可用更新",
+  "updateSearch": "检查更新",
+  "updateDialogTitle": "发现新版本",
+  "updateDialogSubtitle": "DialcaLink 有新版本可用。是否立即下载并安装？",
+  "updateDialogLaterBtn": "稍后",
+  "updateDialogUpdate": "更新",
+  "updateProgressDownloading": "正在下载更新...",
+  "updateProgressDownloadingPercent": "正在下载",
+  "updateProgressInstalling": "正在准备安装...",
+  "updateProgressError": "更新错误",
+  "updateProgressCloseBtn": "关闭",
+  "updateProgressUpdating": "正在更新 DialcaLink"
 }
