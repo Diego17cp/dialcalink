@@ -101,7 +101,7 @@ class BottomNav extends StatelessWidget {
                                         : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                                   ),
                                   child: Text(
-                                    tab.label, 
+                                    tab.getLabel(context), 
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),

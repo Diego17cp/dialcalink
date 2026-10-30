@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,39 +10,40 @@ class StatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final (statusLabel, statusColor, statusIcon) = switch (connectionState) {
       ClientConnectionStateBridge.ready => (
-        'Conectado',
+        l10n.clientStatusGatewayReady,
         Colors.green,
         CupertinoIcons.wifi,
       ),
       ClientConnectionStateBridge.connecting => (
-        'Conectando...',
+        l10n.clientStatusGatewayConnecting,
         Colors.orange,
         CupertinoIcons.wifi,
       ),
       ClientConnectionStateBridge.reconnecting => (
-        'Reconectando...',
+        l10n.clientStatusGatewayReconnecting,
         Colors.orange,
         CupertinoIcons.wifi,
       ),
       ClientConnectionStateBridge.handshakeRejected => (
-        'Vínculo perdido',
+        l10n.clientStatusGatewayRejected,
         Colors.red,
         CupertinoIcons.wifi_exclamationmark,
       ),
       ClientConnectionStateBridge.disconnected => (
-        'Desconectado',
+        l10n.clientStatusGatewayDisconnected,
         Colors.grey,
         CupertinoIcons.wifi_slash,
       ),
       ClientConnectionStateBridge.connected => (
-        'Autenticando...',
+        l10n.clientStatusGatewayConnected,
         Colors.orange,
         CupertinoIcons.wifi,
       ),
       ClientConnectionStateBridge.error => (
-        'Error de conexión',
+        l10n.clientStatusGatewayError,
         Colors.red,
         CupertinoIcons.exclamationmark_circle,
       ),
@@ -71,7 +73,7 @@ class StatusCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Estado del Servicio del Gateway',
+                    l10n.clientStatusGatewayStatusTitle,
                     style: theme.textTheme.labelMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),

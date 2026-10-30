@@ -1,4 +1,5 @@
 import 'package:dialcalink/app/layouts/glass_scaffold.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/platform/client/providers/client_ui_bridge_provider.dart';
 import 'package:dialcalink/features/sms/presentation/providers/sms_providers.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/new_sms_textarea.dart';
@@ -48,9 +49,9 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
 
     if (targetNumber.isEmpty || content.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Por favor, indica el número de teléfono y el contenido del mensaje',
+            context.l10n.clientNewSmsErrorSend
           ),
         ),
       );
@@ -81,6 +82,7 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final contacts = ref.watch(filteredContactsProvider);
     final selectedContact = ref.watch(selectedRecipientProvider);
     final contactsAsync = ref.watch(syncedContactsStreamProvider);
@@ -91,7 +93,7 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
 
     return GlassScaffold(
       onBackTap: () => context.pop(),
-      title: 'Nuevo SMS',
+      title: l10n.clientNewSmsAppbarTitle,
       body: Column(
         children: [
           if (!showSkeleton)
@@ -103,7 +105,7 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Cargando contactos...",
+                    l10n.clientNewSmsLoadingContacts,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -120,7 +122,7 @@ class _SmsNewScreenState extends ConsumerState<SmsNewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sugerencias",
+                    l10n.clientNewSmsSuggestions,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

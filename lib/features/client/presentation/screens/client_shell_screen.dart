@@ -72,7 +72,7 @@ class _ClientShellScreenState extends ConsumerState<ClientShellScreen>
     final currentTab = clientTabs[widget.navigationShell.currentIndex];
 
     return GlassScaffold(
-      title: currentTab.title,
+      title: currentTab.getTitle(context),
       scrollable: false,
       bottomNavigationBar: BottomNav(
         currentIndex: widget.navigationShell.currentIndex,

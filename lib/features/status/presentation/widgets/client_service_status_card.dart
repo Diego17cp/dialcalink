@@ -1,4 +1,5 @@
 import 'package:dialcalink/app/theme/colors.dart';
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/core/platform/client/native/client_ui_bridge.dart';
 import 'package:dialcalink/core/platform/client/providers/client_connection_state_provider.dart';
 import 'package:dialcalink/core/platform/client/providers/client_native_bridge_provider.dart';
@@ -21,6 +22,7 @@ class _ClientServiceStatusCardState extends ConsumerState<ClientServiceStatusCar
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final stateAsync = ref.watch(clientServiceRunningProvider);
     final connectionAsync = ref.watch(clientConnectionStateProvider);
 
@@ -33,25 +35,25 @@ class _ClientServiceStatusCardState extends ConsumerState<ClientServiceStatusCar
             connectionState == ClientConnectionStateBridge.connected;
 
         Color statusColor = AppColors.disconnected;
-        String statusTitle = 'Servicio Desconectado';
-        String statusSubtitle = 'El servicio de cliente no se encuentra activo.';
+        String statusTitle = l10n.clientStatusDisconnectedTitle;
+        String statusSubtitle = l10n.clientStatusDisconnectedSubtitle;
         IconData statusIcon = CupertinoIcons.power;
 
         if (isRunning) {
           if (isConnected) {
             statusColor = AppColors.connected;
-            statusTitle = 'Servicio Activo';
-            statusSubtitle = 'Sincronizando con el Gateway.';
+            statusTitle = l10n.clientStatusConnectedTitle;
+            statusSubtitle = l10n.clientStatusConnectedSubtitle;
             statusIcon = CupertinoIcons.arrow_2_circlepath;
           } else if (isConnecting) {
             statusColor = AppColors.connecting;
-            statusTitle = 'Estableciendo Conexión...';
-            statusSubtitle = 'El servicio está buscando el Gateway.';
+            statusTitle = l10n.clientStatusConnectingTitle;
+            statusSubtitle = l10n.clientStatusConnectingSubtitle;
             statusIcon = CupertinoIcons.dot_radiowaves_left_right;
           } else {
             statusColor = AppColors.connecting;
-            statusTitle = 'Esperando Gateway...';
-            statusSubtitle = 'El servicio de cliente está activo pero desconectado.';
+            statusTitle = l10n.clientStatusWaitingTitle;
+            statusSubtitle = l10n.clientStatusWaitingSubtitle;
             statusIcon = CupertinoIcons.wifi_slash;
           }
         }
@@ -122,7 +124,7 @@ class _ClientServiceStatusCardState extends ConsumerState<ClientServiceStatusCar
                             }
                           },
                     label: Text(
-                      isRunning ? 'Detener Servicio' : 'Iniciar Servicio',
+                      isRunning ? l10n.stopService : l10n.startService,
                     ),
                     icon: _isToggling
                         ? const SizedBox(
@@ -175,14 +177,14 @@ class _ClientServiceStatusCardState extends ConsumerState<ClientServiceStatusCar
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Estado del Servicio del Cliente',
+                      l10n.clientStatusCardTitle,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Verificando...',
+                      l10n.clientStatusVerifying,
                       style: theme.textTheme.bodySmall,
                     ),
                   ],
@@ -216,7 +218,7 @@ class _ClientServiceStatusCardState extends ConsumerState<ClientServiceStatusCar
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Error al obtener estado',
+                      l10n.clientStatusError,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.error,
                         fontWeight: FontWeight.bold,

@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:dialcalink/features/sms/presentation/widgets/sms_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,13 +26,14 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final messagesAsync = ref.watch(smsMessagesByPhoneNumberProvider(widget.phoneNumber));
     ref.listen(smsSentResultStreamProvider, (prev, next) {
       next.whenData((result) {
         if (!result.success) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(result.errorReason ?? 'No se pudo enviar el mensaje'),
+              content: Text(result.errorReason ?? l10n.clientSmsChatErrorSending),
               duration: const Duration(seconds: 3),
               behavior: SnackBarBehavior.floating,
             ),
@@ -50,7 +52,7 @@ class _SmsConversationScreenState extends ConsumerState<SmsConversationScreen> {
       error: (err, _) => GlassScaffold(
         title: 'Error',
         onBackTap: () => context.pop(),
-        body: Center(child: Text('Error al cargar mensajes: $err')),
+        body: Center(child: Text('${l10n.clientSmsChatErrorLoadingMessages} $err')),
       ),
       data: (messages) {
         final contactName = messages.map((m) => m.contactName).firstWhere((n) => n != null, orElse: () => null);

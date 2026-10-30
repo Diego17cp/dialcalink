@@ -1,3 +1,4 @@
+import 'package:dialcalink/core/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,6 +22,7 @@ class _NewSmsTextareaState extends State<NewSmsTextarea> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -44,7 +46,7 @@ class _NewSmsTextareaState extends State<NewSmsTextarea> {
                 color: theme.colorScheme.onSurface,
               ),
               decoration: InputDecoration(
-                hintText: "Escribe tu mensaje...",
+                hintText: l10n.clientNewSmsLabelTextarea,
                 hintStyle: TextStyle(
                   color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                 ),
@@ -69,9 +71,9 @@ class _NewSmsTextareaState extends State<NewSmsTextarea> {
                   elevation: 0,
                 ),
                 icon: const Icon(CupertinoIcons.paperplane_fill, size: 20),
-                label: const Text(
-                  "Enviar SMS",
-                  style: TextStyle(
+                label: Text(
+                  l10n.clientNewSmsBtnSend,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
