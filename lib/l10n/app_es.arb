@@ -133,6 +133,8 @@
   "gatewayPairTitle": "Casi listo para conectar",
   "gatewayPairSubtitle": "Abre DialcaLink en tu dispositivo principal y escanea el código QR.",
   "gatewayPairReadyToScan": "Listo para escanear",
+  "gatewayPairNoIP": "No se pudo detectar la IP de tu red local automáticamente. Por favor ingrésala manualmente.",
+  "gatewayPairGenerateManual": "Generar QR con IP manual",
   "gatewayPairPINHint": "O vincula ingresando este código en el cliente:",
   "gatewayBtnDone": "Hecho",
   "gatewayBtnGenerateCode": "Generar nuevo código",

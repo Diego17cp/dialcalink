@@ -119,6 +119,8 @@
   "gatewayPairPINHint": "也可以在客户端输入此代码进行配对：",
   "gatewayBtnDone": "完成",
   "gatewayBtnGenerateCode": "生成新代码",
+  "gatewayPairNoIP": "无法自动检测您的本地网络 IP 地址。请手动输入。",
+  "gatewayPairGenerateManual": "使用手动输入的 IP 生成二维码",
   "clientSmsListEmptyTitle": "暂无短信",
   "clientSmsListEmptySubtitle": "收到短信后，它们会显示在这里。",
   "clientSmsChatErrorSending": "无法发送消息",

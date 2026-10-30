@@ -810,6 +810,18 @@ abstract class AppLocalizations {
   /// **'Listo para escanear'**
   String get gatewayPairReadyToScan;
 
+  /// No description provided for @gatewayPairNoIP.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo detectar la IP de tu red local automáticamente. Por favor ingrésala manualmente.'**
+  String get gatewayPairNoIP;
+
+  /// No description provided for @gatewayPairGenerateManual.
+  ///
+  /// In es, this message translates to:
+  /// **'Generar QR con IP manual'**
+  String get gatewayPairGenerateManual;
+
   /// No description provided for @gatewayPairPINHint.
   ///
   /// In es, this message translates to:

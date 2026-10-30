@@ -120,6 +120,8 @@
   "gatewayPairPINHint": "Or pair by entering this code on the client:",
   "gatewayBtnDone": "Done",
   "gatewayBtnGenerateCode": "Generate new code",
+  "gatewayPairNoIP": "Could not automatically detect your local network IP address. Please enter it manually.",
+  "gatewayPairGenerateManual": "Generate QR code with manual IP",
   "clientSmsListEmptyTitle": "No SMS messages available",
   "clientSmsListEmptySubtitle": "New SMS messages will appear here.",
   "clientSmsChatErrorSending": "Couldn't send the message",

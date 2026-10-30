@@ -365,6 +365,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get gatewayPairReadyToScan => '可以扫描';
 
   @override
+  String get gatewayPairNoIP => '无法自动检测您的本地网络 IP 地址。请手动输入。';
+
+  @override
+  String get gatewayPairGenerateManual => '使用手动输入的 IP 生成二维码';
+
+  @override
   String get gatewayPairPINHint => '也可以在客户端输入此代码进行配对：';
 
   @override

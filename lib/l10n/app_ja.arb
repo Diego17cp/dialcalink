@@ -119,6 +119,8 @@
   "gatewayPairPINHint": "または、クライアントで次のコードを入力してペアリングします：",
   "gatewayBtnDone": "完了",
   "gatewayBtnGenerateCode": "新しいコードを生成",
+  "gatewayPairNoIP": "ローカルネットワークのIPアドレスを自動検出できませんでした。手動で入力してください。",
+  "gatewayPairGenerateManual": "手動入力したIPでQRコードを生成",
   "clientSmsListEmptyTitle": "SMS はありません",
   "clientSmsListEmptySubtitle": "受信した SMS はここに表示されます。",
   "clientSmsChatErrorSending": "メッセージを送信できませんでした",

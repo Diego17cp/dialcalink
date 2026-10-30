@@ -406,6 +406,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gatewayPairReadyToScan => 'Listo para escanear';
 
   @override
+  String get gatewayPairNoIP =>
+      'No se pudo detectar la IP de tu red local automáticamente. Por favor ingrésala manualmente.';
+
+  @override
+  String get gatewayPairGenerateManual => 'Generar QR con IP manual';
+
+  @override
   String get gatewayPairPINHint =>
       'O vincula ingresando este código en el cliente:';
 

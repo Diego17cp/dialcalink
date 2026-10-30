@@ -376,6 +376,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get gatewayPairReadyToScan => 'スキャンできます';
 
   @override
+  String get gatewayPairNoIP => 'ローカルネットワークのIPアドレスを自動検出できませんでした。手動で入力してください。';
+
+  @override
+  String get gatewayPairGenerateManual => '手動入力したIPでQRコードを生成';
+
+  @override
   String get gatewayPairPINHint => 'または、クライアントで次のコードを入力してペアリングします：';
 
   @override
